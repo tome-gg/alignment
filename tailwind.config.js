@@ -14,21 +14,20 @@ module.exports = {
     rtl: false,
     prefix: "",
     darkTheme: "dark",
-    themes: false
-    // [
-    //   {
-    //     tomegg: {
-    //     "primary": "#1e3a8a",
-    //     "secondary": "#2563eb",
-    //     "accent": "#6d28d9",
-    //     "neutral": "#3D4451",
-    //     "base-100": "#FFFFFF",
-    //     "info": "#9ca3af",
-    //     "success": "#22c55e",
-    //     "warning": "#FBBD23",
-    //     "error": "#F87272",
-    //     },
-    //   },
-    // ],
-  },
+    themes: [
+      {
+        tomegg: {
+        "primary": "#1e3a8a",
+        "secondary": "#2563eb",
+        "accent": "#6d28d9",
+        "neutral": "#3D4451",
+        "base-100": "#FFFFFF",
+        "info": "#9ca3af",
+        "success": "#22c55e",
+        "warning": "#FBBD23",
+        "error": "#F87272",
+        }
+      }
+    ]
+  }
 }
