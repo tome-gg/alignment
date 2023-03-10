@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AlignmentComponent } from './alignment/alignment.component';
+import { ChangeSummaryComponent } from './change-summary/change-summary.component';
 import { OverviewComponent } from './overview/overview.component';
 
 const routes: Routes = [
@@ -11,6 +12,10 @@ const routes: Routes = [
   {
     path: "",
     component: OverviewComponent
+  },
+  {
+    path: "changes",
+    component: ChangeSummaryComponent
   },
   
 ];

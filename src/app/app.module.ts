@@ -6,13 +6,15 @@ import { AppComponent } from './app.component';
 import { AlignmentComponent } from './alignment/alignment.component';
 import { TrainingComponent } from './training/training.component';
 import { OverviewComponent } from './overview/overview.component';
+import { ChangeSummaryComponent } from './change-summary/change-summary.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     AlignmentComponent,
     TrainingComponent,
-    OverviewComponent
+    OverviewComponent,
+    ChangeSummaryComponent
   ],
   imports: [
     BrowserModule,

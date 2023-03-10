@@ -1,14 +1,14 @@
-<div class="grid grid-cols-6 gap-4 w-4/5 mx-auto">
-  <div class="card w-full bg-base-100 shadow-xl col-span-4 col-start-3">
-    <figure class="h-72"><img src="assets/negotiation.jpg" class="object-cover" alt="Shoes" /></figure>
+<div class="grid grid-cols-1 md:grid-cols-6 gap-4 md:w-4/5 mx-auto">
+  <div class="card w-full bg-base-100 shadow-xl md:col-span-4 md:col-start-3">
+    <figure class="md:h-72 xs:h-32"><img src="assets/negotiation.jpg" class="object-cover" alt="Shoes" /></figure>
     <div class="card-body">
       <h1 class="text-3xl font-bold">Alignment negotiation</h1>
       <div class="form-control w-full max-w-md indicator">
-        <span class="indicator-item badge">Required</span>
+        <span class="indicator-item badge hidden md:inline">Required</span>
         <label class="label">
           <span class="label-text">Which mentoring term do you want to negotiate?</span>
         </label>
-        
+        <span class="text-xs italic inline md:hidden m-2">This field is <span class="text-error">required</span>.</span>
         <select class="select select-bordered indicator w-full">
           <option disabled>Pick category</option>
             <option>Mentoring timeline</option>
@@ -33,7 +33,7 @@
       </div>
     </div>
   </div>
-  <div class="card w-full bg-base-100 shadow-xl col-span-4 col-start-3">
+  <div class="card w-full bg-base-100 shadow-xl md:col-span-4 md:col-start-3">
     <figure class="h-36"><img src="assets/calendar.jpg" class="object-cover" alt="Shoes" /></figure>
     <div class="card-body">
       <h1 class="text-3xl font-bold">Negotiation parameters</h1>
@@ -46,7 +46,7 @@
           <span class="label-text">Below is your mentor's preferred terms.</span>
         </label>
         <input type="range" min="0" max="5" value="3" class="range" step="1" disabled />
-        <div class="w-full flex justify-between text-xs px-2">
+        <div class="w-full flex justify-between text-xs slider slider-tick px-4">
           <span>|</span>
           <span>|</span>
           <span>|</span>
@@ -54,13 +54,13 @@
           <span>|</span>
           <span>|</span>
         </div>
-        <div class="w-full flex justify-between text-xs px-2">
-          <span>Once</span>
-          <span>Every day</span>
-          <span>Once a week</span>
-          <span>Twice a month</span>
-          <span>Once a month</span>
-          <span>Once a quarter</span>
+        <div class="flex justify-between text-xs slider">
+          <span class="w-12">Once</span>
+          <span class="w-12">Every day</span>
+          <span class="w-12">Once a week</span>
+          <span class="w-12">Twice a month</span>
+          <span class="w-12">Once a month</span>
+          <span class="w-12">Once a quarter</span>
         </div>
       </div>
 
@@ -69,7 +69,7 @@
           <span class="label-text">What is your proposed terms?</span>
         </label>
         <input type="range" min="0" max="5" value="1" class="range range-primary" step="1" />
-        <div class="w-full flex justify-between text-xs px-2">
+        <div class="w-full flex justify-between text-xs slider slider-tick px-4">
           <span>|</span>
           <span>|</span>
           <span>|</span>
@@ -77,23 +77,25 @@
           <span>|</span>
           <span>|</span>
         </div>
-        <div class="w-full flex justify-between text-xs px-2">
-          <span>Once</span>
-          <span>Every day</span>
-          <span>Once a week</span>
-          <span>Twice a month</span>
-          <span>Once a month</span>
-          <span>Once a quarter</span>
+        <div class="flex justify-between text-xs slider">
+          <span class="w-12">Once</span>
+          <span class="w-12">Every day</span>
+          <span class="w-12">Once a week</span>
+          <span class="w-12">Twice a month</span>
+          <span class="w-12">Once a month</span>
+          <span class="w-12">Once a quarter</span>
         </div>
       </div>
       <h2 class="card-title">Apprentice negotiation options</h2>
       <div class="form-control">
         <label class="label cursor-pointer ">
-          <span class="label-text">I will consistently practice my Daily Stand Up reports 
-            in accordance to TNP 1.0 and with guidance from my mentor *</span> 
+          <span class="label-text mr-2 md:mr-4">I will consistently practice my Daily Stand Up reports 
+            in accordance to TNP 1.0 and with guidance from my mentor.</span> 
           <input type="checkbox" class="checkbox" />
+          <span class="indicator-item badge hidden md:inline md:mx-4">Required</span>
         </label>
-        <span class="indicator-item badge">* Required</span>
+        <span class="text-xs italic inline md:hidden">The above field is <span class="text-error">required</span>.</span>
+        
       </div>
       <div class="form-control w-full max-w-xs">
         <label class="label">
@@ -162,7 +164,7 @@
     </div>
       
   </div>
-  <div class="card w-full bg-base-100 shadow-xl col-span-4 col-start-3">
+  <div class="card w-full bg-base-100 shadow-xl md:col-span-4 md:col-start-3">
     <figure class="h-36"><img src="assets/stakes.jpg" class="object-cover" alt="Shoes" /></figure>
     <div class="card-body">
     <h1 class="text-3xl font-bold">Stake</h1>
@@ -204,12 +206,15 @@
     
   </div>
 </div>
-  <div class="card w-full bg-base-100 shadow-xl col-span-4 col-start-3  p-4">
+  <div class="card w-full bg-base-100 shadow-xl md:col-span-4 md:col-start-3  p-4">
     <div class="card-body">
       <h1 class="text-3xl font-bold">Summary</h1>
     <h2 class="card-title">Changes</h2>
     <p>
       The following summarizes the mentoring engagement change proposal.
+    </p>
+    <p class="inline md:hidden my-4">
+      Difficult to read on mobile? <a href='/changes' class="link">Read the change summary</a> on a separate page.
     </p>
     <div class="mockup-code">
       <pre data-prefix=" " ><code>Mentoring engagement</code></pre> 
@@ -226,6 +231,7 @@
       <pre data-prefix="+" class="text-success"><code>Mentor reset option: Initiated by apprentice only</code></pre>
       <pre data-prefix=" " ><code>Upon any type of failure from either party, the negotiated term reverts to its originally proposed setting.</code></pre> 
     </div>
+    
     <p class="mt-8 italic text-xs">
       By submitting the proposal below, you will send your mentoring negotiation proposal
       to the Solana Blockchain. This requires you to sign your transaction and pay for 
@@ -236,8 +242,8 @@
     </div>
   </div>
 </div>
-  <div class="card w-full bg-base-100 shadow-xl h-fit col-span-2 col-start-1 row-start-1 sticky top-4">
-    <figure><img src="assets/software-engineer.jpg" alt="Shoes" /></figure>
+  <div class="card w-full bg-base-100 shadow-xl h-fit md:col-span-2 col-start-1 row-start-1 md:sticky md:top-4">
+    <figure class="h-36 md:h-72"><img src="assets/software-engineer.jpg" alt="Shoes" /></figure>
     <div class="card-body">
       <h2 class="card-title">General Objective</h2>
       <p>To become a senior software engineer, confident in leadership,
