@@ -41,6 +41,11 @@ export class TomeService {
     )
   }
 
+  sendTransaction(txn: any): Promise<string> {
+    const provider = this.program?.provider as any;
+    return provider.send(txn)
+  }
+
   // Constructs the setup negotiation instruction.
   createTxnSetupNegotiation(apprenticePublicKey: web3.PublicKey, mentorPublicKey: web3.PublicKey, negotiationPublicKey: web3.PublicKey) {
     return this.program?.methods

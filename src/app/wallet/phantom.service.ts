@@ -7,8 +7,11 @@ import * as web3 from '@solana/web3.js';
   providedIn: 'root'
 })
 export class PhantomService implements SolanaWalletAppInterface {
+  connection: web3.Connection;
 
-  constructor() { }
+  constructor() { 
+    this.connection = new web3.Connection(web3.clusterApiUrl("devnet"), "confirmed");
+  }
 
   exists(): Observable<boolean> {
     return of(this.doesPhantomExist());

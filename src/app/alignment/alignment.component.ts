@@ -50,7 +50,10 @@ export class AlignmentComponent {
 
 
   // The user's public key from their connected wallet.
-  userWalletPublicKey: string|null = null;
+  userWalletPublicKey: string = "";
+
+  // The user's mentor's public key from their connected wallet.
+  mentorWalletPublicKey: string = "";
 
   alignmentNegotiationPublicKey : string = "";
   
@@ -115,8 +118,35 @@ export class AlignmentComponent {
     this.currentState = ComponentState.Editing;
   }
 
-  setup(){
+  async setup(){
+    if (this.userWalletPublicKey === undefined || this.userWalletPublicKey === null){
+      console.error("User wallet not authorized.");
+      return;
+    }
 
+    if (this.mentorWalletPublicKey === undefined || this.mentorWalletPublicKey === null){
+      console.error("Mentor public key not specified.");
+      return;
+    }
+
+    const newNegotiation = new web3.Keypair();
+
+    const txnSetup = await this.tome.createTxnSetupNegotiation(
+      // TODO: These appear to be broken
+      // new web3.PublicKey(this.userWalletPublicKey),
+      // new web3.PublicKey(this.mentorWalletPublicKey),
+      this.userWalletPublicKey,
+      this.mentorWalletPublicKey,
+      newNegotiation.publicKey,
+    );
+
+    const provider = this.phantomService.getPhantomProvider();
+    console.log("Requesting sign and send transaction");
+
+    const signedTransaction = await provider.signTransaction(txnSetup);
+    console.log("signed txn", signedTransaction);
+    const signature = await this.tome.sendTransaction(signedTransaction);
+    console.log("Result of transaction", signature);
   }
 
   view(){

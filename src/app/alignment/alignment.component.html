@@ -49,7 +49,8 @@
           <label class="label">
             <span class="label-text">Who is your mentor?</span>
           </label>
-          <input type="text" placeholder="Mentor Public Key" class="input input-bordered w-full" />
+          <input type="text" placeholder="Mentor Public Key" [value]="mentorWalletPublicKey"
+            class="input input-bordered w-full" />
           <label class="label">
             <span class="label-text-alt">
               Ask your Mentor for their Solana Wallet Public Key, which will be what they'll use to interact with you.
