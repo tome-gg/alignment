@@ -115,7 +115,8 @@
     <app-mentoring-objective-card class="md:col-span-2 col-start-1 row-start-1 md:sticky md:top-4">
       <label for="login-credentials" class="btn">View credentials</label>
     </app-mentoring-objective-card>
-    <app-summary-card class="md:col-span-4 md:col-start-3" [alignment]="alignmentNegotiation" [isDirty]="isDirty">
+    <app-summary-card *ngIf="alignmentNegotiation?.isComplete === false" class="md:col-span-4 md:col-start-3"
+      [alignment]="alignmentNegotiation" [isDirty]="isDirty">
 
     </app-summary-card>
 
