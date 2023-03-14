@@ -2,9 +2,17 @@
 
 This is the frontend web application for Tome.gg's proof-of-concept [Alignment Negotiation smart contract](https://github.com/tome-gg/negotiation-protocols).
 
+For more clarity, check out the [Definitions](docs/definitions.md) to understand what the concepts discussed below mean.
+
 ### Capabilities
 
-This client allows you to 
+This web app allows non-developer users to interact with the smart contract.
+
+### Limitations
+
+- 📝 This only a proof-of-concept that focuses on Alignment Negotiation.
+- ❌ This makes the assumption that the Mentoring Engagement smart contract between the two parties already exists.
+- ❌ The Mentoring Engagement smart contract itself is not yet designed nor implemented.
 
 ## Installation
 
