@@ -1,27 +1,40 @@
-# Poc
+## Tome.gg Showcase: Alignment Negotiation
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.2.2.
+This is the frontend web application for Tome.gg's proof-of-concept [Alignment Negotiation smart contract](https://github.com/tome-gg/negotiation-protocols).
 
-## Development server
+### Capabilities
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+This client allows you to 
 
-## Code scaffolding
+## Installation
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+### Requirements
 
-## Build
+1. Angular CLI `15.2.2`
+2. Node.js `v16.14.0`
+3. Typescript `4.9.4`
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+### Development instructions
 
-## Running unit tests
+To run this project locally, serve it on a local development server using:
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+```
+ng serve
+```
 
-## Running end-to-end tests
+It will then be accessible at http://localhost:4200 which will automatically reload upon file changes.
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+## Roadmap
 
-## Further help
+### Tasks ahead
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+1. Integrate Alignment Negotiation via web3 libraries.
+2. Leverage [JSON Forms](https://jsonforms.io/) library for declarative form generation, given a negotiation protocol.
+
+## Contributing
+
+I haven't set up contributing guidelines yet, but feel free to connect with me on Twitter @darrensapalo or [join my community on Discord](http://bit.ly/3yCdUiE).
+
+## License
+
+Apache License 2.0. See [LICENSE.md](LICENSE.md).
