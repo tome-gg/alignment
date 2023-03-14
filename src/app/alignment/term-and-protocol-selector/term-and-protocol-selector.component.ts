@@ -52,6 +52,7 @@ export class TermAndProtocolSelectorComponent {
       let p = this.protocols.find(p => p.value === currentProtocol?.toString()) as any;
       if (p){
         p.selected = true;
+        p.disabled = this.alignment?.isComplete;
       }
       return;
     }

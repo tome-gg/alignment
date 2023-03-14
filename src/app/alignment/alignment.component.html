@@ -19,7 +19,7 @@
       <div class="card-content">
         <div class="mb-8">
           <span>You have authorized the following wallet: </span>
-          <code class="wallet">{{ userWalletPublicKey }}</code>
+          <code class="wallet text-xs md:text-base">{{ userWalletPublicKey }}</code>
         </div>
         <h2 class="card-title mt-8">View alignment negotiation</h2>
         <div class="form-control w-full">
@@ -104,7 +104,7 @@
     <app-mentoring-objective-card class="md:col-span-2 col-start-1 row-start-1 md:sticky md:top-4">
       <label for="login-credentials" class="btn">View credentials</label>
     </app-mentoring-objective-card>
-    <app-summary-card class="md:col-span-4 md:col-start-3">
+    <app-summary-card class="md:col-span-4 md:col-start-3" [alignment]="alignmentNegotiation" [isDirty]="isDirty">
 
     </app-summary-card>
 
@@ -115,7 +115,7 @@
       <div class="modal-box">
         <h3 class="font-bold text-lg">You are authenticated with wallet address:</h3>
         <p class="py-4">
-          <code class="wallet">{{ userWalletPublicKey }}</code>
+          <code class="wallet text-xs md:text-base">{{ userWalletPublicKey }}</code>
         </p>
         <p class="text-xs">
           If you wish to log in using a different wallet, please use the Phantom app to switch your wallet,

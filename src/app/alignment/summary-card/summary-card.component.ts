@@ -9,4 +9,7 @@ import { AlignmentNegotiationState } from 'src/app/core/alignment-client';
 export class SummaryCardComponent {
   @Input()
   alignment?: AlignmentNegotiationState;
+
+  @Input()
+  isDirty?: boolean;
 }
