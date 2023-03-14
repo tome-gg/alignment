@@ -1,25 +1,44 @@
 import { Injectable } from '@angular/core';
-import * as anchor from "@coral-xyz/anchor";
+import { AnchorProvider, Program, Provider, setProvider, Wallet} from "@coral-xyz/anchor";
 import * as web3 from "@solana/web3.js";
-import { AlignmentNegotiation } from 'src/defn/alignment_negotiation';
+import { defer, from } from 'rxjs';
+import { AlignmentNegotiation, IDL } from 'src/defn/alignment_negotiation';
 import { NegotiationParameters } from '../core/alignment-client';
+
+const ALIGNMENT_NEGOTIATION_PROGRAM_ID = '5v2iHnzVvmqoYXva1CaDLToUNdwjo1ZHuyMicfokaXBn';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TomeService {
 
-  program?: anchor.Program<AlignmentNegotiation>;
-  programProvider?: anchor.AnchorProvider;
+  program?: Program<AlignmentNegotiation>;
+  programProvider?: Provider;
 
   constructor() { 
 
   }
 
   init() {
-    anchor.setProvider(anchor.AnchorProvider.env());
-    this.program = anchor.workspace.AlignmentNegotiation as anchor.Program<AlignmentNegotiation>;
-    this.programProvider = this.program.provider as anchor.AnchorProvider;
+    console.log('init start');
+    try {
+      const connection = new web3.Connection(web3.clusterApiUrl("devnet"), "confirmed");
+      
+      this.program = new Program<AlignmentNegotiation>(IDL, ALIGNMENT_NEGOTIATION_PROGRAM_ID, { connection });
+      this.programProvider = this.program?.provider;
+      setProvider(this.programProvider);
+    }catch(e) {
+      console.error('Init failed', e);
+    }
+  }
+
+  // Gets information about an alignment negotiation
+  fetchAlignmentNegotiation(alignmentNegotiationPublicKey: string) {
+    return from(
+      defer(
+        () => from(this.program!.account.alignmentNegotiation.fetch(alignmentNegotiationPublicKey))
+      )
+    )
   }
 
   // Constructs the setup negotiation instruction.
@@ -46,7 +65,7 @@ export class TomeService {
   }
 
   requestAirdrop() {
-    async function requestAirdrop(programProvider: anchor.AnchorProvider, walletAddress: web3.PublicKey, airdropAmount: number) {
+    async function requestAirdrop(programProvider: AnchorProvider, walletAddress: web3.PublicKey, airdropAmount: number) {
       console.log(`🌧️ Requesting airdrop for ${walletAddress}`);
       // 1 - Request Airdrop
     

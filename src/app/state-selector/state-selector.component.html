@@ -1,17 +1,58 @@
-<div class="form-control w-full max-w-xs">
-  <label class="label">
-    <span class="label-text">What would you like to do with the {{ property }}?</span>
-  </label>
-  <select class="select select-bordered select-lg select-warning" (change)="onSelect($event.target)">
-    <option disabled selected>Pick action</option>
-    <option value="discuss">Discuss</option>
-    <option value="propose">Propose</option>
-    <option value="review">Review</option>
-    <option value="accept">Accept</option>
-  </select>
-  <label class="label">
-    <span class="label-text-alt italic">
-      {{ description }}
-    </span>
-  </label>
+<div>
+  <div class="form-control w-full max-w-xs">
+    <label class="label">
+      <span class="label-text-alt">Current state of the negotiation for the {{ property }}:</span>
+    </label>
+    <select class="select select-bordered w-full max-w-xs" disabled>
+      <option>{{currentState}}</option>
+    </select>
+    <label class="label">
+      <span *ngIf="isAlignmentComplete" class="label-text-alt">Cannot be edited because alignment is completed.</span>
+    </label>
+  </div>
+
 </div>
+<ng-container [ngSwitch]="currentState">
+  <ng-container *ngSwitchCase="'discussion'" [ngTemplateOutlet]="interactable">
+  </ng-container>
+  <ng-container *ngSwitchCase="'reviewed'" [ngTemplateOutlet]="interactable">
+  </ng-container>
+  <ng-container *ngSwitchCase="'proposed'" [ngTemplateOutlet]="interactable">
+  </ng-container>
+  <ng-container *ngSwitchCase="'accepted'">
+    <div *ngIf="isAlignmentComplete === false" class="form-control w-full max-w-xs">
+      <label class="label">
+        <span class="label-text">What would you like to do with the {{ property }}?</span>
+      </label>
+      <select class="select select-bordered select-lg select-warning" (change)="onSelect($event.target)">
+        <option disabled selected>No action</option>
+        <option *ngFor="let opt of allowedOptions" [value]="opt.value">{{opt.label}}</option>
+      </select>
+      <label class="label">
+        <span class="label-text-alt italic">
+          {{ description }}
+        </span>
+        <span class="label-text-alt italic">
+          Because this {{ property }} has already been accepted, you need to propose a new one if you wish to change it.
+        </span>
+      </label>
+    </div>
+  </ng-container>
+</ng-container>
+
+<ng-template #interactable>
+  <div *ngIf="isAlignmentComplete === false" class="form-control w-full max-w-xs">
+    <label class="label">
+      <span class="label-text">What would you like to do with the {{ property }}?</span>
+    </label>
+    <select class="select select-bordered select-lg select-warning" (change)="onSelect($event.target)">
+      <option disabled selected>No action</option>
+      <option *ngFor="let opt of allowedOptions" [value]="opt.value">{{opt.label}}</option>
+    </select>
+    <label class="label">
+      <span class="label-text-alt italic">
+        {{ description }}
+      </span>
+    </label>
+  </div>
+</ng-template>

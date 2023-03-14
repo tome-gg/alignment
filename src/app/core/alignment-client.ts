@@ -1,9 +1,28 @@
 import * as web3 from '@solana/web3.js';
 import * as anchor from '@coral-xyz/anchor';
+import { NegotiationStateType } from './defns';
 
 
-export type AlignmentNegotiation = {
+export type AlignmentNegotiationState = {
+  alternatives: web3.PublicKey;
+  isComplete: boolean;
+  mentoringNft: web3.PublicKey;
+  parties: web3.PublicKey[];
+  
+  term: number[];
+  termState: NegotiationStateType;
+  
+  protocol: web3.PublicKey;
+  protocolState: NegotiationStateType;
 
+  parameters: number[];
+  parametersState: NegotiationStateType;
+  
+  stakes: number[];
+  stakesState: NegotiationStateType;
+
+  turn: number;
+  version: number;
 }
 
 export type NegotiationParameters = {

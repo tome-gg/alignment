@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { AlignmentNegotiationState } from 'src/app/core/alignment-client';
 
 @Component({
   selector: 'app-stakes-selector',
@@ -6,5 +7,6 @@ import { Component } from '@angular/core';
   styleUrls: ['./stakes-selector.component.sass']
 })
 export class StakesSelectorComponent {
-
+  @Input()
+  alignment?: AlignmentNegotiationState;
 }

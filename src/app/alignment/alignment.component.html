@@ -85,8 +85,10 @@
 <ng-template #alignment>
   <div class="grid grid-cols-1 md:grid-cols-6 gap-4 md:w-4/5 mx-auto">
 
-    <app-term-and-protocol-selector class="md:col-span-4 md:col-start-3" (protocolSelectedEvent)="setProtocol($event)"
-      (termSelectedEvent)="setTerm($event)">
+    <app-term-and-protocol-selector #termAndProtocolSelector class="md:col-span-4 md:col-start-3"
+      (protocolSelectedEvent)="setProtocol($event)" (termSelectedEvent)="setTerm($event)"
+      [alignmentNegotiationPublicKey]="alignmentNegotiationPublicKey" [alignment]="alignmentNegotiation">
+
 
     </app-term-and-protocol-selector>
     <app-parameters-selector class="md:col-span-4 md:col-start-3">

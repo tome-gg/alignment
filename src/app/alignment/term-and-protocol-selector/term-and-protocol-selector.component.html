@@ -2,6 +2,9 @@
   <figure class="md:h-72 xs:h-32"><img src="assets/negotiation.jpg" class="object-cover" alt="Shoes" /></figure>
   <div class="card-body">
     <h1 class="text-3xl font-bold">Alignment Negotiation</h1>
+    <a target="_blank"
+      href="https://explorer.solana.com/address/{{alignmentNegotiationPublicKey}}/anchor-account?cluster=devnet"
+      class="text-xs link">View this alignment negotiation on Solana Explorer</a>
     <h2 class="card-title">Term and Protocol</h2>
     <div class="form-control w-full max-w-md indicator">
       <span class="indicator-item badge hidden md:inline">Required</span>
@@ -22,7 +25,8 @@
       </label>
     </div>
 
-    <app-state-selector property="term" (stateSelectedEvent)="setTermState($event)"></app-state-selector>
+    <app-state-selector [state]="alignment?.termState" [isAlignmentComplete]="alignment?.isComplete"
+      property="Mentoring term" (stateSelectedEvent)="setTermState($event)"></app-state-selector>
 
     <div class="form-control w-full max-w-md">
       <label class="label">
@@ -42,6 +46,7 @@
       </label>
     </div>
 
-    <app-state-selector property="protocol" (stateSelectedEvent)="setProtocolState($event)"></app-state-selector>
+    <app-state-selector [state]="alignment?.protocolState" [isAlignmentComplete]="alignment?.isComplete"
+      property="Negotiation protocol" (stateSelectedEvent)="setProtocolState($event)"></app-state-selector>
   </div>
 </div>

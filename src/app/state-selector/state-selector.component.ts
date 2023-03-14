@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { NegotiationEvent, NegotiationState, NegotiationStateType } from '../core/defns';
 
 @Component({
   selector: 'app-state-selector',
@@ -11,8 +12,57 @@ export class StateSelectorComponent {
 
   description: String = "";
 
+  @Input()
+  state?: NegotiationStateType;
+
+  @Input()
+  isAlignmentComplete?: boolean;
+
   @Output()
   stateSelectedEvent: EventEmitter<string|null> = new EventEmitter();
+
+  get allowedOptions(): {label: string, value: string}[] {
+
+    let discuss = {
+      label: "Discuss",
+      value: NegotiationEvent.Discuss
+    }
+
+    let propose = {
+      label: "Propose",
+      value: NegotiationEvent.Propose
+    }
+
+    let review = {
+      label: "Review",
+      value: NegotiationEvent.Review
+    }
+
+    let accept = {
+      label: "Accept",
+      value: NegotiationEvent.Accept
+    }
+
+    switch (this.currentState) {
+      case "discussion": return [discuss, propose];
+      case "proposed":  return [discuss, propose, review];
+      case "reviewed": return [discuss, propose, accept];
+      case "accepted": return [propose];
+    }
+
+  };
+
+  get currentState(): NegotiationState {
+    if (this.state) {
+      
+      if (this.state?.discussion) return "discussion";
+      if (this.state?.proposed) return "proposed";
+      if (this.state?.reviewed) return "reviewed";
+      if (this.state?.accepted) return "accepted";
+    }
+
+    return "discussion";
+  }
 
   onSelect(option: any|null) {
     this.stateSelectedEvent.emit(option?.value);

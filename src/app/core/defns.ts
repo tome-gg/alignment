@@ -1,8 +1,17 @@
-export enum NegotiationState {
+export enum NegotiationEvent {
   Discuss = "discuss",
   Propose = "propose",
   Review = "review",
   Accept = "accept"
+}
+
+export type NegotiationState = "discussion"|"proposed"|"reviewed"|"accepted";
+
+export type NegotiationStateType = {
+  discussion?: {}
+  reviewed?: {}
+  accepted?: {}
+  proposed?: {}
 }
 
 // Generates a `number` usable to represent the event for the alignment negotiation.

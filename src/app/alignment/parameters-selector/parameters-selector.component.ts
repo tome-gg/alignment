@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { NegotiationParameters } from 'src/app/core/alignment-client';
+import { AlignmentNegotiationState, NegotiationParameters } from 'src/app/core/alignment-client';
 
 
 @Component({
@@ -8,6 +8,9 @@ import { NegotiationParameters } from 'src/app/core/alignment-client';
   styleUrls: ['./parameters-selector.component.sass']
 })
 export class ParametersSelectorComponent {
+
+  @Input()
+  alignment?: AlignmentNegotiationState;
 
   @Input()
   mentorPreferredTermValue: number = 0;

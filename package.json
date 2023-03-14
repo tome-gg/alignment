@@ -1,6 +1,6 @@
 {
-  "name": "poc",
-  "version": "0.0.0",
+  "name": "tomegg-alignment",
+  "version": "0.1.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",

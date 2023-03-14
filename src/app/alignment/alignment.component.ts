@@ -1,7 +1,11 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 import { AlignmentNegotiation } from 'src/defn/alignment_negotiation';
 import * as web3 from '@solana/web3.js';
 import { PhantomService } from '../wallet/phantom.service';
+import { AlignmentNegotiationState, NegotiationParameters } from '../core/alignment-client';
+import { TomeService } from '../tome/tome.service';
+import { BN } from '@coral-xyz/anchor';
+import { TermAndProtocolSelectorComponent } from './term-and-protocol-selector/term-and-protocol-selector.component';
 
 enum ComponentState {
   // Means the user is not connected yet
@@ -41,6 +45,10 @@ enum ComponentState {
 })
 export class AlignmentComponent {
 
+
+  @ViewChild('termAndProtocolSelector') termAndProtocolSelector?: TermAndProtocolSelectorComponent;
+
+
   // The user's public key from their connected wallet.
   userWalletPublicKey: string|null = null;
 
@@ -48,9 +56,41 @@ export class AlignmentComponent {
   
   currentState : ComponentState = ComponentState.Disconnected;
 
-  // alignmentNegotiation: web3.DecodeStruct<AlignmentNegotiation>|null = null;
+  alignmentNegotiation?: AlignmentNegotiationState = {
+    alternatives: new web3.PublicKey(new BN(0)),
+    isComplete: false,
+    mentoringNft: new web3.PublicKey(new BN(0)),
+    parties: [],
+    
+    term: [],
+    termState: {},
+    
+    protocol: new web3.PublicKey(new BN(0)),
+    protocolState: {},
 
-  constructor(private phantomService: PhantomService) {
+    parameters: [],
+    parametersState: {},
+    
+    stakes: [],
+    stakesState: {},
+
+    turn: 0,
+    version: 0
+  };
+
+  proposal: NegotiationParameters = {
+    protocol: null,
+    term: null,
+    parameters: null,
+    stakes: null,
+    events: 0,
+    altProtocol: null,
+    altTerm: null
+  }
+
+  isDirty: boolean = false;
+
+  constructor(private phantomService: PhantomService, private tome: TomeService, private changeDetectorRef: ChangeDetectorRef) {
     // this.connect();
   }
 
@@ -59,6 +99,7 @@ export class AlignmentComponent {
     this.alignmentNegotiationPublicKey = "";
     this.currentState = ComponentState.Disconnected;
     this.phantomService.disconnect();
+    this.isDirty = false;
   }
 
   connect() {
@@ -67,6 +108,11 @@ export class AlignmentComponent {
       this.userWalletPublicKey = publicKey.toString();
       console.log("Connected!", publicKey);
     })
+  }
+
+  onChange() {
+    this.isDirty = true;
+    this.currentState = ComponentState.Editing;
   }
 
   setup(){
@@ -78,12 +124,32 @@ export class AlignmentComponent {
     // TODO: Verify if valid
     const isInvalid = false;
     if (isInvalid) {
-
       return;
     }
+
+    console.log("Initializing tome service")
+    this.tome.init();
     
+    console.log("Fetching alignment negotiation")
+    this.tome.fetchAlignmentNegotiation(this.alignmentNegotiationPublicKey).subscribe((data) => {
+      this.alignmentNegotiation = data as unknown as AlignmentNegotiationState;
+      for (const prop in this.alignmentNegotiation) {
+        let ref = this.alignmentNegotiation as any;
+        ref[prop] = (data as any)[prop]
+      }
+      this.reload();
+    })
 
     this.currentState = ComponentState.Viewing;
+  }
+
+  reload() {
+    this.changeDetectorRef.detectChanges();
+    this.termAndProtocolSelector?.reload();
+  }
+
+  fetch() {
+    
   }
 
   setTerm(event: string) {

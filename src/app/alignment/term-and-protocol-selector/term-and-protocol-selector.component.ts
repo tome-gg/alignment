@@ -1,4 +1,5 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { AlignmentNegotiationState } from 'src/app/core/alignment-client';
 import StaticContent from '../../../assets/options.json';
 
 @Component({
@@ -9,6 +10,12 @@ import StaticContent from '../../../assets/options.json';
 export class TermAndProtocolSelectorComponent {
   negotiationTerms: any[] = [];
   protocols: any[] = [];
+
+  @Input()
+  alignmentNegotiationPublicKey: string = "";
+
+  @Input()
+  alignment?: AlignmentNegotiationState;
 
   @Output()
   termSelectedEvent = new EventEmitter<string>();
@@ -29,6 +36,25 @@ export class TermAndProtocolSelectorComponent {
       StaticContent.find(c => c.id === "null"),
       ...StaticContent.filter(c => c.tag === "tnp_protocol"),
     ];
+
+  }
+
+  ngOnInit() {
+    this.reload();
+  }
+
+  reload() {
+    let currentProtocol = this.alignment?.protocol?.toString();
+
+    console.log("current proposal", currentProtocol);
+
+    if (currentProtocol !== null && currentProtocol !== undefined) {
+      let p = this.protocols.find(p => p.value === currentProtocol?.toString()) as any;
+      if (p){
+        p.selected = true;
+      }
+      return;
+    }
   }
 
   selectTerm(term: any) {
