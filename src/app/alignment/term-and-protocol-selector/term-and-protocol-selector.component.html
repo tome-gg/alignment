@@ -12,7 +12,8 @@
         <span class="label-text">Which mentoring term do you want to negotiate?</span>
       </label>
       <span class="text-xs italic inline md:hidden m-2">This field is <span class="text-error">required</span>.</span>
-      <select class="select select-bordered indicator w-full" (change)="selectTerm($event.target)">
+      <select class="select select-bordered indicator w-full" [disabled]="alignment?.isComplete"
+        (change)="selectTerm($event.target)">
         <option *ngFor="let term of negotiationTerms" [disabled]="term.disabled" [selected]="term.selected"
           [value]="term.value">
           {{term.label}}
@@ -32,7 +33,8 @@
       <label class="label">
         <span class="label-text">Which negotiation protocol do you want to use?</span>
       </label>
-      <select class="select select-bordered" (change)="selectProtocol($event.target)">
+      <select class="select select-bordered" (change)="selectProtocol($event.target)"
+        [disabled]="alignment?.isComplete">
         <option *ngFor="let protocol of protocols" [disabled]="protocol.disabled" [selected]="protocol.selected"
           [value]="protocol.value">
           {{protocol.label}}
