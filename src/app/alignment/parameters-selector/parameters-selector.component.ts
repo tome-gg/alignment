@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { NegotiationParameters } from 'src/app/core/defns';
+import { NegotiationParameters } from 'src/app/core/alignment-client';
+
 
 @Component({
   selector: 'app-parameters-selector',
@@ -14,7 +15,15 @@ export class ParametersSelectorComponent {
   @Input()
   apprenticePreferredTermValue: number = 0;
 
-  currentParams: NegotiationParameters = {};
+  currentParams: NegotiationParameters = {
+    altProtocol: null,
+    altTerm: null,
+    parameters: null,
+    protocol: null,
+    stakes: null,
+    term: null,
+    events: 0,
+  };
 
   setParametersState(value: any) {
 
