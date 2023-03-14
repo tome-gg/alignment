@@ -13,6 +13,7 @@ import { StakesSelectorComponent } from './alignment/stakes-selector/stakes-sele
 import { SummaryCardComponent } from './alignment/summary-card/summary-card.component';
 import { MentoringObjectiveCardComponent } from './alignment/mentoring-objective-card/mentoring-objective-card.component';
 import { StateSelectorComponent } from './state-selector/state-selector.component';
+import { NgxGoogleAnalyticsModule, NgxGoogleAnalyticsRouterModule } from 'ngx-google-analytics';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,9 @@ import { StateSelectorComponent } from './state-selector/state-selector.componen
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    NgxGoogleAnalyticsModule.forRoot('G-9P755HMHC8'),
+    NgxGoogleAnalyticsRouterModule
   ],
   providers: [],
   bootstrap: [AppComponent]
