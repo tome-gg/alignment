@@ -38,7 +38,8 @@
           </label>
         </div>
         <div class="btn btn-default mb-8 mr-4"
-          (click)="alignmentNegotiationPublicKey = 'FoCioVgvxe7WirMRmMeh7zni6bgBofbBMLCP2aJTA2hq'">Use example</div>
+          (click)="alignmentNegotiationPublicKey = 'FoCioVgvxe7WirMRmMeh7zni6bgBofbBMLCP2aJTA2hq'">View finished
+          alignment example</div>
         <div class="btn btn-primary mb-8 mr-4" (click)="view()">View alignment</div>
 
         <h2 class="card-title mb-4">Set up new alignment negotiation</h2>
@@ -59,7 +60,16 @@
           </label>
         </div>
 
-        <div class="btn btn-primary" (click)="setup()">Initiate alignment</div>
+        <a class="btn btn-primary" (click)="setup()">Initiate alignment</a> <BR />
+        <span class="text-xs text-info">The initiate alignment operation <span class="strong underline">does not work
+            yet</span>,
+          but
+          it will allow you to proceed to see the negotiation form. You can check the <a class="link"
+            href="https://github.com/tome-gg/negotiation-protocols/blob/master/tests/alignment-negotiation.ts">anchor
+            tests</a> to see the full
+          interaction, or
+          <a class="link" href="https://github.com/tome-gg/alignment/blob/master/docs/faq.md">read more</a> about the
+          current MVP limitations.</span>
         <BR /><BR />
         <span class="text-xs italic">Unfortunately, we only support Phantom wallet for now.</span>
       </div>
