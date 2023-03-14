@@ -23,13 +23,24 @@ collaboratively you both grow your reputation as apprentice and a mentor.
 
 3. **What happens when someone defaults on their responsibilities?**
 
-lorem.
+The negotiation stake placed by the person that defaulted, will be transferred to the other person.
+
+If you fail in your commitments as an apprentice, your stake gets transferred to your mentor.
+
+If your mentor fails to perform their duties (i.e. attend and facilitate the mentoring sessions), then his stake gets transferred to you.
 
 4. **What are reset options?**
 
-lorem.
+Reset options are ways to allow you and your mentor to clean each other's slate, as if 
+neither of you made any mistakes. These reset options give you and your mentor the flexibility to 'cleanse' your records.
 
-5. Why isn't the negotiation parameters and negotiation stakes loaded for an already completed alignment negotiation?
+This can be useful if for example, as an apprentice, you have had a successful growth streak and your mentor is quite happy
+with your progress, they might want to reset the records of your mistakes.
+
+Or if your mentor did extra effort in teaching you, extending even beyond the session,
+then you can reset the records of their mistakes.
+
+5. **Why isn't the negotiation parameters and negotiation stakes loaded for an already completed alignment negotiation?**
 
 See MVP limitations 7 and 8 below.
 
@@ -75,6 +86,8 @@ these 32 numbers to define the parameters of their negotiation.
 
 8. ❌ Currently, TNP 1.0 does not yet have a data definition for staking between mentor and apprentice, such that it fits
 a `u64` Rust data type. This is why the staking data on the page does not get loaded.
+
+9. ❌ Currently, TNP 1.0 does not have a proposal design document yet. It's still in my head 😉.
 
 ### On proposal, design, and implementation statuses
 
