@@ -7,6 +7,8 @@ import { TomeService } from '../tome/tome.service';
 import { BN } from '@coral-xyz/anchor';
 import { TermAndProtocolSelectorComponent } from './term-and-protocol-selector/term-and-protocol-selector.component';
 
+declare var gtag : any;
+
 enum ComponentState {
   // Means the user is not connected yet
   Disconnected = "disconnected", 
@@ -103,6 +105,10 @@ export class AlignmentComponent {
     this.currentState = ComponentState.Disconnected;
     this.phantomService.disconnect();
     this.isDirty = false;
+    gtag('event', 'DISCONNECT_WALLET', {
+      'event_category': 'DISCONNECT',
+      'event_label': 'User wallet was disconnected',
+      'value': 1 })
   }
 
   connect() {
@@ -110,6 +116,10 @@ export class AlignmentComponent {
       this.currentState = ComponentState.Unset;
       this.userWalletPublicKey = publicKey.toString();
       console.log("Connected!", publicKey);
+      gtag('event', 'CONNECT_WALLET', {
+        'event_category': 'CONNECT',
+        'event_label': 'User wallet was connected',
+        'value': 1 })
     })
   }
 
@@ -151,6 +161,11 @@ export class AlignmentComponent {
       console.log("Result of transaction", signature);
     }
 
+    gtag('event', 'INITIATE_ALIGNMENT', {
+      'event_category': 'ALIGNMENT',
+      'event_label': 'User initiated alignment (mock)',
+      'value': 1 })
+
     this.alignmentNegotiation = {
       alternatives: new web3.PublicKey(new BN(0)),
       mentoringNft: new web3.PublicKey(new BN(0)),
@@ -178,6 +193,12 @@ export class AlignmentComponent {
     if (isInvalid) {
       return;
     }
+
+
+    gtag('event', 'VIEW_ALIGNMENT', {
+      'event_category': 'ALIGNMENT',
+      'event_label': 'User viewed alignment',
+      'value': this.alignmentNegotiationPublicKey })
 
     console.log("Initializing tome service")
     this.tome.init();
