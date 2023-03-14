@@ -2,15 +2,13 @@
 
 This is the frontend web application for Tome.gg's proof-of-concept [Alignment Negotiation smart contract](https://github.com/tome-gg/negotiation-protocols). It allows non-developer users to interact with the smart contract.
 
-For more clarity, check out the [Definitions](docs/definitions.md) to understand what the concepts discussed below mean.
+## What is it?
 
-## What is Alignment Negotiation?
+ Alignment negotiation is a process in mentoring where one party proposes changes to the mentoring agreement, sets clear conditions for failure, outlines potential solutions, and defines the stakes for both parties. 
 
-> Figure to be included here
+* Read more on our [FAQ](docs/faq.md). 
+* If you're unfamiliar with the other Tome.gg terminologies, check out the [Definitions](docs/definitions.md) to understand what the concepts mean.
 
-## Limitations
-
-See this proof of concept's list of known [limitations](docs/mvp_limitations.md) and assumptions.
 ## Installation
 
 ### Requirements
@@ -33,7 +31,7 @@ It will then be accessible at http://localhost:4200 which will automatically rel
 
 ### Tasks ahead
 
-1. Integrate Alignment Negotiation via web3 libraries.
+1. Fix Phantom wallet being unable to sign transactions.
 2. Leverage [JSON Forms](https://jsonforms.io/) library for declarative form generation, given a negotiation protocol.
 
 ## Contributing
