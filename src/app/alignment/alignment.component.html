@@ -1,20 +1,56 @@
-<div class="grid grid-cols-1 md:grid-cols-6 gap-4 md:w-4/5 mx-auto">
-  <app-term-and-protocol-selector class="md:col-span-4 md:col-start-3" (protocolSelectedEvent)="setProtocol($event)"
-    (termSelectedEvent)="setTerm($event)">
+<div [ngSwitch]="currentState">
+  <div *ngSwitchCase="'connected'">
+    <div class="grid grid-cols-1 md:grid-cols-6 gap-4 md:w-4/5 mx-auto">
 
-  </app-term-and-protocol-selector>
-  <app-parameters-selector class="md:col-span-4 md:col-start-3">
+      <app-term-and-protocol-selector class="md:col-span-4 md:col-start-3" (protocolSelectedEvent)="setProtocol($event)"
+        (termSelectedEvent)="setTerm($event)">
 
-  </app-parameters-selector>
+      </app-term-and-protocol-selector>
+      <app-parameters-selector class="md:col-span-4 md:col-start-3">
 
-  <app-stakes-selector class="md:col-span-4 md:col-start-3">
+      </app-parameters-selector>
 
-  </app-stakes-selector>
+      <app-stakes-selector class="md:col-span-4 md:col-start-3">
 
-  <app-mentoring-objective-card class="md:col-span-2 col-start-1 row-start-1 md:sticky md:top-4">
+      </app-stakes-selector>
 
-  </app-mentoring-objective-card>
-  <app-summary-card class="md:col-span-4 md:col-start-3">
+      <app-mentoring-objective-card class="md:col-span-2 col-start-1 row-start-1 md:sticky md:top-4">
+        <label for="login-credentials" class="btn">View credentials</label>
+      </app-mentoring-objective-card>
+      <app-summary-card class="md:col-span-4 md:col-start-3">
 
-  </app-summary-card>
+      </app-summary-card>
+
+
+      <!-- Put this part before </body> tag -->
+      <input type="checkbox" id="login-credentials" class="modal-toggle" />
+      <div class="modal">
+        <div class="modal-box">
+          <h3 class="font-bold text-lg">You are authenticated with wallet address:</h3>
+          <p class="py-4">
+            <code class="">{{ userWalletPublicKey }}</code>
+          </p>
+          <div class="modal-action">
+            <label for="login-credentials" class="btn btn-error" (click)="disconnect()">Disconnect</label>
+            <label for="login-credentials" class="btn">Okay</label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngSwitchDefault>
+    <div class="grid grid-cols-1 gap-4 md:w-4/5 mx-auto">
+      <div class="card w-full bg-base-100 shadow-xl p-4">
+        <h2 class="card-title">You are currently disconnected.</h2>
+        <div class="card-content">
+          <p class="mb-8">To begin the demo, please connect with your Phantom wallet below.</p>
+          <div class="btn btn-primary" (click)="connect()">Connect wallet</div>
+          <BR /><BR />
+          <span class="text-xs italic">Unfortunately, we only support Phantom wallet for now.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
 </div>

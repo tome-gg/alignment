@@ -1,11 +1,13 @@
 import { Component } from '@angular/core';
 import { AlignmentNegotiation } from 'src/defn/alignment_negotiation';
+import * as web3 from '@solana/web3.js';
+import { PhantomService } from '../wallet/phantom.service';
 
-enum AlignmentNegotiationState {
+enum ComponentState {
   // Means the user is not connected yet
-  Disconnected, 
+  Disconnected = "disconnected", 
   // 
-  Connected
+  Connected = "connected"
 }
 
 @Component({
@@ -20,11 +22,30 @@ export class AlignmentComponent {
   // The user's public key from their connected wallet.
   userWalletPublicKey: string|null = null;
 
-  alignmentNegotiation: AlignmentNegotiation|null = null;
+  currentState : ComponentState = ComponentState.Disconnected;
+
+  // alignmentNegotiation: web3.DecodeStruct<AlignmentNegotiation>|null = null;
+
+  constructor(private phantomService: PhantomService) {
+    // this.connect();
+  }
+
+  disconnect() {
+    this.userWalletPublicKey = "";
+    this.isConnected = false;
+    this.currentState = ComponentState.Disconnected;
+    this.phantomService.disconnect();
+  }
+
+  connect() {
+    this.phantomService.connect().subscribe(publicKey => {
+      this.currentState = ComponentState.Connected;
+      this.userWalletPublicKey = publicKey.toString();
+      console.log("Connected!", publicKey);
+    })
+  }
 
   setTerm(event: string) {
-    
-    this.alignmentNegotiation
     console.log(event, "term")
   }
 

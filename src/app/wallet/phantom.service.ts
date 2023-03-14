@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { defer, from, map, Observable, of } from 'rxjs';
+import { defer, from, map, Observable, of, throwError } from 'rxjs';
 import { SolanaWalletAppInterface } from './wallet';
 import * as web3 from '@solana/web3.js';
 
@@ -18,13 +18,24 @@ export class PhantomService implements SolanaWalletAppInterface {
     return (window as any)?.phantom?.solana?.isPhantom;
   }
 
+  disconnect() {
+    const provider = this.getPhantomProvider();
+    provider.disconnect();
+  }
+
   connect(): Observable<web3.PublicKey> {
 
     const provider = this.getPhantomProvider();
 
-    const publicKey$ : Observable<web3.PublicKey> = from(defer(() => provider.connect())) as Observable<web3.PublicKey>;
+    if (provider === null || provider === undefined) {
+      return throwError(() => new Error("Unable to connect to Phantom wallet; is it installed?"));
+    }
 
-    return publicKey$;
+    const publicKey$ : Observable<any> = from(defer(() => provider.connect())) as Observable<any>;
+
+    return publicKey$.pipe(
+      map((k) => k.publicKey.toString())
+    );
   }
 
   redirect_to_download(): void {

@@ -4,3 +4,11 @@ export enum NegotiationState {
   Review = "review",
   Accept = "accept"
 }
+
+export type AlignmentNegotiationClient = {
+
+}
+
+export type NegotiationParameters = {
+
+}
