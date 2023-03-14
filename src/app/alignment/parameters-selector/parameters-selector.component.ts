@@ -6,5 +6,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./parameters-selector.component.sass']
 })
 export class ParametersSelectorComponent {
+  setParametersState(value: any) {
 
+  }
 }

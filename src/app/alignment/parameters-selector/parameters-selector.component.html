@@ -52,7 +52,8 @@
     </div>
 
     <h2 class="card-title">Apprentice negotiation options</h2>
-    <p>You selected TNP 1.0 as your negotiation protocol. <a href='#' class="link">Read more</a>.</p>
+    <p>You selected TNP 1.0 as your negotiation protocol. <a
+        href='https://github.com/tome-gg/alignment/blob/master/docs/faq.md' class="link">Read more</a>.</p>
     <div class="form-control">
       <label class="label cursor-pointer ">
         <span class="label-text mr-2 md:mr-4">The Apprentice will consistently practice their Daily Stand Up reports
@@ -102,7 +103,8 @@
       <label class="label">
         <span class="label-text-alt italic">
           Successful DSU practice is recognized by the smart contract as 3 consecutive green ticks on your daily stand
-          up reports. Once successful, the counter is reset. <a href='#' class="link">Read more</a>.</span>
+          up reports. Once successful, the counter is reset. <a
+            href='https://github.com/tome-gg/alignment/blob/master/docs/faq.md' class="link">Read more</a>.</span>
       </label>
     </div>
     <h2 class="card-title">Mentor negotiation options</h2>
@@ -115,7 +117,8 @@
         <span class="label-text-alt italic">
           How many times can the mentor miss his mentoring sessions? Note that missing a mentoring session is
           different
-          from rescheduling. <a href='#' class="link">Read more</a>.</span>
+          from rescheduling. <a href='https://github.com/tome-gg/alignment/blob/master/docs/faq.md' class="link">Read
+            more</a>.</span>
       </label>
     </div>
     <div class="form-control w-full max-w-md">
@@ -130,9 +133,12 @@
       <label class="label">
         <span class="label-text-alt italic">
           Initiated by the apprentice only means the mentor should not coerce the apprentice to reset. The apprentice
-          must, on their own volition, reset it upon their discretion. <a href='#' class="link">Read more</a>.</span>
+          must, on their own volition, reset it upon their discretion. <a
+            href='https://github.com/tome-gg/alignment/blob/master/docs/faq.md' class="link">Read more</a>.</span>
       </label>
     </div>
-  </div>
 
+    <app-state-selector property="parameters" (stateSelectedEvent)="setParametersState($event)"></app-state-selector>
+
+  </div>
 </div>

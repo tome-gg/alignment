@@ -29,7 +29,6 @@ export class TermAndProtocolSelectorComponent {
       StaticContent.find(c => c.id === "null"),
       ...StaticContent.filter(c => c.tag === "tnp_protocol"),
     ];
-    console.log(this.negotiationTerms);
   }
 
   selectTerm(term: any) {
@@ -42,11 +41,9 @@ export class TermAndProtocolSelectorComponent {
 
   setTermState(state: any) {
     this.termStateSelectedEvent.emit(state);
-    console.log(state, "term");
   }
 
   setProtocolState(state: any) {
     this.protocolStateSelectedEvent.emit(state);
-    console.log(state, "protocol");
   }
 }
