@@ -59,7 +59,7 @@
       <label class="label cursor-pointer ">
         <span class="label-text mr-2 md:mr-4">The Apprentice will consistently practice their Daily Stand Up reports
           in accordance to TNP 1.0 and with the guidance from the Mentor.</span>
-        <input type="checkbox" class="checkbox" />
+        <input type="checkbox" class="checkbox" [checked]="alignment?.isComplete || true" />
         <span class="indicator-item badge hidden md:inline md:mx-4">Required</span>
       </label>
       <span class="text-xs italic inline md:hidden">The above field is <span class="text-error">required</span>.</span>
@@ -139,7 +139,8 @@
       </label>
     </div>
 
-    <app-state-selector property="parameters" (stateSelectedEvent)="setParametersState($event)"></app-state-selector>
+    <app-state-selector [isAlignmentComplete]="alignment?.isComplete" [state]="alignment?.parametersState"
+      property="parameters" (stateSelectedEvent)="setParametersState($event)"></app-state-selector>
 
   </div>
 </div>

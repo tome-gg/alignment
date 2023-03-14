@@ -159,4 +159,12 @@ export class AlignmentComponent {
   setProtocol(event: string|null) {
     console.log(event, "protocol")
   }
+
+  setParameters(event: any) {
+    console.log(event, "params")
+  }
+
+  setStakes(event: any) {
+    console.log(event, "stakes")
+  }
 }

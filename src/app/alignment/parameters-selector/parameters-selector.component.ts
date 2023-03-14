@@ -29,9 +29,9 @@ export class ParametersSelectorComponent {
   };
 
   setParametersState(value: any) {
-
+    this.parametersSelectedEvent.emit(value);
   }
 
   @Output()
-  onParametersChange: EventEmitter<NegotiationParameters> = new EventEmitter();
+  parametersSelectedEvent: EventEmitter<NegotiationParameters> = new EventEmitter();
 }

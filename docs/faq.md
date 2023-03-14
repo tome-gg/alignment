@@ -29,11 +29,15 @@ lorem.
 
 lorem.
 
-5. **I'm unfamiliar with the terminologies you're using. Where can I read about that?**
+5. Why isn't the negotiation parameters and negotiation stakes loaded for an already completed alignment negotiation?
+
+See MVP limitations 7 and 8 below.
+
+7. **I'm unfamiliar with the terminologies you're using. Where can I read about that?**
 
 Check the [definitions](definitions.md).
 
-6. **What is a growth journal? Where can I see an example of a growth journal?**
+8. **What is a growth journal? Where can I see an example of a growth journal?**
 
 Your growth journal content and metacontent is stored in YAML format in a public GitHub repository owned by you, where you have full authority to grant and revoke read/write access to past, present, and future mentors that you will engage with. This growth journal, along with a DSU repository, is what the smart contract interacts with automatically to evaluate your performance.
 
@@ -62,6 +66,15 @@ File a GitHub issue:
    This lets you agree on a how frequently you and your mentor will meet.
 
 5. ❌ Temporarily, a dummy Solana account is used to represent the Negotiation Term and Protocol.
+
+6. 📝 The 'parameters' of the negotiation is stored as 32 numbers (u8 bytes). Different Negotiation Protocols can utilize 
+these 32 numbers to define the parameters of their negotiation.
+
+7. ❌ Currently, TNP 1.0 does not yet have a data definition for its negotiation parameters, and so the 
+`parameters` data is left as garbage data. This is why the parameter data on the page does not get loaded.
+
+8. ❌ Currently, TNP 1.0 does not yet have a data definition for staking between mentor and apprentice, such that it fits
+a `u64` Rust data type. This is why the staking data on the page does not get loaded.
 
 ### On proposal, design, and implementation statuses
 

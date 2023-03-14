@@ -91,11 +91,13 @@
 
 
     </app-term-and-protocol-selector>
-    <app-parameters-selector class="md:col-span-4 md:col-start-3">
+    <app-parameters-selector class="md:col-span-4 md:col-start-3" (parametersSelectedEvent)="setParameters($event)"
+      [alignment]="alignmentNegotiation">
 
     </app-parameters-selector>
 
-    <app-stakes-selector class="md:col-span-4 md:col-start-3">
+    <app-stakes-selector class="md:col-span-4 md:col-start-3" (stakesSelectedEvent)="setStakes($event)"
+      [alignment]="alignmentNegotiation">
 
     </app-stakes-selector>
 

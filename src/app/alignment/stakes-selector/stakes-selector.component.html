@@ -46,6 +46,8 @@
         </span>
       </label>
     </div>
+    <app-state-selector [isAlignmentComplete]="alignment?.isComplete" [state]="alignment?.stakesState" property="stakes"
+      (stateSelectedEvent)="setStakesState($event)"></app-state-selector>
 
   </div>
 </div>

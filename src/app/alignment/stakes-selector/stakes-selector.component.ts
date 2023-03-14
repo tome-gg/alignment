@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { AlignmentNegotiationState } from 'src/app/core/alignment-client';
 
 @Component({
@@ -9,4 +9,11 @@ import { AlignmentNegotiationState } from 'src/app/core/alignment-client';
 export class StakesSelectorComponent {
   @Input()
   alignment?: AlignmentNegotiationState;
+
+  @Output()
+  stakesSelectedEvent: EventEmitter<number> = new EventEmitter();
+
+  setStakesState(value: any) {
+    this.stakesSelectedEvent.emit(value);
+  }
 }
