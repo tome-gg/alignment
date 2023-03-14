@@ -7,6 +7,12 @@ import { AlignmentComponent } from './alignment/alignment.component';
 import { TrainingComponent } from './training/training.component';
 import { OverviewComponent } from './overview/overview.component';
 import { ChangeSummaryComponent } from './change-summary/change-summary.component';
+import { TermAndProtocolSelectorComponent } from './alignment/term-and-protocol-selector/term-and-protocol-selector.component';
+import { ParametersSelectorComponent } from './alignment/parameters-selector/parameters-selector.component';
+import { StakesSelectorComponent } from './alignment/stakes-selector/stakes-selector.component';
+import { SummaryCardComponent } from './alignment/summary-card/summary-card.component';
+import { MentoringObjectiveCardComponent } from './alignment/mentoring-objective-card/mentoring-objective-card.component';
+import { StateSelectorComponent } from './state-selector/state-selector.component';
 
 @NgModule({
   declarations: [
@@ -14,7 +20,13 @@ import { ChangeSummaryComponent } from './change-summary/change-summary.componen
     AlignmentComponent,
     TrainingComponent,
     OverviewComponent,
-    ChangeSummaryComponent
+    ChangeSummaryComponent,
+    TermAndProtocolSelectorComponent,
+    ParametersSelectorComponent,
+    StakesSelectorComponent,
+    SummaryCardComponent,
+    MentoringObjectiveCardComponent,
+    StateSelectorComponent
   ],
   imports: [
     BrowserModule,

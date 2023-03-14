@@ -1,0 +1,17 @@
+<div class="form-control w-full max-w-xs">
+  <label class="label">
+    <span class="label-text">What would you like to do with the {{ property }}?</span>
+  </label>
+  <select class="select select-bordered" (change)="onSelect($event.target)">
+    <option disabled selected>Pick action</option>
+    <option value="discuss">Discuss</option>
+    <option value="propose">Propose</option>
+    <option value="review">Review</option>
+    <option value="accept">Accept</option>
+  </select>
+  <label class="label">
+    <span class="label-text-alt italic">
+      {{ description }}
+    </span>
+  </label>
+</div>

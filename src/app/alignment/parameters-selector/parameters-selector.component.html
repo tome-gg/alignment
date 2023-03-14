@@ -1,0 +1,138 @@
+<div class="card w-full bg-base-100 shadow-xl">
+  <figure class="h-36"><img src="assets/calendar.jpg" class="object-cover" alt="Shoes" /></figure>
+  <div class="card-body">
+    <h2 class="card-title">Negotiation parameters</h2>
+    <p>
+      You and your mentor are not aligned on <span class="italic underline">Session Frequency</span>.
+    </p>
+    <div class="form-control w-full">
+      <label class="label">
+        <span class="label-text">Below is your mentor's preferred terms.</span>
+      </label>
+      <input type="range" min="0" max="5" value="3" class="range" step="1" disabled />
+      <div class="w-full flex justify-between text-xs slider slider-tick px-4">
+        <span>|</span>
+        <span>|</span>
+        <span>|</span>
+        <span>|</span>
+        <span>|</span>
+        <span>|</span>
+      </div>
+      <div class="flex justify-between text-xs slider">
+        <span class="w-12">Once</span>
+        <span class="w-12">Every day</span>
+        <span class="w-12">Once a week</span>
+        <span class="w-12">Twice a month</span>
+        <span class="w-12">Once a month</span>
+        <span class="w-12">Once a quarter</span>
+      </div>
+    </div>
+
+    <div class="form-control w-full mb-8">
+      <label class="label">
+        <span class="label-text">What is your proposed terms?</span>
+      </label>
+      <input type="range" min="0" max="5" value="1" class="range range-primary" step="1" />
+      <div class="w-full flex justify-between text-xs slider slider-tick px-4">
+        <span>|</span>
+        <span>|</span>
+        <span>|</span>
+        <span>|</span>
+        <span>|</span>
+        <span>|</span>
+      </div>
+      <div class="flex justify-between text-xs slider">
+        <span class="w-12">Once</span>
+        <span class="w-12">Every day</span>
+        <span class="w-12">Once a week</span>
+        <span class="w-12">Twice a month</span>
+        <span class="w-12">Once a month</span>
+        <span class="w-12">Once a quarter</span>
+      </div>
+    </div>
+
+    <h2 class="card-title">Apprentice negotiation options</h2>
+    <p>You selected TNP 1.0 as your negotiation protocol. <a href='#' class="link">Read more</a>.</p>
+    <div class="form-control">
+      <label class="label cursor-pointer ">
+        <span class="label-text mr-2 md:mr-4">The Apprentice will consistently practice their Daily Stand Up reports
+          in accordance to TNP 1.0 and with the guidance from the Mentor.</span>
+        <input type="checkbox" class="checkbox" />
+        <span class="indicator-item badge hidden md:inline md:mx-4">Required</span>
+      </label>
+      <span class="text-xs italic inline md:hidden">The above field is <span class="text-error">required</span>.</span>
+
+    </div>
+    <div class="form-control w-full max-w-xs">
+      <label class="label">
+        <span class="label-text">Number of failures</span>
+      </label>
+      <input type="number" placeholder="3" class="input input-bordered w-full max-w-xs" />
+      <label class="label">
+        <span class="label-text-alt italic">
+          How many times do you want to make space for yourself to make mistakes?</span>
+      </label>
+    </div>
+    <div class="form-control w-full max-w-md">
+      <label class="label">
+        <span class="label-text">Failure type</span>
+      </label>
+      <select class="select select-bordered">
+        <option>No proposal yet</option>
+        <option>Consecutive mistakes</option>
+        <option selected>Total mistakes</option>
+      </select>
+      <label class="label">
+        <span class="label-text-alt italic">
+          Consecutive mistakes is recognized by the smart contract as 3 consecutive red ticks on your daily stand up
+          reports.
+          To understand more specifically what are considered as mistakes, please <a href='#' class="link">read TNP
+            1.0</a>.</span>
+      </label>
+    </div>
+    <div class="form-control w-full max-w-md">
+      <label class="label">
+        <span class="label-text">Reset counter option</span>
+      </label>
+      <select class="select select-bordered">
+        <option>No proposal yet</option>
+        <option>No reset option</option>
+        <option selected>Reset upon consecutive successful DSU practice</option>
+      </select>
+      <label class="label">
+        <span class="label-text-alt italic">
+          Successful DSU practice is recognized by the smart contract as 3 consecutive green ticks on your daily stand
+          up reports. Once successful, the counter is reset. <a href='#' class="link">Read more</a>.</span>
+      </label>
+    </div>
+    <h2 class="card-title">Mentor negotiation options</h2>
+    <div class="form-control w-full max-w-xs">
+      <label class="label">
+        <span class="label-text">Number of missed mentoring sessions</span>
+      </label>
+      <input type="number" placeholder="3" class="input input-bordered w-full max-w-xs" />
+      <label class="label">
+        <span class="label-text-alt italic">
+          How many times can the mentor miss his mentoring sessions? Note that missing a mentoring session is
+          different
+          from rescheduling. <a href='#' class="link">Read more</a>.</span>
+      </label>
+    </div>
+    <div class="form-control w-full max-w-md">
+      <label class="label">
+        <span class="label-text">Reset counter option</span>
+      </label>
+      <select class="select select-bordered">
+        <option>No proposal yet</option>
+        <option>Initiated by the apprentice only</option>
+        <option selected>No reset option</option>
+      </select>
+      <label class="label">
+        <span class="label-text-alt italic">
+          Initiated by the apprentice only means the mentor should not coerce the apprentice to reset. The apprentice
+          must, on their own volition, reset it upon their discretion. <a href='#' class="link">Read more</a>.</span>
+      </label>
+    </div>
+  </div>
+
+</div>
