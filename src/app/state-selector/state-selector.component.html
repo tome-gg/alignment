@@ -20,7 +20,7 @@
   <ng-container *ngSwitchCase="'proposed'" [ngTemplateOutlet]="interactable">
   </ng-container>
   <ng-container *ngSwitchCase="'accepted'">
-    <div *ngIf="isAlignmentComplete === false" class="form-control w-full max-w-xs">
+    <div *ngIf="isAlignmentComplete == false" class="form-control w-full max-w-xs">
       <label class="label">
         <span class="label-text">What would you like to do with the {{ property }}?</span>
       </label>
@@ -41,7 +41,7 @@
 </ng-container>
 
 <ng-template #interactable>
-  <div *ngIf="isAlignmentComplete === false" class="form-control w-full max-w-xs">
+  <div *ngIf="isAlignmentComplete == false" class="form-control w-full max-w-xs">
     <label class="label">
       <span class="label-text">What would you like to do with the {{ property }}?</span>
     </label>

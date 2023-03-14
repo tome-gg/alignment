@@ -65,7 +65,7 @@ export class AlignmentComponent {
     mentoringNft: new web3.PublicKey(new BN(0)),
     parties: [],
     
-    term: [],
+    term: new web3.PublicKey(new BN(0)),
     termState: {},
     
     protocol: new web3.PublicKey(new BN(0)),
@@ -74,7 +74,7 @@ export class AlignmentComponent {
     parameters: [],
     parametersState: {},
     
-    stakes: [],
+    stakes: 0,
     stakesState: {},
 
     turn: 0,
@@ -129,24 +129,46 @@ export class AlignmentComponent {
       return;
     }
 
-    const newNegotiation = new web3.Keypair();
+    if (false) {
 
-    const txnSetup = await this.tome.createTxnSetupNegotiation(
-      // TODO: These appear to be broken
-      // new web3.PublicKey(this.userWalletPublicKey),
-      // new web3.PublicKey(this.mentorWalletPublicKey),
-      this.userWalletPublicKey,
-      this.mentorWalletPublicKey,
-      newNegotiation.publicKey,
-    );
+      const newNegotiation = new web3.Keypair();
 
-    const provider = this.phantomService.getPhantomProvider();
-    console.log("Requesting sign and send transaction");
+      const txnSetup = await this.tome.createTxnSetupNegotiation(
+        // TODO: These appear to be broken
+        // new web3.PublicKey(this.userWalletPublicKey),
+        // new web3.PublicKey(this.mentorWalletPublicKey),
+        this.userWalletPublicKey as any,
+        this.mentorWalletPublicKey as any,
+        newNegotiation.publicKey,
+      );
 
-    const signedTransaction = await provider.signTransaction(txnSetup);
-    console.log("signed txn", signedTransaction);
-    const signature = await this.tome.sendTransaction(signedTransaction);
-    console.log("Result of transaction", signature);
+      const provider = this.phantomService.getPhantomProvider();
+      console.log("Requesting sign and send transaction");
+
+      const signedTransaction = await provider.signTransaction(txnSetup);
+      console.log("signed txn", signedTransaction);
+      const signature = await this.tome.sendTransaction(signedTransaction);
+      console.log("Result of transaction", signature);
+    }
+
+    this.alignmentNegotiation = {
+      alternatives: new web3.PublicKey(new BN(0)),
+      mentoringNft: new web3.PublicKey(new BN(0)),
+      isComplete: false,
+      parameters: [],
+      parametersState: {},
+      parties: [this.userWalletPublicKey as any],
+      protocol: new web3.PublicKey(new BN(0)),
+      protocolState: {},
+      stakes: 0,
+      stakesState: {},
+      term: new web3.PublicKey(new BN(0)),
+      termState: {},
+      turn: 0,
+      version: 0
+    }
+
+    this.currentState = ComponentState.Viewing;
   }
 
   view(){

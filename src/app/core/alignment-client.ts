@@ -9,7 +9,7 @@ export type AlignmentNegotiationState = {
   mentoringNft: web3.PublicKey;
   parties: web3.PublicKey[];
   
-  term: number[];
+  term: web3.PublicKey;
   termState: NegotiationStateType;
   
   protocol: web3.PublicKey;
@@ -18,7 +18,7 @@ export type AlignmentNegotiationState = {
   parameters: number[];
   parametersState: NegotiationStateType;
   
-  stakes: number[];
+  stakes: number;
   stakesState: NegotiationStateType;
 
   turn: number;
