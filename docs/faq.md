@@ -1,6 +1,6 @@
 # Frequently asked questions
 
-1. **What is Alignment Negotiation? As an apprentice, when do I use it?**
+### 1. What is Alignment Negotiation? As an apprentice, when do I use it?
 
 Once a mentoring agreement has already been established with a mentor, you can
 initiate an Alignment Negotiation. This allows both of you to discuss and change
@@ -9,7 +9,7 @@ some terms about the mentoring agreement.
 In production, these data will be lifted from your growth journal which
 contains data about your growth, and metadata about your mentorship engagement.
 
-2. **What does it do exactly?**
+### 2. What does it do exactly?
 
 This alignment negotiation tool allows you to keep your mentoring engagement, to find
 acceptable compromises when negotiating with your mentor/apprentice, and to discern 
@@ -21,7 +21,17 @@ This goes the same way for your mentor.
 By clearly stating your expectations, enforcing your boundaries, and negotiating respectfully and
 collaboratively you both grow your reputation as apprentice and a mentor.
 
-3. **What happens when someone defaults on their responsibilities?**
+### 3. Is this Alignment Negotiation and Mentoring Engagement only for software engineers?
+
+Initially, yes. 
+
+However, once Tome.gg (and other lifelong learning advocates and technologists) 
+picks up the pace in building tooling that creates even more accessibility to non-developers,
+any person who breathes lifelong learning gets tooling support (such as alignment negotiation,
+and mentoring engagements) that integrates smoothly with their data sovereignty and ownership
+of their growth.
+
+### 4. What happens when someone defaults on their responsibilities?
 
 The negotiation stake placed by the person that defaulted, will be transferred to the other person.
 
@@ -29,7 +39,7 @@ If you fail in your commitments as an apprentice, your stake gets transferred to
 
 If your mentor fails to perform their duties (i.e. attend and facilitate the mentoring sessions), then his stake gets transferred to you.
 
-4. **What are reset options?**
+### 5. What are reset options?
 
 Reset options are ways to allow you and your mentor to clean each other's slate, as if 
 neither of you made any mistakes. These reset options give you and your mentor the flexibility to 'cleanse' your records.
@@ -40,15 +50,15 @@ with your progress, they might want to reset the records of your mistakes.
 Or if your mentor did extra effort in teaching you, extending even beyond the session,
 then you can reset the records of their mistakes.
 
-5. **Why isn't the negotiation parameters and negotiation stakes loaded for an already completed alignment negotiation?**
+### 6. Why isn't the negotiation parameters and negotiation stakes loaded for an already completed alignment negotiation?
 
 See MVP limitations 7 and 8 below.
 
-7. **I'm unfamiliar with the terminologies you're using. Where can I read about that?**
+### 7. I'm unfamiliar with the terminologies you're using. Where can I read about that?
 
 Check the [definitions](definitions.md).
 
-8. **What is a growth journal? Where can I see an example of a growth journal?**
+### 8. What is a growth journal? Where can I see an example of a growth journal?
 
 Your growth journal content and metacontent is stored in YAML format in a public GitHub repository owned by you, where you have full authority to grant and revoke read/write access to past, present, and future mentors that you will engage with. This growth journal, along with a DSU repository, is what the smart contract interacts with automatically to evaluate your performance.
 
@@ -56,7 +66,7 @@ Check out our growth journal's generated public template to see how Tome.gg ment
 
 See an [example of a growth journal](https://www.tome.gg/assets/growth-report.pdf).
 
-7. **I have questions that you haven't answered. Where do I ask them?**
+### 9. I have questions that you haven't answered. Where do I ask them?
 
 File a GitHub issue:
 
@@ -95,10 +105,6 @@ a `u64` Rust data type. This is why the staking data on the page does not get lo
 
 2. ❌ The Tome Negotiation Protocols (e.g. DSU Transparency) are currently undergoing proposal, have some minor designs, 
    but have not yet been implemented. 
-
-
-
-
 
 ## References
 
