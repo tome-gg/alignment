@@ -33,6 +33,7 @@ It will then be accessible at http://localhost:4200 which will automatically rel
 
 1. Fix Phantom wallet being unable to sign transactions.
 2. Leverage [JSON Forms](https://jsonforms.io/) library for declarative form generation, given a negotiation protocol.
+3. Add copyright attribution for used image content, lifted from Pexels.com.
 
 ## Contributing
 
