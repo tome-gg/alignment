@@ -105,8 +105,8 @@ export class AlignmentComponent {
     this.currentState = ComponentState.Disconnected;
     this.phantomService.disconnect();
     this.isDirty = false;
-    gtag('event', 'DISCONNECT_WALLET', {
-      'event_category': 'DISCONNECT',
+    gtag('event', 'disconnect_wallet', {
+      'event_category': 'disconnect',
       'event_label': 'User wallet was disconnected',
       'value': 1 })
   }
@@ -116,8 +116,8 @@ export class AlignmentComponent {
       this.currentState = ComponentState.Unset;
       this.userWalletPublicKey = publicKey.toString();
       console.log("Connected!", publicKey);
-      gtag('event', 'CONNECT_WALLET', {
-        'event_category': 'CONNECT',
+      gtag('event', 'connect_wallet', {
+        'event_category': 'connect',
         'event_label': 'User wallet was connected',
         'value': 1 })
     })
@@ -161,8 +161,8 @@ export class AlignmentComponent {
       console.log("Result of transaction", signature);
     }
 
-    gtag('event', 'INITIATE_ALIGNMENT', {
-      'event_category': 'ALIGNMENT',
+    gtag('event', 'initiate_alignment', {
+      'event_category': 'alignment',
       'event_label': 'User initiated alignment (mock)',
       'value': 1 })
 
@@ -195,8 +195,8 @@ export class AlignmentComponent {
     }
 
 
-    gtag('event', 'VIEW_ALIGNMENT', {
-      'event_category': 'ALIGNMENT',
+    gtag('event', 'view_alignment', {
+      'event_category': 'alignment',
       'event_label': 'User viewed alignment',
       'value': this.alignmentNegotiationPublicKey })
 
