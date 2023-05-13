@@ -43,37 +43,37 @@ export class RepositoryComponent {
   plantProgress : PlantProgress[] = [
     {
       imageSource: this.getImageSrcDehydrated(1),
-      dateTime: '-',
+      dateTime: '          ',
       score: 1
     },
     {
       imageSource: this.getImageSrcDehydrated(1),
-      dateTime: '-',
+      dateTime: '          ',
       score: 1
     },
     {
       imageSource: this.getImageSrcDehydrated(1),
-      dateTime: '-',
+      dateTime: '          ',
       score: 1
     },
     {
       imageSource: this.getImageSrcDehydrated(1),
-      dateTime: '-',
+      dateTime: '          ',
       score: 1
     },
     {
       imageSource: this.getImageSrcDehydrated(1),
-      dateTime: '-',
+      dateTime: '          ',
       score: 1
     },
     {
       imageSource: this.getImageSrcDehydrated(1),
-      dateTime: '-',
+      dateTime: '          ',
       score: 1
     },
     {
       imageSource: this.getImageSrcDehydrated(1),
-      dateTime: '-',
+      dateTime: '          ',
       score: 1
     },
   ]
@@ -153,7 +153,7 @@ export class RepositoryComponent {
       const training = this.trainingData[index];
 
       if (!training) {
-          this.plantProgress[aimIndex].dateTime = "-";
+          this.plantProgress[aimIndex].dateTime = "xxxx-xx-xx";
           this.plantProgress[aimIndex].imageSource = this.getImageSrcDehydrated(1);
           this.plantProgress[aimIndex].score = 0;
           this.plantProgress[aimIndex].index = index;
