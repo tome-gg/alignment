@@ -3,16 +3,32 @@
 
     <div class="plant-container mx-auto flex flex-row justify-center">
       <div class="plot">
-        <img class="h-24 opacity-50" [src]="imageSourceNext" />
-        <p class="my-4 italic text-sm text-center text-stone-400 text-white"> {{nextDateTime }}</p>
+        <img class="h-24 opacity-10" [src]="plantProgress[6].imageSource" />
+        <p class="my-4 italic text-xs text-center text-stone-400 text-white"> {{plantProgress[6].dateTime }}</p>
       </div>
       <div class="plot">
-        <img class="h-24" [src]="imageSource" />
-        <p class="my-4 italic text-sm text-center text-white"> {{currentDateTime }}</p>
+        <img class="h-24 opacity-30" [src]="plantProgress[5].imageSource" />
+        <p class="my-4 italic text-xs text-center text-stone-400 text-white"> {{plantProgress[5].dateTime }}</p>
       </div>
       <div class="plot">
-        <img class="h-24 opacity-50" [src]="imageSourcePrev" />
-        <p class="my-4 italic text-sm text-center text-stone-400 text-white"> {{prevDateTime }}</p>
+        <img class="h-24 opacity-50" [src]="plantProgress[4].imageSource" />
+        <p class="my-4 italic text-xs text-center text-stone-400 text-white"> {{plantProgress[4].dateTime }}</p>
+      </div>
+      <div class="plot">
+        <img class="h-24" [src]="plantProgress[3].imageSource" />
+        <p class="my-4 italic text-xs text-center text-white"> {{plantProgress[3].dateTime }}</p>
+      </div>
+      <div class="plot">
+        <img class="h-24 opacity-50" [src]="plantProgress[2].imageSource" />
+        <p class="my-4 italic text-xs text-center text-stone-400 text-white"> {{ plantProgress[2].dateTime }}</p>
+      </div>
+      <div class="plot">
+        <img class="h-24 opacity-30" [src]="plantProgress[1].imageSource" />
+        <p class="my-4 italic text-xs text-center text-stone-400 text-white"> {{plantProgress[1].dateTime }}</p>
+      </div>
+      <div class="plot">
+        <img class="h-24 opacity-10" [src]="plantProgress[0].imageSource" />
+        <p class="my-4 italic text-xs text-center text-stone-400 text-white"> {{plantProgress[0].dateTime }}</p>
       </div>
     </div>
     <h1 class="text-white text-bold">Goal: {{ goals?.title || '' }}</h1>

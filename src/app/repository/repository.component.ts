@@ -9,6 +9,13 @@ marked.use({
   headerIds: false
 });
 
+type PlantProgress = {
+  imageSource: string;
+  dateTime: string;
+  score: number;
+  index?: number;
+}
+
 import { combineLatest, defer, from } from 'rxjs';
 @Component({
   selector: 'app-repository',
@@ -32,13 +39,44 @@ export class RepositoryComponent {
 
   currentScore = 1;
   prevScore = 1;
-  imageSourcePrev: string = this.getImageSrcDehydrated(1);
-  imageSource: string = this.getImageSrcDehydrated(1);
-  imageSourceNext: string = this.getImageSrcDehydrated(1);
-  
-  prevDateTime : string = "-";
-  currentDateTime : string = "";
-  nextDateTime : string = "-";
+
+  plantProgress : PlantProgress[] = [
+    {
+      imageSource: this.getImageSrcDehydrated(1),
+      dateTime: '-',
+      score: 1
+    },
+    {
+      imageSource: this.getImageSrcDehydrated(1),
+      dateTime: '-',
+      score: 1
+    },
+    {
+      imageSource: this.getImageSrcDehydrated(1),
+      dateTime: '-',
+      score: 1
+    },
+    {
+      imageSource: this.getImageSrcDehydrated(1),
+      dateTime: '-',
+      score: 1
+    },
+    {
+      imageSource: this.getImageSrcDehydrated(1),
+      dateTime: '-',
+      score: 1
+    },
+    {
+      imageSource: this.getImageSrcDehydrated(1),
+      dateTime: '-',
+      score: 1
+    },
+    {
+      imageSource: this.getImageSrcDehydrated(1),
+      dateTime: '-',
+      score: 1
+    },
+  ]
 
   constructor(private route: ActivatedRoute) { 
     // Sample link
@@ -111,47 +149,50 @@ export class RepositoryComponent {
         threshold: 0.5  // Adjust this value based on how much of the div should be visible before it is considered "visible"
     }
 
+    let setData = (aimIndex: number, index: number) => {
+      const training = this.trainingData[index];
+
+      if (!training) {
+          this.plantProgress[aimIndex].dateTime = "-";
+          this.plantProgress[aimIndex].imageSource = this.getImageSrcDehydrated(1);
+          this.plantProgress[aimIndex].score = 0;
+          this.plantProgress[aimIndex].index = index;
+          return;
+      }
+
+      this.plantProgress[aimIndex].dateTime = training.datetimeReadable;
+      const score = training.eval.score ?? 0;
+
+      if (!score) {
+        let adjustedScore = 1;
+        switch (aimIndex) {
+          case 0: adjustedScore = this.plantProgress[1].score; break;
+          case 1: adjustedScore = this.plantProgress[2].score; break;
+          case 2: adjustedScore = this.plantProgress[3].score; break;
+          case 3: adjustedScore = this.plantProgress[4].score; break;
+          case 4: adjustedScore = this.plantProgress[5].score; break;
+          case 5: adjustedScore = this.plantProgress[6].score; break;
+          case 6: adjustedScore = 1; break;
+        }
+        this.plantProgress[aimIndex].imageSource = this.getImageSrcDehydrated(adjustedScore);
+      } else {
+        this.plantProgress[aimIndex].imageSource = this.getImageSrc(score);
+      }
+    }
+
     let observer = new IntersectionObserver((entries, observer) => { 
         entries.forEach(entry => {
             if(entry.isIntersecting){
               
               const index = Array.from((entry as any).target.parentNode.children).indexOf(entry.target);
-              const trainingNow = this.trainingData[index];
-              const trainingNext = this.trainingData[index+1] || null;
-              const trainingPrev = this.trainingData[index-1] || null;
-
-              if (trainingNow) {
-                const score = trainingNow.eval.score ?? 0;
-                this.currentScore = score;
-                
-                this.currentDateTime = trainingNow.datetimeReadable;
-                if (score == 0) {
-                  this.imageSource = this.getImageSrcDehydrated(this.prevScore);
-                } else {
-                  this.imageSource = this.getImageSrc(score);
-                }
-              }
-
-              if (trainingNext) {
-                this.nextDateTime = trainingNext.datetimeReadable;
-                const score = trainingNext.eval.score ?? 0;
-                this.imageSourceNext = this.getImageSrc(score);
-              } else {
-                this.nextDateTime = "-";
-                this.imageSourceNext = this.getImageSrc(this.prevScore);
-              }
-
-              if (trainingPrev) {
-                this.prevDateTime = trainingPrev.datetimeReadable;
-                const score = trainingPrev.eval.score ?? 0;
-                this.prevScore = score;
-                this.imageSourcePrev = this.getImageSrc(score);
-              } else {
-                this.prevDateTime = "-";
-                this.imageSourceNext = this.getImageSrc(this.currentScore);
-              }
-
               
+              setData(0, index-3);
+              setData(1, index-2);
+              setData(2, index-1);
+              setData(3, index);
+              setData(4, index+1);
+              setData(5, index+2);
+              setData(6, index+3);
             }
         });
     }, options);
