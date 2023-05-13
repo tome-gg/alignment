@@ -2,7 +2,13 @@
 module.exports = {
   content: ['./src/**/*.{html,js,ts}'],
   theme: {
-    extend: {},
+    extend: {
+      scale: {
+        '200': '2.00',
+        '400': '4.00',
+        '800': '8.00'
+      }
+    },
   },
   plugins: [require("daisyui")],
   daisyui: {

@@ -1,165 +1,75 @@
-<div class="hero min-h-screen bg-base-100 mb-8 rounded-lg">
-  <div class="hero-content flex-col lg:flex-row-reverse">
-    <img src="/assets/negotiation.jpg" class="xs:max-w-sm md:max-w-lg rounded-lg shadow-2xl" />
+<div id="main">
+  <div class="navbar bg-base-100 mb-4 z-0">
+    <div class="navbar-start">
+      <div class="dropdown">
+        <label tabindex="0" class="btn btn-ghost lg:hidden">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16" />
+          </svg>
+        </label>
+        <ul tabindex="0" class="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52">
+          <li><a
+              href="https://github.com/tome-gg/whitepaper/blob/main/main.pdf?utm_source=tomegg&utm_medium=banner&utm_campaign=app_invite">Whitepaper</a>
+          </li>
+          <li><a href="https://docs.tome.gg?utm_source=tomegg&utm_medium=banner&utm_campaign=app_invite">Library</a>
+          </li>
+          <li><a
+              href="https://protocol.tome.gg?utm_source=tomegg&utm_medium=banner&utm_campaign=app_invite">Protocols</a>
+          </li>
+          <li><a href="http://bit.ly/3ynKg0m">Discord</a></li>
+          <li><a href="https://github.com/tome-gg/negotiation-protocols">Smart Contract</a></li>
+          <li><a href="https://github.com/tome-gg/alignment">Web App</a></li>
+        </ul>
+      </div>
+      <a href='/' class="btn btn-ghost normal-case text-xl">Tome.gg</a>
+    </div>
+    <div class="navbar-center hidden lg:flex">
+      <ul class="menu menu-horizontal px-1">
+        <li><a
+            href="https://github.com/tome-gg/whitepaper/blob/main/main.pdf?utm_source=tomegg&utm_medium=banner&utm_campaign=app_reference">📝
+            Whitepaper</a>
+        </li>
+        <li><a href="https://docs.tome.gg?utm_source=tomegg&utm_medium=banner&utm_campaign=app_reference">📚️
+            Library</a>
+        </li>
+        <li><a href="https://protocol.tome.gg?utm_source=tomegg&utm_medium=banner&utm_campaign=app_reference">📄
+            Protocol</a>
+        </li>
+        <li><a href="http://bit.ly/3ynKg0m">🎮️ Discord</a></li>
+        <li><a href="https://github.com/tome-gg/negotiation-protocols">🧑‍💻 Smart Contract</a></li>
+        <li><a href="https://github.com/tome-gg/alignment">🧑‍💻 Web App</a></li>
+      </ul>
+    </div>
+    <div class="navbar-end">
+      <a href='/alignment' class="btn btn-primary btn-sm md:btn-md">View Demo</a>
+    </div>
+  </div>
+  <router-outlet></router-outlet>
+  <footer class="footer footer-center p-10">
     <div>
-      <h1 class="text-4xl font-bold">Pleasant mentoring,<br /> efficient negotiating</h1>
-      <h2 class="text-2xl italic">For mid- to senior-level software engineers.</h2>
-      <p class="py-6">
-        Requesting for a mentoring engagement and negotiating its details doesn't have to
-        be scary or full of unknowns. <strong>Tome.gg</strong> fills in the gap.
+      <p class="font-bold">
+        <a href="/" class="link">Tome.gg</a>
+        <br />
+        <span class="text-xs italic">Transfer learning from games for mid to senior level software engineers.</span>
       </p>
-      <a href="/alignment" class="btn btn-primary mr-4">View Demo</a>
-      <a href="https://waitlist.tome.gg" class="btn btn-secondary">Join the waitlist</a>
+      <p>Copyright © 2023 - All right reserved.</p>
     </div>
-  </div>
-</div>
-
-<div class="my-16">
-  <div class="card bg-base-100 shadow-xl max-w-md md:max-w-xl mx-auto">
-
-    <div class="card-body items-center text-center">
-      <iframe class="w-full max-w-lg" height="325" src="https://www.youtube-nocookie.com/embed/rAsr5YidFag"
-        title="YouTube video player" frameborder="0"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-        allowfullscreen></iframe>
-
-      <h2 class="card-title mt-8">What is an Alignment Negotiation?</h2>
-      <p>Watch the above presentation, or <a href='https://youtu.be/rAsr5YidFag?t=167' class="link">go straight to the
-          demo</a>.</p>
-    </div>
-  </div>
-</div>
-<div class="grid xs:grid-cols-1 md:grid-cols-3 gap-x-0 gap-y-8 md:gap-8 md:w-4/5 mx-auto">
-  <div class="card w-auto bg-base-100 shadow-xl">
-    <figure class="h-72"><img src="/assets/whitepaper.jpg" class="object-cover" alt="Shoes" /></figure>
-    <div class="card-body">
-      <h2 class="card-title">What is Tome.gg?</h2>
-      <p>Tome.gg is a coaching/mentoring platform for mid- to senior-level software engineers.</p>
-      <p>Want a deep dive to understand what challenges we're up against, what community we're serving, and how we
-        define our problem? Check out our whitepaper.</p>
-      <div class="card-actions justify-end">
-        <a href="https://github.com/tome-gg/whitepaper/blob/main/main.pdf?utm_source=tomegg&utm_medium=banner&utm_campaign=app_reference"
-          class="btn">Read whitepaper</a>
+    <div>
+      <div class="grid grid-flow-col gap-4">
+        <a href="https://twitter.com/thetomegg?utm_source=tomegg&utm_medium=footer&utm_campaign=app_reference"><svg
+            xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" class="fill-current">
+            <path
+              d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z">
+            </path>
+          </svg></a>
+        <a
+          href="https://www.youtube.com/@thegamingclassroom?utm_source=tomegg&utm_medium=footer&utm_campaign=app_reference"><svg
+            xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" class="fill-current">
+            <path
+              d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z">
+            </path>
+          </svg></a>
       </div>
     </div>
-  </div>
-  <div class="card w-auto bg-base-100 shadow-xl">
-    <figure class="h-72"><img src="/assets/graphing-paper.jpg" class="object-cover" alt="Shoes" /></figure>
-    <div class="card-body">
-      <h2 class="card-title">Why did you build an alignment negotiation tool?</h2>
-      <p>
-        There are 3 major challenges in pursuing the Tome.gg vision of
-        hyper-contextualized accessible learning for all:
-        (1) accessibility to education, (2) personalization, and (3) negotiation.
-      </p>
-      <p>Read about our Tome.gg ecosystem below.</p>
-      <p>We built this tool because alignment between apprentices and mentors is how we get closer to the
-        dream of sustainable, hyper-personalized learning.
-      </p>
-      <div class="card-actions justify-end">
-        <a href="https://github.com/tome-gg/whitepaper/blob/main/ecosystem.pdf?utm_source=tomegg&utm_medium=banner&utm_campaign=app_reference"
-          class="btn">View the Tome.gg ecosystem</a>
-      </div>
-    </div>
-  </div>
-  <div class="card w-auto bg-base-100 shadow-xl">
-    <figure><img src="/assets/mentoring.jpg" class="object-cover" alt="Shoes" /></figure>
-    <div class="card-body">
-      <h2 class="card-title">How do I get a mentor?</h2>
-      <p>Mentorship is a very engaged and personal process, and it takes time to discover what mentorship parameters
-        work for you.
-        Tome.gg has variety of mentors in its mentor pool.</p>
-      <p>
-        Interested to learn how to become a mentor? Tome.gg also trains mentors and
-        coaches in the Tome.gg mentor community.
-      </p>
-      <div class="card-actions justify-end">
-        <a href='http://bit.ly/3ynKg0m' class="btn">Meet mentors on Discord</a>
-      </div>
-    </div>
-  </div>
-  <div class="card w-auto bg-base-100 shadow-xl">
-    <figure><img src="/assets/negotiation.jpg" class="object-cover" alt="Shoes" /></figure>
-    <div class="card-body">
-      <h2 class="card-title">How do I negotiate mentorship terms?</h2>
-      <p>It can be difficult and overwhelming to figure out what your options are when negotiating different terms with
-        your mentor.
-      </p>
-      <p>
-        Tome.gg built negotiation protocols using Solana smart contracts, to enable you and your mentor to quickly
-        iterate your negotiations, explore what can be a mutually beneficial arrangement, or help you both discern
-        whether
-        to disengage.</p>
-      <div class="card-actions justify-end">
-        <a href="/alignment" class="btn btn-primary">View Demo</a>
-      </div>
-    </div>
-  </div>
-  <div class="card w-auto bg-base-100 shadow-xl">
-    <figure><img src="/assets/growth.jpg" class="object-cover" alt="Shoes" /></figure>
-    <div class="card-body">
-      <h2 class="card-title">What does a Tome.gg Growth Journal look like?</h2>
-      <p>
-        Your growth journal content and metacontent is stored in YAML format in a public GitHub
-        repository owned by you, where you have full authority to grant and revoke
-        read/write access to past, present, and future mentors that you will engage with.
-        This growth journal is what the smart contract interacts with automatically
-        to evaluate your performance.
-      </p>
-      <p>Check out our growth journal's generated public template to see how Tome.gg mentors are in involved in guiding
-        you in your direction setting and growth- personalized specifically for you.</p>
-      <div class="card-actions justify-end">
-        <a href='/assets/growth-report.pdf' class="btn">See growth journal</a>
-      </div>
-    </div>
-  </div>
-  <div class="card w-auto bg-base-100 shadow-xl">
-    <figure><img src="/assets/designs.jpg" class="object-cover" alt="Shoes" /></figure>
-    <div class="card-body">
-      <h2 class="card-title">This looks super cool! What else can I check out?</h2>
-      <p>I'm super glad you like it! General ideas and planning is on the whitepaper, but if you're curious
-        from a user perspective, you can check out some initial designs I have on Figma, or read mental models
-        I've written for software engineers on my blog.
-      </p>
-      <div class="card-actions justify-end">
-        <a href="https://www.figma.com/file/WtPKLAvprLde5ZyFOxgWqu/Tome.gg?node-id=0%3A1&t=6HVPCFAxaDP1V7UV-1"
-          class="btn">View Figma</a>
-        <a href="https://sapalo.dev/2020/08/26/prioritization?utm_source=tomegg&utm_medium=front_page&utm_campaign=app_reference"
-          class="btn hidden sm:flex">
-          Priorities of a software engineer
-        </a>
-        <a href="https://sapalo.dev/2020/08/26/prioritization?utm_source=tomegg&utm_medium=front_page&utm_campaign=app_reference"
-          class="btn flex sm:hidden">
-          Priorities
-        </a>
-        <a href="https://sapalo.dev/2020/01/28/the-mountain?utm_source=tomegg&utm_medium=front_page&utm_campaign=app_reference"
-          class="btn">Growing sustainably</a>
-      </div>
-    </div>
-  </div>
-  <div class="card w-auto bg-base-100 shadow-xl max-h-fit ">
-    <figure class=""><img src="/assets/tgc-gaming.jpg" class="object-cover" alt="Shoes" /></figure>
-    <div class="card-body flex flex-col justify-start">
-      <h2 class="card-title">What does transfer learning mean?</h2>
-      <p class="">
-        In Tome.gg, we leverage transfer learning to teach our students rapidly. It leverages a shared schema, model,
-        or
-        understanding to communicate quickly and efficiently. Simply put, it is what we do when we make analogies.
-      </p>
-      <p class="">
-        Tome.gg has some learning content transferred from games to software development. You can check that out!</p>
-      <div class="card-actions">
-        <a href="https://dota2.tome.gg?utm_source=tomegg&utm_medium=banner&utm_campaign=app_reference" class="btn">Dota
-          2 by Tome.gg</a>
-        <a href="https://www.youtube.com/@thegamingclassroom?utm_source=tomegg&utm_medium=footer&utm_campaign=app_reference"
-          class="btn">@TheGamingClassroom</a>
-      </div>
-    </div>
-  </div>
-  <div class="card bg-base-100 shadow-xl w-full mx-auto p-4 md:col-span-2">
-    <a class="twitter-timeline" data-chrome="transparent noborders" data-tweet-limit="2"
-      href="https://twitter.com/thetomegg">
-      Tweets by @thetomegg
-    </a>
-  </div>
+  </footer>
 </div>

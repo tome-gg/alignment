@@ -14,6 +14,8 @@ import { SummaryCardComponent } from './alignment/summary-card/summary-card.comp
 import { MentoringObjectiveCardComponent } from './alignment/mentoring-objective-card/mentoring-objective-card.component';
 import { StateSelectorComponent } from './state-selector/state-selector.component';
 import { NgxGoogleAnalyticsModule, NgxGoogleAnalyticsRouterModule } from 'ngx-google-analytics';
+import { RepositoryComponent } from './repository/repository.component';
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +29,9 @@ import { NgxGoogleAnalyticsModule, NgxGoogleAnalyticsRouterModule } from 'ngx-go
     StakesSelectorComponent,
     SummaryCardComponent,
     MentoringObjectiveCardComponent,
-    StateSelectorComponent
+    StateSelectorComponent,
+    RepositoryComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,

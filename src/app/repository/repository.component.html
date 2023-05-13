@@ -1,0 +1,61 @@
+<div class="repository-container h-screen">
+  <div class="growth-container w-lg h-2/6 mx-auto bg-stone-700 p-4">
+
+    <div class="plant-container mx-auto flex flex-row justify-center">
+      <div class="plot">
+        <img class="h-24 opacity-50" [src]="imageSourceNext" />
+        <p class="my-4 italic text-sm text-center text-stone-400 text-white"> {{nextDateTime }}</p>
+      </div>
+      <div class="plot">
+        <img class="h-24" [src]="imageSource" />
+        <p class="my-4 italic text-sm text-center text-white"> {{currentDateTime }}</p>
+      </div>
+      <div class="plot">
+        <img class="h-24 opacity-50" [src]="imageSourcePrev" />
+        <p class="my-4 italic text-sm text-center text-stone-400 text-white"> {{prevDateTime }}</p>
+      </div>
+    </div>
+    <h1 class="text-white text-bold">Goal: {{ goals?.title || '' }}</h1>
+    <h1 class="text-white text-bold">Evaluator: {{ evaluator?.name || '' }}</h1>
+    <p class="my-1 italic text-xs text-white">
+      {{ goals?.description || '' }}
+    </p>
+    <p class="text-xs text-stone-400 italic">Powered by <a class="link cursor" href="https://tome.gg">Tome.gg</a>.
+      <ng-container *ngIf="repository !== null">
+        Generated from
+        <a class="link cursor" [href]="'https://' + repository">{{ repository }}</a>. Want to build your own? <a
+          class="link cursor" href="https://waitlist.tome.gg">
+          Join the waitlist
+        </a>.
+      </ng-container>
+    </p>
+  </div>
+
+  <div class="data-container h-4/6 pt-4 overflow-auto bg-stone-200">
+    <ol class="relative max-w-lg w-lg mx-auto">
+      <li class="mb-6 data-entry" *ngFor="let entry of trainingData; index as i">
+        <div
+          class="repo-content p-4 bg-white border border-stone-600 rounded-lg shadow-sm dark:bg-stone-600 dark:border-stone-600">
+          <div class="items-center justify-between mb-3 sm:flex">
+            <time class="mb-1 text-xs font-normal text-gray-400 sm:order-last sm:mb-0">{{entry.datetimeReadable}}</time>
+            <div class="text-sm font-normal text-gray-500 lex dark:text-gray-300">{{ studentName }} wrote on their <a
+                [href]="sourceURL" class="font-semibold text-gray-900 dark:text-white hover:underline">DSU report </a>
+
+            </div>
+          </div>
+          <span class="text-sm italic font-normal text-gray-300">Done yesterday</span>
+          <div
+            class="p-3 my-3 text-xs italic font-normal text-stone-500 border border-stone-200 rounded-lg bg-stone-50 dark:bg-stone-600 dark:border-stone-500 dark:text-stone-300"
+            [innerHTML]="entry.done_yesterday">
+          </div>
+          <span class="text-sm italic font-normal text-stone-300">Doing today</span>
+          <div
+            class="p-3 my-3 text-xs italic font-normal text-stone-500 border border-stone-200 rounded-lg bg-stone-50 dark:bg-stone-600 dark:border-stone-500 dark:text-stone-300"
+            [innerHTML]="entry.doing_today">
+          </div>
+        </div>
+
+      </li>
+    </ol>
+  </div>
+</div>
