@@ -1,0 +1,10 @@
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-mentorship',
+  templateUrl: './mentorship.component.html',
+  styleUrls: ['./mentorship.component.sass']
+})
+export class MentorshipComponent {
+
+}

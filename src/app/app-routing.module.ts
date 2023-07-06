@@ -1,10 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AlignmentComponent } from './alignment/alignment.component';
-import { ChangeSummaryComponent } from './change-summary/change-summary.component';
 import { OverviewComponent } from './overview/overview.component';
-import { RepositoryComponent } from './repository/repository.component';
-import { HomeComponent } from './home/home.component';
 
 const routes: Routes = [
   {
@@ -13,22 +9,25 @@ const routes: Routes = [
     children: [
       {
         path: "",
-        component: HomeComponent,
+        loadChildren: () => import('./home/home.module').then(m => m.HomeModule)
       },
       {
         path: "alignment",
-        component: AlignmentComponent
+        loadChildren: () => import('./alignment/alignment.module').then(m => m.AlignmentModule)
       },
       {
         path: "changes",
-        component: ChangeSummaryComponent
+        loadChildren: () => import('./change-summary/change-summary.module').then(m => m.ChangeSummaryModule)
       },
-      
+      {
+        path: "services",
+        loadChildren: () => import('./services/services.module').then(m => m.ServicesModule)
+      },   
     ]
   },
   {
     path: "repo",
-    component: RepositoryComponent
+    loadChildren: () => import('./repository/repository.module').then(m => m.RepositoryModule)
   },
 ];
 

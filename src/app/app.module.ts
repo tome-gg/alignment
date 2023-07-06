@@ -16,22 +16,15 @@ import { StateSelectorComponent } from './state-selector/state-selector.componen
 import { NgxGoogleAnalyticsModule, NgxGoogleAnalyticsRouterModule } from 'ngx-google-analytics';
 import { RepositoryComponent } from './repository/repository.component';
 import { HomeComponent } from './home/home.component';
+import { ServicesComponent } from './services/services.component';
+import { MentorshipComponent } from './mentorship/mentorship.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    AlignmentComponent,
     TrainingComponent,
     OverviewComponent,
-    ChangeSummaryComponent,
-    TermAndProtocolSelectorComponent,
-    ParametersSelectorComponent,
-    StakesSelectorComponent,
-    SummaryCardComponent,
-    MentoringObjectiveCardComponent,
-    StateSelectorComponent,
-    RepositoryComponent,
-    HomeComponent
+    
   ],
   imports: [
     BrowserModule,
