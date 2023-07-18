@@ -26,6 +26,10 @@ const routes: Routes = [
     ]
   },
   {
+    path: "canvas",
+    loadChildren: () => import('./canvas/canvas.module').then(m => m.CanvasModule)
+  },
+  {
     path: "repo",
     loadChildren: () => import('./repository/repository.module').then(m => m.RepositoryModule)
   },
