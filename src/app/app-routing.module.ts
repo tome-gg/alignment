@@ -27,6 +27,49 @@ const routes: Routes = [
         path: "resources",
         loadChildren: () => import('./resources/resources.module').then(m => m.ResourcesModule)
       }, 
+      {
+        path: "pricing",
+        loadChildren: () => import('./docs/pricing/pricing.module').then(m => m.PricingModule)
+      }, 
+      {
+        path: "docs/about",
+        loadChildren: () => import('./docs/company/company.module').then(m => m.CompanyModule)
+      }, 
+      {
+        path: "services/1-on-1-coaching",
+        loadChildren: () => import('./maintenance/maintenance.module').then(m => m.PageMaintenanceModule)
+      }, 
+      {
+        path: "services/group-coaching",
+        loadChildren: () => import('./maintenance/maintenance.module').then(m => m.PageMaintenanceModule)
+      }, 
+      {
+        path: "services/rapid-coaching",
+        loadChildren: () => import('./maintenance/maintenance.module').then(m => m.PageMaintenanceModule)
+      }, 
+      {
+        path: "services/interactive-case-studies",
+        loadChildren: () => import('./maintenance/maintenance.module').then(m => m.PageMaintenanceModule)
+      }, 
+      {
+        path: "services/directions-discovery",
+        loadChildren: () => import('./maintenance/maintenance.module').then(m => m.PageMaintenanceModule)
+      }, 
+      {
+        path: "docs/about",
+        loadChildren: () => import('./docs/company/company.module').then(m => m.CompanyModule)
+      }, 
+      {
+        path: "docs/why-choose-us",
+        loadChildren: () => import('./maintenance/maintenance.module').then(m => m.PageMaintenanceModule)
+      }, 
+      {
+        path: "docs/learning-outcomes",
+        loadChildren: () => import('./maintenance/maintenance.module').then(m => m.PageMaintenanceModule)
+      }, 
+      {
+        path: "**", pathMatch: "full", loadChildren: () => import('./404/missing404.module').then(m => m.Missing404Module)
+      }
     ]
   },
   {
@@ -37,6 +80,7 @@ const routes: Routes = [
     path: "repo",
     loadChildren: () => import('./repository/repository.module').then(m => m.RepositoryModule)
   },
+  
 ];
 
 @NgModule({
