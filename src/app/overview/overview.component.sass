@@ -14,3 +14,8 @@
   flex-direction: column
   height: 100%
   min-height: 100vh
+
+.menu :where(li:not(.menu-title):not(:empty)) > :where(*:not(ul):focus), .menu :where(li:not(.menu-title):not(:empty)) > :where(*:not(ul):hover)
+  background-color: white
+  --tw-bg-opacity: 0.1
+  text-decoration: underline

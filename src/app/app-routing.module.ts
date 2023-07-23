@@ -22,7 +22,11 @@ const routes: Routes = [
       {
         path: "services",
         loadChildren: () => import('./services/services.module').then(m => m.ServicesModule)
-      },   
+      },  
+      {
+        path: "resources",
+        loadChildren: () => import('./resources/resources.module').then(m => m.ResourcesModule)
+      }, 
     ]
   },
   {

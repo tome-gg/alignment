@@ -6,6 +6,9 @@ import { Component } from '@angular/core';
   styleUrls: ['./overview.component.sass']
 })
 export class OverviewComponent {
+
+  isOpen: boolean = false;
+
   ngAfterViewInit(): void {
       (<any>window).twttr.widgets.load();
   }
