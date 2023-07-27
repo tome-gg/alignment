@@ -9,91 +9,108 @@ const routes: Routes = [
     children: [
       {
         path: "",
-        loadChildren: () => import('./home/home.module').then(m => m.HomeModule)
+        loadChildren: () => import('./home/home.module').then(m => m.HomeModule),
+        title: 'Craft your Tome of Knowledge - Tome.gg'
       },
       {
         path: "alignment",
-        loadChildren: () => import('./alignment/alignment.module').then(m => m.AlignmentModule)
+        loadChildren: () => import('./alignment/alignment.module').then(m => m.AlignmentModule),
+        title: 'Alignment Negotiation - Tome.gg'
       },
       {
         path: "changes",
-        loadChildren: () => import('./change-summary/change-summary.module').then(m => m.ChangeSummaryModule)
+        loadChildren: () => import('./change-summary/change-summary.module').then(m => m.ChangeSummaryModule),
+        title: 'Changes - Alignment Negotiation - Tome.gg'
       },
       {
         path: "services",
-        loadChildren: () => import('./services/services.module').then(m => m.ServicesModule)
+        loadChildren: () => import('./services/services.module').then(m => m.ServicesModule),
+        title: 'Services - Tome.gg'
       },  
       {
         path: "resources",
-        loadChildren: () => import('./resources/resources.module').then(m => m.ResourcesModule)
+        loadChildren: () => import('./resources/resources.module').then(m => m.ResourcesModule),
+        title: 'Resources - Tome.gg'
       }, 
       {
         path: "pricing",
-        loadChildren: () => import('./docs/pricing/pricing.module').then(m => m.PricingModule)
-      },
-      {
-        path: "docs/about",
-        loadChildren: () => import('./docs/company/company.module').then(m => m.CompanyModule)
-      }, 
-      {
-        path: "docs/refund-policy",
-        loadChildren: () => import('./maintenance/maintenance.module').then(m => m.PageMaintenanceModule)
+        loadChildren: () => import('./docs/pricing/pricing.module').then(m => m.PricingModule),
+        title: 'Pricing - Tome.gg'
       },
       {
         path: "services/1-on-1-coaching",
-        loadChildren: () => import('./maintenance/maintenance.module').then(m => m.PageMaintenanceModule)
+        loadChildren: () => import('./maintenance/maintenance.module').then(m => m.PageMaintenanceModule),
+        title: 'Services: 1-on-1 coaching - Tome.gg'
       }, 
       {
         path: "services/group-coaching",
-        loadChildren: () => import('./maintenance/maintenance.module').then(m => m.PageMaintenanceModule)
+        loadChildren: () => import('./maintenance/maintenance.module').then(m => m.PageMaintenanceModule),
+        title: 'Services: Group coaching - Tome.gg'
       }, 
       {
         path: "services/rapid-coaching",
-        loadChildren: () => import('./maintenance/maintenance.module').then(m => m.PageMaintenanceModule)
+        loadChildren: () => import('./maintenance/maintenance.module').then(m => m.PageMaintenanceModule),
+        title: 'Services: Rapid coaching - Tome.gg'
       }, 
       {
         path: "services/interactive-case-studies",
-        loadChildren: () => import('./maintenance/maintenance.module').then(m => m.PageMaintenanceModule)
+        loadChildren: () => import('./maintenance/maintenance.module').then(m => m.PageMaintenanceModule),
+        title: 'Services: Interactive Case Studies - Tome.gg'
       }, 
       {
         path: "services/directions-discovery",
-        loadChildren: () => import('./maintenance/maintenance.module').then(m => m.PageMaintenanceModule)
+        loadChildren: () => import('./maintenance/maintenance.module').then(m => m.PageMaintenanceModule),
+        title: 'Services: Directions and Discovery - Tome.gg'
       }, 
       {
         path: "brand",
-        loadChildren: () => import('./maintenance/maintenance.module').then(m => m.PageMaintenanceModule)
+        loadChildren: () => import('./maintenance/maintenance.module').then(m => m.PageMaintenanceModule),
+        title: 'Branding Guidelines - Tome.gg'
       }, 
       {
         path: "careers",
-        loadChildren: () => import('./maintenance/maintenance.module').then(m => m.PageMaintenanceModule)
+        loadChildren: () => import('./maintenance/maintenance.module').then(m => m.PageMaintenanceModule),
+        title: 'Careers - Tome.gg'
       }, 
       {
         path: "contact-us",
-        loadChildren: () => import('./maintenance/maintenance.module').then(m => m.PageMaintenanceModule)
+        loadChildren: () => import('./maintenance/maintenance.module').then(m => m.PageMaintenanceModule),
+        title: 'Contact Us - Tome.gg'
       }, 
       {
         path: "privacy-policy",
-        loadChildren: () => import('./maintenance/maintenance.module').then(m => m.PageMaintenanceModule)
+        loadChildren: () => import('./maintenance/maintenance.module').then(m => m.PageMaintenanceModule),
+        title: 'Privacy Policy - Tome.gg'
       }, 
       {
         path: "licensing",
-        loadChildren: () => import('./maintenance/maintenance.module').then(m => m.PageMaintenanceModule)
+        loadChildren: () => import('./maintenance/maintenance.module').then(m => m.PageMaintenanceModule),
+        title: 'Licensing - Tome.gg'
       }, 
       {
         path: "terms-and-conditions",
-        loadChildren: () => import('./maintenance/maintenance.module').then(m => m.PageMaintenanceModule)
+        loadChildren: () => import('./maintenance/maintenance.module').then(m => m.PageMaintenanceModule),
+        title: 'Terms and Conditions - Tome.gg'
       }, 
       {
+        path: "docs/refund-policy",
+        loadChildren: () => import('./maintenance/maintenance.module').then(m => m.PageMaintenanceModule),
+        title: 'Refund Policy - Tome.gg'
+      },
+      {
         path: "docs/about",
-        loadChildren: () => import('./docs/company/company.module').then(m => m.CompanyModule)
+        loadChildren: () => import('./docs/company/company.module').then(m => m.CompanyModule),
+        title: 'About Us - Tome.gg'
       }, 
       {
         path: "docs/why-choose-us",
-        loadChildren: () => import('./maintenance/maintenance.module').then(m => m.PageMaintenanceModule)
+        loadChildren: () => import('./maintenance/maintenance.module').then(m => m.PageMaintenanceModule),
+        title: 'Why Choose Us - Tome.gg'
       }, 
       {
         path: "docs/learning-outcomes",
-        loadChildren: () => import('./maintenance/maintenance.module').then(m => m.PageMaintenanceModule)
+        loadChildren: () => import('./maintenance/maintenance.module').then(m => m.PageMaintenanceModule),
+        title: 'Learning Outcomes - Tome.gg'
       }, 
       {
         path: "**", pathMatch: "full", loadChildren: () => import('./404/missing404.module').then(m => m.Missing404Module)
@@ -102,11 +119,13 @@ const routes: Routes = [
   },
   {
     path: "canvas",
-    loadChildren: () => import('./canvas/canvas.module').then(m => m.CanvasModule)
+    loadChildren: () => import('./canvas/canvas.module').then(m => m.CanvasModule),
+    title: 'Mentorship Canvas - Tome.gg'
   },
   {
     path: "repo",
-    loadChildren: () => import('./repository/repository.module').then(m => m.RepositoryModule)
+    loadChildren: () => import('./repository/repository.module').then(m => m.RepositoryModule),
+    title: 'Growth Journal - Tome.gg'
   },
   
 ];
