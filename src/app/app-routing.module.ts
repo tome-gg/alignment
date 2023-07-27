@@ -36,6 +36,10 @@ const routes: Routes = [
         loadChildren: () => import('./docs/company/company.module').then(m => m.CompanyModule)
       }, 
       {
+        path: "docs/refund-policy",
+        loadChildren: () => import('./maintenance/maintenance.module').then(m => m.PageMaintenanceModule)
+      },
+      {
         path: "services/1-on-1-coaching",
         loadChildren: () => import('./maintenance/maintenance.module').then(m => m.PageMaintenanceModule)
       }, 
