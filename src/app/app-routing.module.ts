@@ -30,7 +30,7 @@ const routes: Routes = [
       {
         path: "pricing",
         loadChildren: () => import('./docs/pricing/pricing.module').then(m => m.PricingModule)
-      }, 
+      },
       {
         path: "docs/about",
         loadChildren: () => import('./docs/company/company.module').then(m => m.CompanyModule)
@@ -53,6 +53,30 @@ const routes: Routes = [
       }, 
       {
         path: "services/directions-discovery",
+        loadChildren: () => import('./maintenance/maintenance.module').then(m => m.PageMaintenanceModule)
+      }, 
+      {
+        path: "brand",
+        loadChildren: () => import('./maintenance/maintenance.module').then(m => m.PageMaintenanceModule)
+      }, 
+      {
+        path: "careers",
+        loadChildren: () => import('./maintenance/maintenance.module').then(m => m.PageMaintenanceModule)
+      }, 
+      {
+        path: "contact-us",
+        loadChildren: () => import('./maintenance/maintenance.module').then(m => m.PageMaintenanceModule)
+      }, 
+      {
+        path: "privacy-policy",
+        loadChildren: () => import('./maintenance/maintenance.module').then(m => m.PageMaintenanceModule)
+      }, 
+      {
+        path: "licensing",
+        loadChildren: () => import('./maintenance/maintenance.module').then(m => m.PageMaintenanceModule)
+      }, 
+      {
+        path: "terms-and-conditions",
         loadChildren: () => import('./maintenance/maintenance.module').then(m => m.PageMaintenanceModule)
       }, 
       {

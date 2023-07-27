@@ -1,4 +1,5 @@
 <div id="main">
+
   <header class="bg-white">
     <nav class="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8" aria-label="Global">
       <div class="flex lg:flex-1">
@@ -51,7 +52,8 @@
                     </svg>
                   </div>
                   <div class="flex-auto">
-                    <a href="/services/1-on-1-coaching" class="block font-semibold text-gray-900">
+                    <a href="/services/1-on-1-coaching" (click)="selectService('1on1')"
+                      class="block font-semibold text-gray-900">
                       1-on-1 Coaching
                       <span class="absolute inset-0"></span>
                     </a>
@@ -68,7 +70,8 @@
                     </svg>
                   </div>
                   <div class="flex-auto">
-                    <a href="/services/group-coaching" class="block font-semibold text-gray-900">
+                    <a href="/services/group-coaching" (click)="selectService('group')"
+                      class="block font-semibold text-gray-900">
                       Group Coaching
                       <span class="absolute inset-0"></span>
                     </a>
@@ -86,7 +89,8 @@
                     </svg>
                   </div>
                   <div class="flex-auto">
-                    <a href="/services/directions-discovery" class="block font-semibold text-gray-900">
+                    <a href="/services/directions-discovery" (click)="selectService('direction_discovery')"
+                      class="block font-semibold text-gray-900">
                       Direction and Discovery Session
                       <span class="absolute inset-0"></span>
                     </a>
@@ -104,7 +108,8 @@
                     </svg>
                   </div>
                   <div class="flex-auto">
-                    <a href="/services/rapid-coaching" class="block font-semibold text-gray-900">
+                    <a href="/services/rapid-coaching" (click)="selectService('rapid')"
+                      class="block font-semibold text-gray-900">
                       Rapid Coaching
                       <span class="absolute inset-0"></span>
                     </a>
@@ -123,7 +128,8 @@
                     </svg>
                   </div>
                   <div class="flex-auto">
-                    <a href="/services/interactive-case-studies" class="block font-semibold text-gray-900">
+                    <a href="/services/interactive-case-studies" (click)="selectService('interactive_case_studies')"
+                      class="block font-semibold text-gray-900">
                       Enterprise Interactive Case Studies
                       <span class="absolute inset-0"></span>
                     </a>
@@ -152,7 +158,8 @@
         <a href="/docs/about" class="text-sm font-semibold leading-6 text-gray-900">Company</a>
       </div>
       <div class="hidden lg:flex lg:flex-1 lg:justify-end">
-        <a href="#" class="text-sm font-semibold leading-6 text-gray-900">Find a mentor</a>
+        <a href='https://waitlist.tome.gg/' class="text-sm font-semibold leading-6 text-gray-900">Find
+          a mentor</a>
       </div>
     </nav>
     <ng-template [ngIf]="isOpen">
@@ -270,6 +277,32 @@
         &nbsp;
         Find a mentor
 
+      </a>
+    </div>
+  </div>
+  <div *ngIf="serviceSelected"
+    class="my-4 bg-teal-100 border-t-4 border-teal-500 rounded-b text-teal-900 px-4 py-3 shadow-md" role="alert">
+    <div class="flex relative">
+      <div class="py-1"><svg class="fill-current h-6 w-6 text-teal-500 mr-4" xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 20 20">
+          <path
+            d="M2.93 17.07A10 10 0 1 1 17.07 2.93 10 10 0 0 1 2.93 17.07zm12.73-1.41A8 8 0 1 0 4.34 4.34a8 8 0 0 0 11.32 11.32zM9 11V9h2v6H9v-4zm0-6h2v2H9V5z" />
+        </svg></div>
+      <div>
+        <p class="font-bold">Thank you for your interest! ✨ </p>
+        <p class="text-sm">We're currently in the process of detailing this service as of the moment.
+          Please <a class="link" (click)="openTawkChat()">send us a message</a> or reach out to us
+          on <a class="link" href="https://bit.ly/3ynKg0m">Discord</a>!</p>
+      </div>
+      <a (click)="serviceSelected = false">
+        <span class="absolute top-0 bottom-0 right-0 pl-4 py-3">
+          <svg class="fill-current h-6 w-6 text-gray-500" role="button" xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 20 20">
+            <title>Close</title>
+            <path
+              d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z" />
+          </svg>
+        </span>
       </a>
     </div>
   </div>
