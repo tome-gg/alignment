@@ -1,5 +1,245 @@
 <div id="main">
-  <div class="navbar bg-base-100 mb-4 z-0">
+
+  <header class="bg-white">
+    <nav class="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8" aria-label="Global">
+      <div class="flex lg:flex-1">
+        <a href="#" class="-m-1.5 p-1.5 font-bold">
+          <span>Tome.gg</span>
+        </a>
+      </div>
+      <div class="flex lg:hidden">
+        <button type="button" class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700">
+          <span class="sr-only">Open main menu</span>
+          <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+            aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+          </svg>
+        </button>
+      </div>
+      <div class="hidden lg:flex lg:gap-x-12">
+        <div class="relative">
+          <button (mouseenter)="isOpen = true" type="button"
+            class="flex items-center gap-x-1 text-sm font-semibold leading-6 text-gray-900" aria-expanded="false">
+            Services
+            <svg class="h-5 w-5 flex-none text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <path fill-rule="evenodd"
+                d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
+                clip-rule="evenodd" />
+            </svg>
+          </button>
+
+          <!--
+            'Product' flyout menu, show/hide based on flyout menu state.
+  
+            Entering: "transition ease-out duration-200"
+              From: "opacity-0 translate-y-1"
+              To: "opacity-100 translate-y-0"
+            Leaving: "transition ease-in duration-150"
+              From: "opacity-100 translate-y-0"
+              To: "opacity-0 translate-y-1"
+          -->
+          <ng-template [ngIf]="isOpen">
+            <div (mouseleave)="isOpen = false"
+              class="absolute -left-8 top-full z-10 mt-3 w-screen max-w-md overflow-hidden rounded-3xl bg-white shadow-lg ring-1 ring-gray-900/5">
+              <div class="p-4">
+                <div class="group relative flex items-center gap-x-6 rounded-lg p-4 text-sm leading-6 hover:bg-gray-50">
+                  <div
+                    class="flex h-11 w-11 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white">
+                    <svg class="h-6 w-6 text-gray-600 group-hover:text-indigo-600" fill="none" viewBox="0 0 24 24"
+                      stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6a7.5 7.5 0 107.5 7.5h-7.5V6z" />
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 10.5H21A7.5 7.5 0 0013.5 3v7.5z" />
+                    </svg>
+                  </div>
+                  <div class="flex-auto">
+                    <a href="/services/1-on-1-coaching" (click)="selectService('1on1')"
+                      class="block font-semibold text-gray-900">
+                      1-on-1 Coaching
+                      <span class="absolute inset-0"></span>
+                    </a>
+                    <p class="mt-1 text-gray-600">Get extremely personalized and focused guidance and feedback</p>
+                  </div>
+                </div>
+                <div class="group relative flex items-center gap-x-6 rounded-lg p-4 text-sm leading-6 hover:bg-gray-50">
+                  <div
+                    class="flex h-11 w-11 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white">
+                    <svg class="h-6 w-6 text-gray-600 group-hover:text-indigo-600" fill="none" viewBox="0 0 24 24"
+                      stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                      <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M13.5 16.875h3.375m0 0h3.375m-3.375 0V13.5m0 3.375v3.375M6 10.5h2.25a2.25 2.25 0 002.25-2.25V6a2.25 2.25 0 00-2.25-2.25H6A2.25 2.25 0 003.75 6v2.25A2.25 2.25 0 006 10.5zm0 9.75h2.25A2.25 2.25 0 0010.5 18v-2.25a2.25 2.25 0 00-2.25-2.25H6a2.25 2.25 0 00-2.25 2.25V18A2.25 2.25 0 006 20.25zm9.75-9.75H18a2.25 2.25 0 002.25-2.25V6A2.25 2.25 0 0018 3.75h-2.25A2.25 2.25 0 0013.5 6v2.25a2.25 2.25 0 002.25 2.25z" />
+                    </svg>
+                  </div>
+                  <div class="flex-auto">
+                    <a href="/services/group-coaching" (click)="selectService('group')"
+                      class="block font-semibold text-gray-900">
+                      Group Coaching
+                      <span class="absolute inset-0"></span>
+                    </a>
+                    <p class="mt-1 text-gray-600">Set a goal for yourself and 2 other teammates, and accelerate together
+                    </p>
+                  </div>
+                </div>
+                <div class="group relative flex items-center gap-x-6 rounded-lg p-4 text-sm leading-6 hover:bg-gray-50">
+                  <div
+                    class="flex h-11 w-11 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white">
+                    <svg class="h-6 w-6 text-gray-600 group-hover:text-indigo-600" fill="none" viewBox="0 0 24 24"
+                      stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                      <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M15.042 21.672L13.684 16.6m0 0l-2.51 2.225.569-9.47 5.227 7.917-3.286-.672zM12 2.25V4.5m5.834.166l-1.591 1.591M20.25 10.5H18M7.757 14.743l-1.59 1.59M6 10.5H3.75m4.007-4.243l-1.59-1.59" />
+                    </svg>
+                  </div>
+                  <div class="flex-auto">
+                    <a href="/services/directions-discovery" (click)="selectService('direction_discovery')"
+                      class="block font-semibold text-gray-900">
+                      Direction and Discovery Session
+                      <span class="absolute inset-0"></span>
+                    </a>
+                    <p class="mt-1 text-gray-600">For software engineers who are still exploring or deciding what they
+                      want</p>
+                  </div>
+                </div>
+                <div class="group relative flex items-center gap-x-6 rounded-lg p-4 text-sm leading-6 hover:bg-gray-50">
+                  <div
+                    class="flex h-11 w-11 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white">
+                    <svg class="h-6 w-6 text-gray-600 group-hover:text-indigo-600" fill="none" viewBox="0 0 24 24"
+                      stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                      <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
+                    </svg>
+                  </div>
+                  <div class="flex-auto">
+                    <a href="/services/rapid-coaching" (click)="selectService('rapid')"
+                      class="block font-semibold text-gray-900">
+                      Rapid Coaching
+                      <span class="absolute inset-0"></span>
+                    </a>
+                    <p class="mt-1 text-gray-600">More writing and pre-work before laser-focused, 15-minute sessions
+                    </p>
+                  </div>
+                </div>
+
+                <div class="group relative flex items-center gap-x-6 rounded-lg p-4 text-sm leading-6 hover:bg-gray-50">
+                  <div
+                    class="flex h-11 w-11 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white">
+                    <svg class="h-6 w-6 text-gray-600 group-hover:text-indigo-600" fill="none" viewBox="0 0 24 24"
+                      stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                      <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M7.864 4.243A7.5 7.5 0 0119.5 10.5c0 2.92-.556 5.709-1.568 8.268M5.742 6.364A7.465 7.465 0 004.5 10.5a7.464 7.464 0 01-1.15 3.993m1.989 3.559A11.209 11.209 0 008.25 10.5a3.75 3.75 0 117.5 0c0 .527-.021 1.049-.064 1.565M12 10.5a14.94 14.94 0 01-3.6 9.75m6.633-4.596a18.666 18.666 0 01-2.485 5.33" />
+                    </svg>
+                  </div>
+                  <div class="flex-auto">
+                    <a href="/services/interactive-case-studies" (click)="selectService('interactive_case_studies')"
+                      class="block font-semibold text-gray-900">
+                      Enterprise Interactive Case Studies
+                      <span class="absolute inset-0"></span>
+                    </a>
+                    <p class="mt-1 text-gray-600">Spend a weekend with your engineering team roleplaying nightmare
+                      scenarios; Don't spend a year
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="grid grid-cols-2 divide-x divide-gray-900/5 bg-gray-50">
+                <a href="/docs/why-choose-us"
+                  class="flex items-center justify-center gap-x-2.5 p-3 text-sm font-semibold leading-6 text-gray-900 hover:bg-gray-100">
+                  Why choose us
+                </a>
+                <a href="/docs/learning-outcomes"
+                  class="flex items-center justify-center gap-x-2.5 p-3 text-sm font-semibold leading-6 text-gray-900 hover:bg-gray-100">
+                  Learning outcomes
+                </a>
+              </div>
+            </div>
+          </ng-template>
+        </div>
+
+        <a href="/pricing" class="text-sm font-semibold leading-6 text-gray-900">Pricing</a>
+        <a href="/resources" class="text-sm font-semibold leading-6 text-gray-900">Resources</a>
+        <a href="/docs/about" class="text-sm font-semibold leading-6 text-gray-900">Company</a>
+      </div>
+      <div class="hidden lg:flex lg:flex-1 lg:justify-end">
+        <a href='https://waitlist.tome.gg/' class="text-sm font-semibold leading-6 text-gray-900">Find
+          a mentor</a>
+      </div>
+    </nav>
+    <ng-template [ngIf]="isOpen">
+      <!-- Mobile menu, show/hide based on menu open state. -->
+      <div class="lg:hidden" role="dialog" aria-modal="true">
+        <!-- Background backdrop, show/hide based on slide-over state. -->
+        <div class="fixed inset-0 z-10"></div>
+        <div
+          class="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
+          <div class="flex items-center justify-between">
+            <a href="#" class="-m-1.5 p-1.5">
+              <span>Tome.gg</span>
+            </a>
+            <button type="button" class="-m-2.5 rounded-md p-2.5 text-gray-700">
+              <span class="sr-only">Close menu</span>
+              <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+          <div class="mt-6 flow-root">
+            <div class="-my-6 divide-y divide-gray-500/10">
+              <div class="space-y-2 py-6">
+                <div class="-mx-3">
+                  <button type="button"
+                    class="flex w-full items-center justify-between rounded-lg py-2 pl-3 pr-3.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                    aria-controls="disclosure-1" aria-expanded="false">
+                    Services
+                    <!--
+                    Expand/collapse icon, toggle classes based on menu open state.
+  
+                    Open: "rotate-180", Closed: ""
+                  -->
+                    <svg class="h-5 w-5 flex-none" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                      <path fill-rule="evenodd"
+                        d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
+                        clip-rule="evenodd" />
+                    </svg>
+                  </button>
+                  <!-- 'Product' sub-menu, show/hide based on menu state. -->
+                  <div class="mt-2 space-y-2" id="disclosure-1">
+                    <a href="#"
+                      class="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50">Analytics</a>
+                    <a href="#"
+                      class="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50">Engagement</a>
+                    <a href="#"
+                      class="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50">Security</a>
+                    <a href="#"
+                      class="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50">Integrations</a>
+                    <a href="#"
+                      class="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50">Automations</a>
+                    <a href="#"
+                      class="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50">Watch
+                      demo</a>
+                    <a href="#"
+                      class="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50">Contact
+                      sales</a>
+                  </div>
+                </div>
+                <a href="#"
+                  class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Features</a>
+                <a href="#"
+                  class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Marketplace</a>
+                <a href="#"
+                  class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Company</a>
+              </div>
+              <div class="py-6">
+                <a href="#"
+                  class="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Log
+                  in</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </header>
+
+  <div class="navbar bg-base-100 mb-4 z-0 hidden">
     <div class="navbar-start">
       <div class="dropdown">
         <label tabindex="0" class="btn btn-ghost lg:hidden">
@@ -8,9 +248,11 @@
           </svg>
         </label>
         <ul tabindex="0" class="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52">
-          <li><a
-              href="https://docs.tome.gg/onboarding?utm_source=tomegg&utm_medium=resources&utm_campaign=app_reference"
-              class="">Use the Tome.gg Framework</a>
+          <li><a href="/services" class="">Services</a>
+          </li>
+          <li><a href="/pricing" class="">Pricing</a>
+          </li>
+          <li><a href="/resources" class="">Resources</a>
           </li>
         </ul>
       </div>
@@ -18,66 +260,162 @@
     </div>
     <div class="navbar-center hidden lg:flex">
       <ul class="menu menu-horizontal px-1">
-        <li>
-          <a href="https://docs.tome.gg/onboarding?utm_source=tomegg&utm_medium=resources&utm_campaign=app_reference"
-            class="">Use the Tome.gg Framework</a>
+        <li><a href="/services" class="">Services</a>
+        </li>
+        <li><a href="/pricing" class="">Pricing</a>
+        </li>
+        <li><a href="/resources" class="">Resources</a>
         </li>
       </ul>
     </div>
     <div class="navbar-end">
-      <a href='https://waitlist.tome.gg/' class="btn btn-primary btn-sm md:btn-md">Find a mentor</a>
+      <a href='https://waitlist.tome.gg/' class="btn btn-outline btn-sm">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+        </svg>
+        &nbsp;
+        Find a mentor
+
+      </a>
+    </div>
+  </div>
+  <div *ngIf="serviceSelected"
+    class="my-4 bg-teal-100 border-t-4 border-teal-500 rounded-b text-teal-900 px-4 py-3 shadow-md" role="alert">
+    <div class="flex relative">
+      <div class="py-1"><svg class="fill-current h-6 w-6 text-teal-500 mr-4" xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 20 20">
+          <path
+            d="M2.93 17.07A10 10 0 1 1 17.07 2.93 10 10 0 0 1 2.93 17.07zm12.73-1.41A8 8 0 1 0 4.34 4.34a8 8 0 0 0 11.32 11.32zM9 11V9h2v6H9v-4zm0-6h2v2H9V5z" />
+        </svg></div>
+      <div>
+        <p class="font-bold">Thank you for your interest! ✨ </p>
+        <p class="text-sm">We're currently in the process of detailing this service as of the moment.
+          Please <a class="link" (click)="openTawkChat()">send us a message</a> or reach out to us
+          on <a class="link" href="https://bit.ly/3ynKg0m">Discord</a>!</p>
+      </div>
+      <a (click)="serviceSelected = false">
+        <span class="absolute top-0 bottom-0 right-0 pl-4 py-3">
+          <svg class="fill-current h-6 w-6 text-gray-500" role="button" xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 20 20">
+            <title>Close</title>
+            <path
+              d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z" />
+          </svg>
+        </span>
+      </a>
     </div>
   </div>
   <router-outlet></router-outlet>
-  <footer class="footer footer-center p-10">
-    <div class="bg-slate-700 text-white	p-4 rounded">
-      <p>
-        <br />
-        <span class="italic text-lg">"Reading makes a full man, writing an exact man, and discourse a ready
-          man."<BR />- Sir Francis Bacon<br /></span>
-        <span class="italic text-sm text-gray-300">
-          <a href="https://en.wikipedia.org/wiki/Francis_Bacon" class="link">The father of empiricism
-            and one of the founders of the scientific method</a>
+
+  <footer class="mt-8 px-4 py-6 bg-white">
+    <div class="mx-auto w-full max-w-screen-xl">
+      <div class="grid grid-cols-2 gap-8 px-4 py-6 lg:py-8 md:grid-cols-4">
+        <div>
+          <h2 class="mb-6 text-sm font-semibold uppercase">Company</h2>
+          <ul class="text-gray-500 dark:text-gray-400 font-medium">
+            <li class="mb-4">
+              <a href="/docs/about" class=" hover:underline">About</a>
+            </li>
+            <li class="mb-4">
+              <a
+                href="https://github.com/tome-gg/whitepaper/blob/main/main.pdf?utm_source=tomegg&utm_medium=banner&utm_campaign=app_invite">Whitepaper</a>
+            </li>
+            <li class="mb-4">
+              <a href="/careers" class="hover:underline">Careers</a>
+            </li>
+            <li class="mb-4">
+              <a href="/brand" class="hover:underline">Brand Center</a>
+            </li>
+            <!-- <li class="mb-4">
+              <a href="#" class="hover:underline">Blog</a>
+            </li> -->
+          </ul>
+        </div>
+        <div>
+          <h2 class="mb-6 text-sm font-semibold uppercase">Help center</h2>
+          <ul class="text-gray-500 dark:text-gray-400 font-medium">
+            <li class="mb-4">
+              <a href="/docs/refund-policy" class="hover:underline">Refund Policy / Quality Guarantee</a>
+            </li>
+            <li class="mb-4">
+              <a href="https://bit.ly/3ynKg0m" class="hover:underline">Discord Community</a>
+            </li>
+            <li class="mb-4">
+              <a href="https://twitter.com/thetomegg" class="hover:underline">Twitter</a>
+            </li>
+            <li class="mb-4">
+              <a href="/contact-us" class="hover:underline">Contact Us</a>
+            </li>
+          </ul>
+        </div>
+        <div>
+          <h2 class="mb-6 text-sm font-semibold uppercase">Legal</h2>
+          <ul class="text-gray-500 dark:text-gray-400 font-medium">
+            <li class="mb-4">
+              <a href="/privacy-policy" class="hover:underline">Privacy Policy</a>
+            </li>
+            <li class="mb-4">
+              <a href="/licensing" class="hover:underline">Licensing</a>
+            </li>
+            <li class="mb-4">
+              <a href="/terms-and-conditions" class="hover:underline">Terms &amp; Conditions</a>
+            </li>
+          </ul>
+        </div>
+        <div>
+          <h2 class="mb-6 text-sm font-semibold uppercase">Resources</h2>
+          <ul class="text-gray-500 dark:text-gray-400 font-medium">
+            <li class="mb-4">
+              <a href="https://docs.tome.gg" class="hover:underline">Library</a>
+            </li>
+            <li class="mb-4">
+              <a href="https://protocol.tome.gg" class="hover:underline">Protocols</a>
+            </li>
+            <li class="mb-4">
+              <a href="https://map.tome.gg" class="hover:underline">Adaptive Map</a>
+            </li>
+            <li class="mb-4">
+              <a href="https://github.com/tome-gg/AwesomeMentorsApprentices" class="hover:underline">Awesome
+                Mentors and Apprentices</a>
+            </li>
+
+          </ul>
+        </div>
+      </div>
+      <div class="px-4 py-6 bg-white md:flex md:items-center md:justify-between">
+        <span class="text-sm text-gray-400 italic sm:text-center">© 2023 <a href="https://tome.gg/">Tome.gg</a>. All
+          Rights
+          Reserved.
         </span>
-      </p>
-      <div class="my-1"></div>
-      <p><a class="link" href="https://docs.tome.gg/extras/contributing-guidelines">Volunteer at Tome.gg</a></p>
-      <div class="my-1"></div>
-      <p class="text-xs italic text-gray-400">Copyright Tome.gg © 2023 - All right reserved.</p>
-      <div class="grid grid-flow-col gap-4 mt-3">
-        <a href="https://twitter.com/thetomegg?utm_source=tomegg&utm_medium=footer&utm_campaign=app_reference"><svg
-            xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" class="fill-current">
-            <path
-              d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z">
-            </path>
-          </svg></a>
-        <a
-          href="https://www.youtube.com/@thegamingclassroom?utm_source=tomegg&utm_medium=footer&utm_campaign=app_reference"><svg
-            xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" class="fill-current">
-            <path
-              d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z">
-            </path>
-          </svg></a>
-        <a href="https://www.linkedin.com/in/darrensapalo/">
-          <svg fill="#ffffff" height="24px" width="24px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
-            xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 310 310" xml:space="preserve" stroke="#ffffff">
-            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-            <g id="SVGRepo_iconCarrier">
-              <g id="XMLID_801_">
-                <path id="XMLID_802_"
-                  d="M72.16,99.73H9.927c-2.762,0-5,2.239-5,5v199.928c0,2.762,2.238,5,5,5H72.16c2.762,0,5-2.238,5-5V104.73 C77.16,101.969,74.922,99.73,72.16,99.73z">
-                </path>
-                <path id="XMLID_803_"
-                  d="M41.066,0.341C18.422,0.341,0,18.743,0,41.362C0,63.991,18.422,82.4,41.066,82.4 c22.626,0,41.033-18.41,41.033-41.038C82.1,18.743,63.692,0.341,41.066,0.341z">
-                </path>
-                <path id="XMLID_804_"
-                  d="M230.454,94.761c-24.995,0-43.472,10.745-54.679,22.954V104.73c0-2.761-2.238-5-5-5h-59.599 c-2.762,0-5,2.239-5,5v199.928c0,2.762,2.238,5,5,5h62.097c2.762,0,5-2.238,5-5v-98.918c0-33.333,9.054-46.319,32.29-46.319 c25.306,0,27.317,20.818,27.317,48.034v97.204c0,2.762,2.238,5,5,5H305c2.762,0,5-2.238,5-5V194.995 C310,145.43,300.549,94.761,230.454,94.761z">
-                </path>
-              </g>
-            </g>
-          </svg>
-        </a>
+        <div class="flex mt-4 space-x-5 sm:justify-center md:mt-0">
+          <a href="https://bit.ly/3ynKg0m" class="text-gray-400 hover:text-gray-900 dark:hover:text-white">
+            <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+              viewBox="0 0 21 16">
+              <path
+                d="M16.942 1.556a16.3 16.3 0 0 0-4.126-1.3 12.04 12.04 0 0 0-.529 1.1 15.175 15.175 0 0 0-4.573 0 11.585 11.585 0 0 0-.535-1.1 16.274 16.274 0 0 0-4.129 1.3A17.392 17.392 0 0 0 .182 13.218a15.785 15.785 0 0 0 4.963 2.521c.41-.564.773-1.16 1.084-1.785a10.63 10.63 0 0 1-1.706-.83c.143-.106.283-.217.418-.33a11.664 11.664 0 0 0 10.118 0c.137.113.277.224.418.33-.544.328-1.116.606-1.71.832a12.52 12.52 0 0 0 1.084 1.785 16.46 16.46 0 0 0 5.064-2.595 17.286 17.286 0 0 0-2.973-11.59ZM6.678 10.813a1.941 1.941 0 0 1-1.8-2.045 1.93 1.93 0 0 1 1.8-2.047 1.919 1.919 0 0 1 1.8 2.047 1.93 1.93 0 0 1-1.8 2.045Zm6.644 0a1.94 1.94 0 0 1-1.8-2.045 1.93 1.93 0 0 1 1.8-2.047 1.918 1.918 0 0 1 1.8 2.047 1.93 1.93 0 0 1-1.8 2.045Z" />
+            </svg>
+            <span class="sr-only">Discord community</span>
+          </a>
+          <a href="https://twitter.com/thetomegg" class="text-gray-400 hover:text-gray-900 dark:hover:text-white">
+            <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+              viewBox="0 0 20 17">
+              <path fill-rule="evenodd"
+                d="M20 1.892a8.178 8.178 0 0 1-2.355.635 4.074 4.074 0 0 0 1.8-2.235 8.344 8.344 0 0 1-2.605.98A4.13 4.13 0 0 0 13.85 0a4.068 4.068 0 0 0-4.1 4.038 4 4 0 0 0 .105.919A11.705 11.705 0 0 1 1.4.734a4.006 4.006 0 0 0 1.268 5.392 4.165 4.165 0 0 1-1.859-.5v.05A4.057 4.057 0 0 0 4.1 9.635a4.19 4.19 0 0 1-1.856.07 4.108 4.108 0 0 0 3.831 2.807A8.36 8.36 0 0 1 0 14.184 11.732 11.732 0 0 0 6.291 16 11.502 11.502 0 0 0 17.964 4.5c0-.177 0-.35-.012-.523A8.143 8.143 0 0 0 20 1.892Z"
+                clip-rule="evenodd" />
+            </svg>
+            <span class="sr-only">Twitter</span>
+          </a>
+          <a href="https://github.com/tome-gg" class="text-gray-400 hover:text-gray-900 dark:hover:text-white">
+            <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+              viewBox="0 0 20 20">
+              <path fill-rule="evenodd"
+                d="M10 .333A9.911 9.911 0 0 0 6.866 19.65c.5.092.678-.215.678-.477 0-.237-.01-1.017-.014-1.845-2.757.6-3.338-1.169-3.338-1.169a2.627 2.627 0 0 0-1.1-1.451c-.9-.615.07-.6.07-.6a2.084 2.084 0 0 1 1.518 1.021 2.11 2.11 0 0 0 2.884.823c.044-.503.268-.973.63-1.325-2.2-.25-4.516-1.1-4.516-4.9A3.832 3.832 0 0 1 4.7 7.068a3.56 3.56 0 0 1 .095-2.623s.832-.266 2.726 1.016a9.409 9.409 0 0 1 4.962 0c1.89-1.282 2.717-1.016 2.717-1.016.366.83.402 1.768.1 2.623a3.827 3.827 0 0 1 1.02 2.659c0 3.807-2.319 4.644-4.525 4.889a2.366 2.366 0 0 1 .673 1.834c0 1.326-.012 2.394-.012 2.72 0 .263.18.572.681.475A9.911 9.911 0 0 0 10 .333Z"
+                clip-rule="evenodd" />
+            </svg>
+            <span class="sr-only">GitHub account</span>
+          </a>
+        </div>
       </div>
     </div>
   </footer>
