@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { getGtagFn } from 'ngx-google-analytics';
 
-const gtag = getGtagFn(window, []);
+var gtag = window.gtag;
+
 @Component({
   selector: 'app-overview',
   templateUrl: './overview.component.html',
@@ -21,19 +21,14 @@ export class OverviewComponent {
     this.serviceSelected = true;
     this.isOpen = false;
     
-    gtag('event', 'SHOW_INTEREST', {
-      'event_category': 'SERVICES',
+    gtag('event', 'show_interest', {
+      'event_category': 'services',
       'event_label': serviceType
      });
 
      window.scrollTo({
       top: 0
      })
-  }
-
-  track(eventName: string) {
-    gtag('event', eventName, {
-    'event_category': 'BUTTON_CLICK' })
   }
 
   ngAfterViewInit(): void {
