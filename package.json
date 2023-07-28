@@ -31,7 +31,6 @@
     "imagemin-webp": "^8.0.0",
     "js-yaml": "^4.1.0",
     "marked": "^5.0.2",
-    "ngx-google-analytics": "^14.0.1",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.12.0"
@@ -41,6 +40,7 @@
     "@angular/cli": "~15.2.2",
     "@angular/compiler-cli": "^15.2.0",
     "@types/bn.js": "^5.1.1",
+    "@types/gtag.js": "^0.0.12",
     "@types/imagemin-webp": "^7.0.0",
     "@types/jasmine": "~4.3.0",
     "@types/marked": "^4.3.0",

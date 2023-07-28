@@ -5,7 +5,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { TrainingComponent } from './training/training.component';
 import { OverviewComponent } from './overview/overview.component';
-import { NgxGoogleAnalyticsModule, NgxGoogleAnalyticsRouterModule } from 'ngx-google-analytics';
 import { CommonModule, NgIf } from '@angular/common';
 
 @NgModule({
@@ -19,8 +18,6 @@ import { CommonModule, NgIf } from '@angular/common';
     AppRoutingModule,
     CommonModule,
     NgIf,
-    NgxGoogleAnalyticsModule.forRoot('G-9P755HMHC8'),
-    NgxGoogleAnalyticsRouterModule
   ],
   providers: [],
   bootstrap: [AppComponent]
