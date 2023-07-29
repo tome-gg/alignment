@@ -4,6 +4,16 @@ import { OverviewComponent } from './overview/overview.component';
 
 const routes: Routes = [
   {
+    path: "canvas",
+    loadChildren: () => import('./canvas/canvas.module').then(m => m.CanvasModule),
+    title: 'Mentorship Canvas - Tome.gg'
+  },
+  {
+    path: "repo",
+    loadChildren: () => import('./repository/repository.module').then(m => m.RepositoryModule),
+    title: 'Growth Journal - Tome.gg'
+  },
+  {
     path: "",
     component: OverviewComponent,
     children: [
@@ -127,16 +137,7 @@ const routes: Routes = [
       }
     ]
   },
-  {
-    path: "canvas",
-    loadChildren: () => import('./canvas/canvas.module').then(m => m.CanvasModule),
-    title: 'Mentorship Canvas - Tome.gg'
-  },
-  {
-    path: "repo",
-    loadChildren: () => import('./repository/repository.module').then(m => m.RepositoryModule),
-    title: 'Growth Journal - Tome.gg'
-  },
+  
   
 ];
 
