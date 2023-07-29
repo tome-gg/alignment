@@ -6,5 +6,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./mentorship.component.sass']
 })
 export class MentorshipComponent {
-
+  openTawkChat() {
+    (window as any).Tawk_API.popup();
+  }
 }
