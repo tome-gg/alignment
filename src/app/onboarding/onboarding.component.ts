@@ -9,6 +9,7 @@ var gtag = window.gtag;
 })
 export class PageOnboardingComponent {
   showMentorNotes: boolean = false;
+  proceed: boolean = false;
 
   toggleMentorNotes(event: Event) {
     event.preventDefault()
@@ -20,5 +21,20 @@ export class PageOnboardingComponent {
 
   openTawkChat() {
     (window as any).Tawk_API.popup();
+  }
+
+  submitEmail(event: Event) {
+    event.preventDefault();
+
+    // TODO: send email somewhere
+  }
+
+  showEmailPrompt(event: Event) {
+    event.preventDefault(); this.proceed = false; return;
+  }
+
+  skipEmail(event: Event) {
+    event.preventDefault();
+    this.proceed = true;
   }
 }

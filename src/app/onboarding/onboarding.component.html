@@ -37,11 +37,12 @@
         <span class="italic underline">that all external help (friends, family, colleagues, bosses, mentors) will
           only be effective on a strong foundation of your responsibility, accountability, and commitment to your
           personal growth</span>.
-        This means that crafting your legendary tome of knowledge that is attuned to you, begins with your
+        This means that crafting your legendary tome of knowledge that is attuned to you begins with your
         ownership of this responsibility.
       </p>
       <p class="my-4 text-gray-500">
-        You will do most of the legwork in reading a lot, writing and rewriting, and practicing your communications with
+        You will do most of the legwork in reading a lot, writing and rewriting, and practicing your skills and
+        communications with
         others.
       </p>
       <h2 class="text-2xl font-medium mb-4">Your resources <sup class="text-lime-500 text-sm">free</sup></h2>
@@ -60,7 +61,7 @@
         instructions and practice it on your own or with a couple of
         friends.
       </p>
-      <h2 class="text-2xl font-medium mb-4">Your community <sup class="text-blue-500 text-sm">alpha</sup></h2>
+      <h2 class="text-2xl font-medium mb-4">Your community <sup class="text-sky-500 text-sm">alpha</sup></h2>
       <p class="my-4 text-gray-500">The next level of personalization comes with the Discord community: <a
           href="https://bit.ly/404zqIW" class="link">The Gaming Classroom</a>.</p>
 
@@ -68,7 +69,9 @@
         education and learning,
         and casual and competitive gaming.</p>
 
-      <p class="my-4 text-gray-500">As a community, we learn and grow together.</p>
+      <p class="my-4 text-gray-500">As a community, we learn and grow together, hold each other accountable, and
+        push each other to our best capabilities. We do this every step of the way with trust and respect
+        as the foundations of our relationships.</p>
 
       <p class="my-4 text-gray-400 text-sm italic">
         The community of Tome.gg is always free to join. However, a subset of the
@@ -86,28 +89,64 @@
         At the highest level of personalization, you get your own personal mentor that provides
         either 1-on-1 coaching, or group coaching (3 apprentices at a time).
       </p>
-      <p class="my-4 text-gray-400 text-sm italic">
+      <p class="mt-4 mb-8 text-gray-400 text-sm italic">
         Coaching and mentoring is available as a paid service, and is sometimes
         made available through sponsorships and community events. Keep in touch in
         Discord to receive notifications on community events!
       </p>
 
-      <div id="next-qualifications">
-        <h2 class="text-2xl font-medium mb-4">Next: Qualifications</h2>
+      <hr />
+
+      <div id="capture-form">
+        <h2 class="text-2xl font-medium my-4">Registration</h2>
         <p class="my-4 text-gray-500">
-          If everything sounds great, that's because it is! We create a safe space for learning and growth,
+          If everything sounds great, that's because we are pursuing greatness and excellence!
+          We create a safe space for learning and growth,
           but to make this space safe to learning, there are costs (or responsibilities) that we have to
-          share and take part in.
+          share and take part in. We will discuss this in the next section, which would be your responsibilities
+          as an apprentice.
         </p>
+        <form class="mt-8 mx-auto md:max-w-lg" *ngIf="proceed === false">
+          <p class="my-4 text-gray-400 text-sm italic">
+            Before we continue, we'd like to ask you for your email so that we can contact you, for the purpose
+            of checking in with you and your interest in mentorship and our community, and to share
+            with you updates about Tome.gg's journey of hyper-personalized education.
+          </p>
+          <div class="mb-4">
+            <label class="block text-gray-700 text-sm font-bold mb-2" for="email">
+              Email
+            </label>
+            <input
+              class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              id="email" type="text" placeholder="your.email@domain.com">
+          </div>
+          <div class="flex items-center justify-between">
+            <button
+              class="bg-sky-700 hover:bg-sky-800 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+              type="button" (click)="submitEmail($event)">
+              Continue
+            </button>
+            <a class="inline-block align-baseline font-bold text-sm text-sky-700 hover:text-sky-800" href="#"
+              (click)="skipEmail($event)">
+              Not now
+            </a>
+          </div>
+        </form>
+      </div>
+
+      <div id="next-qualifications" *ngIf="proceed === true">
+        <h2 class="text-2xl font-medium my-4">Next: Qualifications</h2>
         <p class="my-4 text-gray-500">
           As a Tome.gg apprentice, you have a set of responsibilities that you must take ownership of
           so that you can carefully take care of yourself and your growth. The next section invites you
           to check whether you accept the standards and expectations expected of a good apprentice, as
           Tome.gg defines it.
         </p>
+        <a href="#" (click)="showEmailPrompt($event)" class="btn btn-outline m-2 text-gray-400">Share my email</a>
         <a href="#" (click)="toggleMentorNotes($event)" class="btn btn-outline m-2 text-gray-400">Apply as a mentor</a>
         <a href="/docs/onboarding/qualifications" class="btn btn-outline m-2">Next: Apprentice
           Qualifications</a>
+
         <div *ngIf="showMentorNotes" id="for-detailing"
           class="my-4 bg-teal-100 border-t-4 border-teal-500 rounded-b text-teal-900 px-4 py-3 shadow-md" role="alert">
           <div class="flex relative">
