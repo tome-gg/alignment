@@ -14,7 +14,9 @@ export type ServicePriceListingModel = {
   name: String
   description: String
   // Price in USD
-  price: number
+  priceLow: number
+  // Price in USD
+  priceHigh: number
   sessions: number
   sessionsPerMonth: number
   isMultipleSessions: boolean

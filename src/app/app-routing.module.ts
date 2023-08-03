@@ -28,6 +28,11 @@ const routes: Routes = [
         title: 'Alignment Negotiation - Tome.gg'
       },
       {
+        path: "discovery",
+        loadChildren: () => import('./discovery/discovery.module').then(m => m.DiscoveryModule),
+        title: 'Discovery - Tome.gg'
+      },
+      {
         path: "mentorship",
         loadChildren: () => import('./mentorship/mentorship.module').then(m => m.MentorshipModule),
         title: 'Mentorship - Tome.gg'

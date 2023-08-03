@@ -12,7 +12,8 @@ export class PricingComponent {
     image: '',
     name: 'Discovery and Directions Deep-dive',
     description: 'You and your mentor work closely together both in-session and out-of-session to map out and explore your current situation accurately. The goal is to understand your environment and your chosen direction more precisely, and uncovering problems and challenges that impede your well-being and accelerated growth.',
-    price: 250,
+    priceLow: 60,
+    priceHigh: 120,
     isMultipleSessions: false,
     sessions: 1,
     sessionsPerMonth: 1,
@@ -20,7 +21,9 @@ export class PricingComponent {
     includes: [
       'Everything included in \'Answering One Question\'',
       'Asynchronous chat access with mentor 2-3 days before the session for further clarification',
-      '1-2 page report on the discovery session highlighting observations and assessments'
+      '1 page written report (Google Docs) on the discovery session highlighting observations and assessments',
+      '+30 USD: Interactive Miro board visualization where you collaborate with your mentor to map out your raw status and direction',
+      '+30 USD: Additional 30 minutes'
     ],
     coverage: [
       'Discovery: Sessions are exploratory and diagnostic in nature; We will discuss your challenges and problems you are currently experiencing',
@@ -45,14 +48,16 @@ export class PricingComponent {
     image: '',
     name: 'Answering One Question',
     description: 'We explore and discuss one specific question that you want to address or resolve.',
-    price: 120,
+    priceLow: 30,
+    priceHigh: 45,
     isMultipleSessions: false,
     sessions: 1,
     sessionsPerMonth: 1,
     durationPerSession: '30 minutes',
     includes: [
       'Initial research: A preflight survey questionnaire will act as the starting point for the session',
-      '1-page summary report on our session, with highlighted areas from the mentor'
+      '1-page summary report on our session, with highlighted areas from the mentor',
+      '+15 USD: Additional 15 minutes for the session'
     ],
     coverage: [
       'Alignment: Sessions are focused on follow-up questions and clarifications, in pursuit of answering your one question',
