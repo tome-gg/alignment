@@ -106,35 +106,9 @@
           share and take part in. We will discuss this in the next section, which would be your responsibilities
           as an apprentice.
         </p>
-        <form class="mt-8 mx-auto md:max-w-lg" *ngIf="proceed === false">
-          <p class="my-4 text-gray-400 text-sm italic">
-            Before we continue, we'd like to ask you for your email so that we can contact you, for the purpose
-            of checking in with you and your interest in mentorship and our community, and to share
-            with you updates about Tome.gg's journey of hyper-personalized education.
-          </p>
-          <div class="mb-4">
-            <label class="block text-gray-700 text-sm font-bold mb-2" for="email">
-              Email
-            </label>
-            <input
-              class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              id="email" type="text" placeholder="your.email@domain.com">
-          </div>
-          <div class="flex items-center justify-between">
-            <button
-              class="bg-sky-700 hover:bg-sky-800 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-              type="button" (click)="submitEmail($event)">
-              Continue
-            </button>
-            <a class="inline-block align-baseline font-bold text-sm text-sky-700 hover:text-sky-800" href="#"
-              (click)="skipEmail($event)">
-              Not now
-            </a>
-          </div>
-        </form>
       </div>
 
-      <div id="next-qualifications" *ngIf="proceed === true">
+      <div id="next-qualifications">
         <h2 class="text-2xl font-medium my-4">Next: Qualifications</h2>
         <p class="my-4 text-gray-500">
           As a Tome.gg apprentice, you have a set of responsibilities that you must take ownership of
@@ -142,7 +116,6 @@
           to check whether you accept the standards and expectations expected of a good apprentice, as
           Tome.gg defines it.
         </p>
-        <a href="#" (click)="showEmailPrompt($event)" class="btn btn-outline m-2 text-gray-400">Share my email</a>
         <a href="#" (click)="toggleMentorNotes($event)" class="btn btn-outline m-2 text-gray-400">Apply as a mentor</a>
         <a href="/docs/onboarding/qualifications" class="btn btn-outline m-2">Next: Apprentice
           Qualifications</a>
