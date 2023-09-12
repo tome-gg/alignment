@@ -22,8 +22,8 @@ export class PricingComponent {
       'Everything included in \'Answering One Question\'',
       'Asynchronous chat access with mentor 2-3 days before the session for further clarification',
       '1 page written report (Google Docs) on the discovery session highlighting observations and assessments',
-      '+30 USD: Interactive Miro board visualization where you collaborate with your mentor to map out your raw status and direction',
-      '+30 USD: Additional 30 minutes'
+      '(Optional) Interactive Miro board visualization where you collaborate with your mentor to map out your raw status and direction',
+      '(Optional) extension: additional 30 minutes'
     ],
     coverage: [
       'Discovery: Sessions are exploratory and diagnostic in nature; We will discuss your challenges and problems you are currently experiencing',
@@ -57,7 +57,7 @@ export class PricingComponent {
     includes: [
       'Initial research: A preflight survey questionnaire will act as the starting point for the session',
       '1-page summary report on our session, with highlighted areas from the mentor',
-      '+15 USD: Additional 15 minutes for the session'
+      '(Optional) extension: additional 15 minutes for the session'
     ],
     coverage: [
       'Alignment: Sessions are focused on follow-up questions and clarifications, in pursuit of answering your one question',
