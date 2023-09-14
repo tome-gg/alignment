@@ -135,7 +135,7 @@ const routes: Routes = [
       {
         path: "docs/onboarding",
         loadChildren: () => import('./onboarding/onboarding.module').then(m => m.PageOnboardingModule),
-        title: 'Learning Outcomes - Tome.gg'
+        title: 'Onboarding - Tome.gg'
       }, 
       {
         path: "**", pathMatch: "full", loadChildren: () => import('./404/missing404.module').then(m => m.Missing404Module)
