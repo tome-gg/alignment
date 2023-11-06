@@ -7,8 +7,29 @@ module.exports = {
         '200': '2.00',
         '400': '4.00',
         '800': '8.00'
-      }
+      },
+      // animation: {
+      //   'disappearslow': 'disappearslow 3s linear',
+      // },
+      // keyframes: {
+      //   disappearslow: {
+      //     '0%': { 
+      //       opacity: 0, 
+      //       transform: scale(1)
+      //     },
+      //     '100%': { 
+      //       opacity: 1,
+      //       transform: scale(0.5)
+      //     },
+      //   }
+      // }
     },
+  },
+  variants: {
+    extend: {
+      visibility: ['group-hover'],
+      opacity: ['group-hover'],
+    }
   },
   plugins: [require("daisyui")],
   daisyui: {

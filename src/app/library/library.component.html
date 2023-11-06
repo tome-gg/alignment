@@ -1,0 +1,280 @@
+<div class="hero min-h-screen bg-base-100 rounded-lg">
+  <div class="hero-content flex-col lg:flex-row-reverse">
+    <picture class="xs:max-w-sm md:max-w-lg rounded-lg shadow-2xl">
+      <source loading="lazy" srcset="/assets/negotiation.webp" type="image/webp">
+      <source loading="lazy" srcset="/assets/negotiation.jpg" type="image/jpeg">
+      <img loading="lazy" src="/assets/negotiation.jpg" />
+    </picture>
+
+    <div class="px-3">
+      <h1 class="text-4xl font-bold">Tome.gg coaching <br />and mentoring</h1>
+      <h2 class="text-2xl italic">For mid- to senior-level software engineers.</h2>
+      <!-- <p class="py-2">
+        Your growth as a software engineer is one of the most important assets
+        you can invest in.
+      </p> -->
+      <p class="py-6">
+        Accelerated learning. Personalized mentorship. Responsible fiduciary.
+        Financial freedom.
+      </p>
+      <p class="pb-6">
+        <strong>Tome.gg</strong> provides a framework for self-directed, sustainable learning
+        and offers hyper-personalized mentorship.
+      </p>
+      <p class="pb-6 text-sm text-gray-400 italic">
+        Limited apprenticeship slots available. Secure your seat on our waitlist.
+
+      </p>
+      <a href="https://docs.tome.gg" class="btn btn-outline mr-3 mb-3">Explore the library</a>
+      <a href="https://protocol.tome.gg" class="btn btn-outline mr-3 mb-3">Use our frameworks</a>
+
+    </div>
+  </div>
+</div>
+<div [ngClass]="selectedPersona === null ? 'flex' : 'hidden'" class="bg-white">
+  <div class="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
+    <h2 class="text-2xl text-center italic">Learning is different for everyone.</h2>
+    <h1 class="text-4xl text-center font-bold mb-8 md:mb-32">Which one resonates the most?</h1>
+    <div class="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
+      <a (click)="selectPersona('The Ambitious Developer')" class="group hover:child-visible cursor-pointer">
+        <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
+          <img src="/assets/books/1-a.png"
+            class="h-full w-full object-cover object-center scale-100 group-hover:scale-105 transition-transform duration-400">
+        </div>
+        <h3
+          class="mt-4 text-sm text-gray-900 opacity-30 transition-opacity duration-800 ease-in-out group-hover:visible group-hover:opacity-100">
+          The Ambitious Developer</h3>
+        <p class="mt-1 text-lg font-medium text-gray-900">I feel <span class="text-red-700"><u>stuck</u> in my current
+            role</span> and I don't see clear career
+          advancement opportunities</p>
+      </a>
+      <a (click)="selectPersona('The Technical Leader')" class="group hover:child-visible cursor-pointer">
+        <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
+          <img src="/assets/books/2-a.png"
+            class="h-full w-full object-cover object-center scale-100 group-hover:scale-105 transition-transform duration-400">
+        </div>
+        <h3
+          class="mt-4 text-sm text-gray-900 opacity-30 transition-opacity duration-800 ease-in-out group-hover:visible group-hover:opacity-100">
+          The Technical Leader</h3>
+        <p class="mt-1 text-lg font-medium text-gray-900">I feel like I've <span class="text-red-700">reached a
+            <u>plateau</u>
+            in my skills and knowledge</span>
+          and I'm unsure of how to continue growing and developing</p>
+      </a>
+      <a (click)="selectPersona('The Mentor')" class="group hover:child-visible cursor-pointer">
+        <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
+          <img src="/assets/books/3-a.png"
+            class="h-full w-full object-cover object-center scale-100 group-hover:scale-105 transition-transform duration-400">
+        </div>
+        <h3
+          class="mt-4 text-sm text-gray-900 opacity-30 transition-opacity duration-800 ease-in-out group-hover:visible group-hover:opacity-100">
+          The Mentor</h3>
+        <p class="mt-1 text-lg font-medium text-gray-900">I don't feel <span class="text-red-700"><u>recognized</u> for
+            my
+            expertise and guidance</span>;
+          or I feel like I'm not making a meaningful impact in my current role</p>
+      </a>
+      <a (click)="selectPersona('The up-and-comer')" class="group hover:child-visible cursor-pointer">
+        <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
+          <img src="/assets/books/4-a.png"
+            class="h-full w-full object-cover object-center scale-100 group-hover:scale-105 transition-transform duration-400">
+        </div>
+        <h3
+          class="mt-4 text-sm text-gray-900 opacity-30 transition-opacity duration-800 ease-in-out group-hover:visible group-hover:opacity-100">
+          The up-and-comer
+        </h3>
+        <p class="mt-1 text-lg font-medium text-gray-900">
+          I feel like <span class="text-red-700">I'm not being given enough <u>opportunities</u> to learn and
+            develop</span> in
+          their current role; like I'm not
+          taken seriously
+        </p>
+      </a>
+      <a (click)="selectPersona('The self-directed learner')" class="group hover:child-visible cursor-pointer">
+        <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
+          <img src="/assets/books/5-a.png"
+            class="h-full w-full object-cover object-center scale-100 group-hover:scale-105 transition-transform duration-400">
+        </div>
+        <h3
+          class="mt-4 text-sm text-gray-900 opacity-30 transition-opacity duration-800 ease-in-out group-hover:visible group-hover:opacity-100">
+          The self-directed learner
+        </h3>
+        <p class="mt-1 text-lg font-medium text-gray-900">
+          I feel <span class="text-red-700"><u>overwhelmed</u> by the vast amount of information available</span> and
+          I'm
+          unsure of which resources to trust and
+          follow
+        </p>
+      </a>
+      <a (click)="selectPersona('The team player')" class="group hover:child-visible cursor-pointer">
+        <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
+          <img src="/assets/books/6-a.png"
+            class="h-full w-full object-cover object-center scale-100 group-hover:scale-105 transition-transform duration-400">
+        </div>
+        <h3
+          class="mt-4 text-sm text-gray-900 opacity-30 transition-opacity duration-800 ease-in-out group-hover:visible group-hover:opacity-100">
+          The team player
+        </h3>
+        <p class="mt-1 text-lg font-medium text-gray-900">
+          I <span class="text-red-700">struggle to balance <u>my goals</u> for learning</span> with the demands
+          of the team and existing projects
+        </p>
+      </a>
+      <a (click)="selectPersona('The specialist')" class="group hover:child-visible cursor-pointer">
+        <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
+          <img src="/assets/books/7-a.png"
+            class="h-full w-full object-cover object-center scale-100 group-hover:scale-105 transition-transform duration-400">
+        </div>
+        <h3
+          class="mt-4 text-sm text-gray-900 opacity-30 transition-opacity duration-800 ease-in-out group-hover:visible group-hover:opacity-100">
+          The specialist
+        </h3>
+        <p class="mt-1 text-lg font-medium text-gray-900">
+          I feel <span class="text-red-700"><u>pigeonholed</u> into my area of expertise</span> and I'm unsure of how to
+          expand
+          my knowledge and skills
+        </p>
+      </a>
+      <a (click)="selectPersona('The entrepreneur')" class="group hover:child-visible cursor-pointer">
+        <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
+          <img src="/assets/books/8-a.png"
+            class="h-full w-full object-cover object-center scale-100 group-hover:scale-105 transition-transform duration-400">
+        </div>
+        <h3
+          class="mt-4 text-sm text-gray-900 opacity-30 transition-opacity duration-800 ease-in-out group-hover:visible group-hover:opacity-100">
+          The entrepreneur
+        </h3>
+        <p class="mt-1 text-lg font-medium text-gray-900">
+          I feel overwhelmed by <span class="text-red-700">the challenges of starting and running a
+            <u>business</u></span>, and
+          I'm unsure of where to start or how to succeed
+        </p>
+      </a>
+      <a (click)="selectPersona('The mid-career professional')" class="group hover:child-visible cursor-pointer">
+        <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
+          <img src="/assets/books/9-a.png"
+            class="h-full w-full object-cover object-center scale-100 group-hover:scale-105 transition-transform duration-400">
+        </div>
+        <h3
+          class="mt-4 text-sm text-gray-900 opacity-30 transition-opacity duration-800 ease-in-out group-hover:visible group-hover:opacity-100">
+          The mid-career professional
+        </h3>
+        <p class="mt-1 text-lg font-medium text-gray-900">
+          I feel like I've hit <span class="text-red-700">a <u>dead end</u> in my current career path</span> and I'm
+          unsure of
+          how to make a significant change
+        </p>
+      </a>
+      <a (click)="selectPersona('The career switcher')" class="group hover:child-visible cursor-pointer">
+        <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
+          <img src="/assets/books/10-a.png"
+            class="h-full w-full object-cover object-center scale-100 group-hover:scale-105 transition-transform duration-400">
+        </div>
+        <h3
+          class="mt-4 text-sm text-gray-900 opacity-30 transition-opacity duration-800 ease-in-out group-hover:visible group-hover:opacity-100">
+          The career switcher
+        </h3>
+        <p class="mt-1 text-lg font-medium text-gray-900">
+          I feel like <span class="text-red-700">a <u>beginner</u> in a new field</span> and I'm struggling to adapt and
+          learn
+          new skills
+        </p>
+      </a>
+    </div>
+  </div>
+</div>
+<div [ngClass]="selectedPersona !== null ? 'flex' : 'hidden'" class="bg-white">
+  <div class="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
+    <div id="library-contents-spacer" class="mb-16"></div>
+    <h2 id="library-contents" class="text-2xl text-center italic">We get you. It's tough to learn all this on your
+      own.
+    </h2>
+    <h1 class="text-4xl text-center font-bold mb-8 md:mb-32">Have you read other people's experiences of similar
+      problems?</h1>
+    <div class="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
+      <a href="https://docs.tome.gg/contexts/problems/all-work-and-no-play?utm_source=app&utm_medium=problems-list&utm_campaign=immediate-value&utm_id=library-highlights"
+        class="group hover:child-visible cursor-pointer">
+        <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
+          <img src="/assets/all-work-no-play.webp"
+            class="h-full w-full object-cover object-center scale-100 group-hover:scale-105 transition-transform duration-400">
+        </div>
+        <h3
+          class="mt-4 text-sm text-gray-900 opacity-30 transition-opacity duration-800 ease-in-out group-hover:visible group-hover:opacity-100">
+          All Work and No Play</h3>
+        <p class="mt-1 text-lg font-medium text-gray-900">
+          You feel like you're in an <span class="text-red-700">endless cycle of tiredness</span> and ineffectiveness,
+          and you don't know how to get out.
+      </a>
+      <a href="https://docs.tome.gg/contexts/scenarios/offering-guidance-without-context?utm_source=app&utm_medium=problems-list&utm_campaign=immediate-value&utm_id=library-highlights"
+        class="group hover:child-visible cursor-pointer">
+        <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
+          <img src="/assets/guidance-no-context.webp"
+            class="h-full w-full object-cover object-center scale-100 group-hover:scale-105 transition-transform duration-400">
+        </div>
+        <h3
+          class="mt-4 text-sm text-gray-900 opacity-30 transition-opacity duration-800 ease-in-out group-hover:visible group-hover:opacity-100">
+          Offering Guidance Without Context</h3>
+        <p class="mt-1 text-lg font-medium text-gray-900">
+          Inexperienced peers or leads make the mistake of <span class="text-red-700">recommending premature
+            optimization</span>.
+          Some solutions are unnecessary, and some problems are misunderstood.
+        </p>
+      </a>
+      <a href="https://docs.tome.gg/fundamentals/reading-writing-discourse?utm_source=app&utm_medium=problems-list&utm_campaign=immediate-value&utm_id=library-highlights"
+        class="group hover:child-visible cursor-pointer">
+        <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
+          <img src="/assets/not-reading.webp"
+            class="h-full w-full object-cover object-center scale-100 group-hover:scale-105 transition-transform duration-400">
+        </div>
+        <h3
+          class="mt-4 text-sm text-gray-900 opacity-30 transition-opacity duration-800 ease-in-out group-hover:visible group-hover:opacity-100">
+          Reading, Writing, Discourse</h3>
+        <p class="mt-1 text-lg font-medium text-gray-900">
+          Teammates <span class="text-red-700">fail to read carefully</span> the documentation or the task assigned to
+          them. Instead of clarifying,
+          they get to work quickly without checking or realizing their assumptions.
+        </p>
+      </a>
+    </div>
+  </div>
+</div>
+
+<div class="">
+  <div class="mx-auto max-w-7xl my-8 md:py-16 sm:px-6 sm:py-32 lg:px-8">
+    <div
+      class="relative isolate overflow-hidden bg-gray-900 px-6 pt-16 shadow-2xl sm:rounded-3xl sm:px-16 md:pt-24 lg:flex lg:gap-x-20 lg:px-24 lg:pt-0">
+      <svg viewBox="0 0 1024 1024"
+        class="absolute left-1/2 top-1/2 -z-10 h-[64rem] w-[64rem] -translate-y-1/2 [mask-image:radial-gradient(closest-side,white,transparent)] sm:left-full sm:-ml-80 lg:left-1/2 lg:ml-0 lg:-translate-x-1/2 lg:translate-y-0"
+        aria-hidden="true">
+        <circle cx="512" cy="512" r="512" fill="url(#759c1415-0410-454c-8f7c-9a820de03641)" fill-opacity="0.7" />
+        <defs>
+          <radialGradient id="759c1415-0410-454c-8f7c-9a820de03641">
+            <stop stop-color="#7674e8" />
+            <stop offset="1" stop-color="#4b1aed" />
+          </radialGradient>
+        </defs>
+      </svg>
+      <div class="mx-auto max-w-md text-center lg:mx-0 lg:flex-auto lg:py-32 lg:text-left">
+        <h2 class="text-3xl font-bold tracking-tight text-white sm:text-4xl">Accelerate your career.<br>
+          Own your growth.</h2>
+        <p class="mt-6 text-lg leading-8 text-gray-300">Ownership is the key step towards building wealth and
+          financial freedom. Your knowledge is your first asset.</p>
+        <div class="mt-10 flex flex-col md:flex-row items-center justify-center gap-x-6 lg:justify-start">
+          <a href='/docs/onboarding'
+            class="my-2 md:my-0 rounded-md bg-white px-3.5 py-2.5 text-sm font-semibold text-gray-900 shadow-sm hover:bg-gray-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white">
+            Find a mentor</a>
+          <a href="https://docs.tome.gg?utm_source=tomegg&utm_medium=cta&utm_campaign=home_page"
+            class="my-2 md:my-0 text-sm font-semibold leading-6 text-white">Explore the library <span
+              aria-hidden="true">→</span></a>
+        </div>
+      </div>
+      <div class="relative mt-16 h-80 lg:mt-8">
+        <picture class="absolute lg:left-0 top-0 w-[57rem] max-w-none rounded-md bg-white/5 ring-1 ring-white/10">
+          <source loading="lazy" srcset="/assets/growth-journal-yaml-data.webp" type="image/webp">
+          <source loading="lazy" srcset="/assets/growth-journal-yaml-data.jpg" type="image/jpeg">
+          <img loading="lazy" src="/assets/growth-journal-yaml-data.jpg" />
+        </picture>
+      </div>
+    </div>
+  </div>
+</div>
