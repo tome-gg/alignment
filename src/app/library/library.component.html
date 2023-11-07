@@ -31,7 +31,16 @@
     </div>
   </div>
 </div>
-<div [ngClass]="selectedPersona === null ? 'flex' : 'hidden'" class="bg-white">
+Hello {{stage}}!
+<app-multiple-choice-question
+  [ngClass]="stage == 'one' ? 'transition-all opacity-100 translate-y-0' : 'transition-all opacity-0 -translate-y-6 scale-y-0'"
+  questionTitle="Which one resonates the most?" subtitle="Learning is different for everyone." [choices]="choices_one"
+  (onSelectAnswer)="next($event)" />
+<app-multiple-choice-question
+  [ngClass]="stage == 'two' ? 'transition-all opacity-100 translate-y-0' : 'transition-all opacity-0 -translate-y-6 scale-y-0'"
+  questionTitle="What do feel like most?" subtitle="Great, thanks." [choices]="choices_two"
+  (onSelectAnswer)="next($event)" />
+<!-- <div [ngClass]="selectedPersona === null ? 'flex' : 'hidden'" class="bg-white">
   <div class="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
     <h2 class="text-2xl text-center italic">Learning is different for everyone.</h2>
     <h1 class="text-4xl text-center font-bold mb-8 md:mb-32">Which one resonates the most?</h1>
@@ -182,7 +191,7 @@
       </a>
     </div>
   </div>
-</div>
+</div> -->
 <div [ngClass]="selectedPersona !== null ? 'flex' : 'hidden'" class="bg-white">
   <div class="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
     <div id="library-contents-spacer" class="mb-16"></div>

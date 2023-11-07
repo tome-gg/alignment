@@ -9,6 +9,7 @@ import { CommonModule, NgIf } from '@angular/common';
 import { AuthModule } from '@auth0/auth0-angular';
 import { AuthButtonComponent } from './auth-button/auth-button.component';
 import { DiscoveryComponent } from './discovery/discovery.component';
+import { MultipleChoiceQuestionComponent } from './multiple-choice-question/multiple-choice-question.component';
 
 @NgModule({
   declarations: [
