@@ -53,12 +53,31 @@
                     </svg>
                   </div>
                   <div class="flex-auto">
-                    <a href="#" targetUrl="/services/1-on-1-coaching" (click)="selectService($event, '1on1')"
-                      class="block font-semibold text-gray-900">
+                    <a href="/services/accountability" class="block font-semibold text-gray-900">
+                      Accountability Program
+                      <span class="absolute inset-0"></span>
+                    </a>
+                    <p class="mt-1 text-gray-600">Structured timeline, precise goals, regular check-ins, 30-minute
+                      sessions
+                    </p>
+                  </div>
+                </div>
+                <div class="group relative flex items-center gap-x-6 rounded-lg p-4 text-sm leading-6 hover:bg-gray-50">
+                  <div
+                    class="flex h-11 w-11 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white">
+                    <svg class="h-6 w-6 text-gray-600 group-hover:text-indigo-600" fill="none" viewBox="0 0 24 24"
+                      stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                      <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M7.864 4.243A7.5 7.5 0 0119.5 10.5c0 2.92-.556 5.709-1.568 8.268M5.742 6.364A7.465 7.465 0 004.5 10.5a7.464 7.464 0 01-1.15 3.993m1.989 3.559A11.209 11.209 0 008.25 10.5a3.75 3.75 0 117.5 0c0 .527-.021 1.049-.064 1.565M12 10.5a14.94 14.94 0 01-3.6 9.75m6.633-4.596a18.666 18.666 0 01-2.485 5.33" />
+                    </svg>
+                  </div>
+                  <div class="flex-auto">
+                    <a href="/services/1-on-1-coaching" class="block font-semibold text-gray-900">
                       1-on-1 Coaching
                       <span class="absolute inset-0"></span>
                     </a>
-                    <p class="mt-1 text-gray-600">Get extremely personalized and focused guidance and feedback</p>
+                    <p class="mt-1 text-gray-600">Get personalized mentorship and focused feedback; Take as much time to
+                      reflect, strategize, set directions</p>
                   </div>
                 </div>
                 <div class="group relative flex items-center gap-x-6 rounded-lg p-4 text-sm leading-6 hover:bg-gray-50">
@@ -71,32 +90,13 @@
                     </svg>
                   </div>
                   <div class="flex-auto">
-                    <a href="#" targetUrl="/services/group-coaching" (click)="selectService($event, 'group')"
-                      class="block font-semibold text-gray-900">
+                    <a href="/services/group-coaching" class="block font-semibold text-gray-900">
                       Group Coaching
                       <span class="absolute inset-0"></span>
                     </a>
-                    <p class="mt-1 text-gray-600">Set a goal for yourself and 2 other teammates, and accelerate together
+                    <p class="mt-1 text-gray-600">Learn with your friends, set your individual goals, and accelerate
+                      together
                     </p>
-                  </div>
-                </div>
-                <div class="group relative flex items-center gap-x-6 rounded-lg p-4 text-sm leading-6 hover:bg-gray-50">
-                  <div
-                    class="flex h-11 w-11 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white">
-                    <svg class="h-6 w-6 text-gray-600 group-hover:text-indigo-600" fill="none" viewBox="0 0 24 24"
-                      stroke-width="1.5" stroke="currentColor" aria-hidden="true">
-                      <path stroke-linecap="round" stroke-linejoin="round"
-                        d="M15.042 21.672L13.684 16.6m0 0l-2.51 2.225.569-9.47 5.227 7.917-3.286-.672zM12 2.25V4.5m5.834.166l-1.591 1.591M20.25 10.5H18M7.757 14.743l-1.59 1.59M6 10.5H3.75m4.007-4.243l-1.59-1.59" />
-                    </svg>
-                  </div>
-                  <div class="flex-auto">
-                    <a href="#" targetUrl="/services/directions-discovery"
-                      (click)="selectService($event, 'direction_discovery')" class="block font-semibold text-gray-900">
-                      Direction and Discovery Session
-                      <span class="absolute inset-0"></span>
-                    </a>
-                    <p class="mt-1 text-gray-600">For software engineers who are still exploring or deciding what they
-                      want</p>
                   </div>
                 </div>
                 <div class="group relative flex items-center gap-x-6 rounded-lg p-4 text-sm leading-6 hover:bg-gray-50">
@@ -109,12 +109,11 @@
                     </svg>
                   </div>
                   <div class="flex-auto">
-                    <a href="#" targetUrl="/services/rapid-coaching" (click)="selectService($event, 'rapid')"
-                      class="block font-semibold text-gray-900">
+                    <a href="/services/rapid-coaching" class="block font-semibold text-gray-900">
                       Rapid Coaching
                       <span class="absolute inset-0"></span>
                     </a>
-                    <p class="mt-1 text-gray-600">More writing and pre-work before laser-focused, 15-minute sessions
+                    <p class="mt-1 text-gray-600">More writing and pre-work before a laser-focused, 15-minute session
                     </p>
                   </div>
                 </div>
@@ -129,22 +128,20 @@
                     </svg>
                   </div>
                   <div class="flex-auto">
-                    <a href="#" targetUrl="/services/interactive-case-studies"
-                      (click)="selectService($event, 'interactive_case_studies')"
-                      class="block font-semibold text-gray-900">
-                      Enterprise Interactive Case Studies
+                    <a href="/services/interactive-case-studies" class=" block font-semibold text-gray-900">
+                      Interactive Case Studies
                       <span class="absolute inset-0"></span>
                     </a>
-                    <p class="mt-1 text-gray-600">Spend a weekend with your engineering team roleplaying nightmare
-                      scenarios; Don't spend a year
+                    <p class="mt-1 text-gray-600">Spend over an hour roleplaying nightmare scenarios, instead of
+                      encountering these problems in production and suffering for a year
                     </p>
                   </div>
                 </div>
               </div>
               <div class="grid grid-cols-2 divide-x divide-gray-900/5 bg-gray-50">
-                <a href="/docs/why-choose-us"
+                <a href="/docs/how-we-work"
                   class="flex items-center justify-center gap-x-2.5 p-3 text-sm font-semibold leading-6 text-gray-900 hover:bg-gray-100">
-                  Why choose us
+                  How we work
                 </a>
                 <a href="/docs/learning-outcomes"
                   class="flex items-center justify-center gap-x-2.5 p-3 text-sm font-semibold leading-6 text-gray-900 hover:bg-gray-100">
@@ -204,19 +201,19 @@
                 </button>
                 <!-- 'Product' sub-menu, show/hide based on menu state. -->
                 <div class="mt-2 space-y-2" id="disclosure-1">
-                  <a href="#" (click)="selectService($event, '1on1')"
+                  <a href="#"
                     class="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50">1-on-1
                     coaching</a>
-                  <a href="#" (click)="selectService($event, 'group')"
+                  <a href="#"
                     class="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50">Group
                     coaching</a>
-                  <a href="#" (click)="selectService($event, 'direction_discovery')"
+                  <a href="#"
                     class="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50">Direction
                     and Discovery Session</a>
-                  <a href="#" (click)="selectService($event, 'rapid')"
+                  <a href="#"
                     class="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50">Rapid
                     Coaching</a>
-                  <a href="#" (click)="selectService($event, 'interactive_case_studies')"
+                  <a href="#"
                     class="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50">Enterprise
                     Interactive Case Studies</a>
                   <a href="/docs/why-choose-us"
@@ -390,7 +387,7 @@
         </div>
       </div>
       <div class="px-4 py-6 bg-white md:flex md:items-center md:justify-between">
-        <span class="text-sm text-gray-400 italic sm:text-center">© 2023 <a href="https://tome.gg/">Tome.gg</a>. All
+        <span class="text-sm text-gray-400 italic sm:text-center">© 2024 <a href="https://tome.gg/">Tome.gg</a>. All
           Rights
           Reserved.
         </span>

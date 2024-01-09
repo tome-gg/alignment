@@ -19,6 +19,11 @@ const routes: Routes = [
     children: [
       {
         path: "",
+        loadChildren: () => import('./home/home.module').then(m => m.HomeModule),
+        title: 'Tome.gg'
+      },
+      {
+        path: "new",
         loadChildren: () => import('./library/library.module').then(m => m.LibraryModule),
         title: 'Library Highlights - Tome.gg'
       },
@@ -94,7 +99,7 @@ const routes: Routes = [
       }, 
       {
         path: "contact-us",
-        loadChildren: () => import('./maintenance/maintenance.module').then(m => m.PageMaintenanceModule),
+        loadChildren: () => import('./contact-us/contact-us.module').then(m => m.ContactUsModule),
         title: 'Contact Us - Tome.gg'
       }, 
       {
@@ -114,7 +119,7 @@ const routes: Routes = [
       }, 
       {
         path: "docs/refund-policy",
-        loadChildren: () => import('./maintenance/maintenance.module').then(m => m.PageMaintenanceModule),
+        loadChildren: () => import('./refund-policy/refund-policy.module').then(m => m.RefundPolicyModule),
         title: 'Refund Policy - Tome.gg'
       },
       {

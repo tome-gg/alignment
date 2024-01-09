@@ -8,7 +8,6 @@ import { OverviewComponent } from './overview/overview.component';
 import { CommonModule, NgIf } from '@angular/common';
 import { AuthModule } from '@auth0/auth0-angular';
 import { AuthButtonComponent } from './auth-button/auth-button.component';
-import { DiscoveryComponent } from './discovery/discovery.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +20,7 @@ import { DiscoveryComponent } from './discovery/discovery.component';
     BrowserModule,
     AppRoutingModule,
     CommonModule,
+    
     // Import the module into the application, with configuration
     AuthModule.forRoot({
       domain: 'dev-hhqarv2odubqjclm.us.auth0.com',
