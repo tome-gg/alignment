@@ -19,6 +19,11 @@ const routes: Routes = [
     children: [
       {
         path: "",
+        loadChildren: () => import('./home/home.module').then(m => m.HomeModule),
+        title: 'Tome.gg'
+      },
+      {
+        path: "new",
         loadChildren: () => import('./library/library.module').then(m => m.LibraryModule),
         title: 'Library Highlights - Tome.gg'
       },
