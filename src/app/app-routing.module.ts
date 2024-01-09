@@ -99,7 +99,7 @@ const routes: Routes = [
       }, 
       {
         path: "contact-us",
-        loadChildren: () => import('./maintenance/maintenance.module').then(m => m.PageMaintenanceModule),
+        loadChildren: () => import('./contact-us/contact-us.module').then(m => m.ContactUsModule),
         title: 'Contact Us - Tome.gg'
       }, 
       {
@@ -119,7 +119,7 @@ const routes: Routes = [
       }, 
       {
         path: "docs/refund-policy",
-        loadChildren: () => import('./maintenance/maintenance.module').then(m => m.PageMaintenanceModule),
+        loadChildren: () => import('./refund-policy/refund-policy.module').then(m => m.RefundPolicyModule),
         title: 'Refund Policy - Tome.gg'
       },
       {

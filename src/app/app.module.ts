@@ -8,7 +8,6 @@ import { OverviewComponent } from './overview/overview.component';
 import { CommonModule, NgIf } from '@angular/common';
 import { AuthModule } from '@auth0/auth0-angular';
 import { AuthButtonComponent } from './auth-button/auth-button.component';
-import { CtaAccelerateYourGrowthModule } from './cta-accelerate-your-growth/cta-accelerate-your-growth.module';
 
 @NgModule({
   declarations: [
