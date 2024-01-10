@@ -1,6 +1,5 @@
 <div>
-  <app-multiple-choice-question questionTitle="Which one resonates the most?"
-    subtitle="Learning is different for everyone." [choices]="choices_one" />
-  <app-multiple-choice-question questionTitle="What do you feel like most?" subtitle="Great, thanks."
-    [choices]="choices_two" />
+  <div *ngFor="let q of questions; index as i; trackBy: trackByFn">
+    <app-multiple-choice-question [questionTitle]="q.title" [subtitle]="q.subtitle" [choices]="q.choices" />
+  </div>
 </div>

@@ -1,0 +1,59 @@
+{
+  "name": "Growth Inventory",
+  "questions": [
+    {
+      "title": "What role do you currently have?",
+      "subtitle": "Let's start with getting to know you.",
+      "choices": [
+        {
+          "id": "1",
+          "title": "Tech-heavy",
+          "descriptionHTML": "Doing <r>software engineering, <u>programming</u></r>, QA engineering, software architecture, or software design",
+          "imageUrl": "/assets/2-a.webp"
+        },
+        {
+          "id": "2",
+          "title": "Tech-adjacent",
+          "descriptionHTML": "Doing <r>product management, quality assurance</r>, UI or UX design",
+          "imageUrl": "/assets/8-a.webp"
+        }, 
+        {
+          "id": "3",
+          "title": "Non-tech",
+          "descriptionHTML": "Doing work that <r>does not involve <u>software development</u>, programming</r>, or computer technologies",
+          "imageUrl": "/assets/16-a.webp"
+        }
+      ]
+    },
+    {
+      "title": "What do feel like most?",
+      "subtitle": "Great, thanks.",
+      "choices": [
+        {
+          "id": "5",
+          "title": "TEST 2",
+          "descriptionHTML": "I feel like <span class=\"text-red-700\">a <u>beginner</u> in a new field</span> and I'm struggling to adapt and learn skills",
+          "imageUrl": "/assets/2-a.webp"
+        },
+        {
+          "id": "6",
+          "title": "TEST 3",
+          "descriptionHTML": "I feel <span class=\"text-red-700\"><u>overwhelmed</u> by the vast amount of information available</span> and I'm unsure of which resources to trust and follow",
+          "imageUrl": "/assets/8-a.webp"
+        }, 
+        {
+          "id": "7",
+          "title": "Both",
+          "descriptionHTML": "Both",
+          "imageUrl": "/assets/16-a.webp"
+        }, 
+        {
+          "id": "8",
+          "title": "Neither",
+          "descriptionHTML": "Neither",
+          "imageUrl": "/assets/1-a.webp"
+        } 
+      ]
+    }
+  ]
+}

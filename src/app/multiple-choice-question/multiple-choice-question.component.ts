@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 export type Choice = {
   id: string,
@@ -12,7 +12,7 @@ export type Choice = {
   templateUrl: './multiple-choice-question.component.html',
   styleUrls: ['./multiple-choice-question.component.sass']
 })
-export class MultipleChoiceQuestionComponent {
+export class MultipleChoiceQuestionComponent implements OnInit {
 
   @Input()
   choices : Choice[] = [
@@ -50,6 +50,13 @@ export class MultipleChoiceQuestionComponent {
 
   @Output('onSelectAnswer')
   onSelectAnswer: EventEmitter<Choice> = new EventEmitter();
+
+  ngOnInit(): void {
+    this.choices.forEach((e) => {
+      e.descriptionHTML = e.descriptionHTML.replaceAll("<r>", "<span class=\"text-red-700\">");
+      e.descriptionHTML = e.descriptionHTML.replaceAll("</r>", "</span>");
+    })
+  }
 
   selectAnswer(choiceID: string) {
     let answer = this.choices.find(c => c.id === choiceID);
