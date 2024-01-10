@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Choice } from '../multiple-choice-question/multiple-choice-question.component';
 
 var gtag = window.gtag;
 
@@ -10,6 +11,8 @@ var gtag = window.gtag;
 export class PageOnboardingComponent {
   showMentorNotes: boolean = false;
   proceed: boolean = false;
+
+  
 
   toggleMentorNotes(event: Event) {
     event.preventDefault()
