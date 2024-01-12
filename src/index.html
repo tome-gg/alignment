@@ -26,6 +26,11 @@
   function gtag() { dataLayer.push(arguments); }
   gtag('js', new Date());
   gtag('config', 'G-9P755HMHC8');
+  var host = window.location.hostname;
+  if (host != "localhost") {
+    window['ga-disable-G-9P755HMHC8'] = true;
+  }
+
 </script>
 <!--Start of Tawk.to Script-->
 <script async type="text/javascript">

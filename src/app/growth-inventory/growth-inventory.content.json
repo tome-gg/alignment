@@ -3,7 +3,11 @@
   "questions": [
     {
       "title": "What role do you currently have?",
-      "subtitle": "Let's start with getting to know you.",
+      "subtitle": "This helps us understand your current context at work.",
+      "metadata": {
+        "chatIntro": "Let's get started with getting to know you.",
+        "chatOutro": "Great! Thanks for sharing your background."
+      },
       "choices": [
         {
           "id": "1",
@@ -26,8 +30,12 @@
       ]
     },
     {
-      "title": "What do feel like most?",
-      "subtitle": "Great, thanks.",
+      "title": "What do you feel like describes you best?",
+      "subtitle": "This helps us understand how you feel about work.",
+      "metadata": {
+        "chatIntro": "Sometimes, our emotions can be used as a great signal for things we are going through.",
+        "chatOutro": "Sharing feelings isn't easy. Thank you for opening up!"
+      },
       "choices": [
         {
           "id": "5",

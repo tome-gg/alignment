@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Choice } from '../multiple-choice-question/multiple-choice-question.component';
 
 var gtag = window.gtag;
 
@@ -8,8 +9,11 @@ var gtag = window.gtag;
   styleUrls: []
 })
 export class PageOnboardingComponent {
-  showMentorNotes: boolean = false;
-  proceed: boolean = false;
+  showMentorNotes = false;
+  isGrowthInventoryComplete = false;
+  isGrowthUrgent : 'undecided'|'yes'|'no' = 'undecided';
+  isHealthAndSustainabilitySupportUrgent : 'undecided'|'yes'|'no' = 'undecided';
+  isIndependentLearner : 'undecided'|'yes'|'no'|'not_learner' = 'undecided';
 
   toggleMentorNotes(event: Event) {
     event.preventDefault()
@@ -17,24 +21,14 @@ export class PageOnboardingComponent {
     gtag('event', 'show_interest', {
       'event_category': 'apply_as_mentor',
      });
-    }
+  }
+
+  onGrowthInventoryComplete(choices: Choice[]) {
+    this.isGrowthInventoryComplete = true;
+  }
 
   openTawkChat() {
     (window as any).Tawk_API.popup();
   }
 
-  submitEmail(event: Event) {
-    event.preventDefault();
-
-    // TODO: send email somewhere
-  }
-
-  showEmailPrompt(event: Event) {
-    event.preventDefault(); this.proceed = false; return;
-  }
-
-  skipEmail(event: Event) {
-    event.preventDefault();
-    this.proceed = true;
-  }
 }
