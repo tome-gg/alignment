@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { Choice } from '../multiple-choice-question/multiple-choice-question.component';
+import { HasuraService } from '../core/services/hasura.service';
+import { concatMap } from 'rxjs';
 
 var gtag = window.gtag;
 
@@ -15,6 +17,10 @@ export class PageOnboardingComponent {
   isHealthAndSustainabilitySupportUrgent : 'undecided'|'yes'|'no' = 'undecided';
   isIndependentLearner : 'undecided'|'yes'|'no'|'not_learner' = 'undecided';
 
+  constructor(private hasuraService: HasuraService) {
+
+  }
+
   toggleMentorNotes(event: Event) {
     event.preventDefault()
     this.showMentorNotes = !this.showMentorNotes;
@@ -25,9 +31,25 @@ export class PageOnboardingComponent {
 
   onGrowthInventoryComplete(choices: Choice[]) {
     this.isGrowthInventoryComplete = true;
+    const id = getCookie('assessmentId') || "";
+    const data = {
+      choices,
+      assessmentID: id,
+      assessmentStart: getCookie('assessmentStart'),
+      assessmentEarliest: getCookie('assessmentEarliest')
+    };
+    
+    this.hasuraService.getUser()
+      .pipe(
+        concatMap((user) => this.hasuraService.insert(data, id, user?.id || null))
+      )
+    .subscribe({
+      next: (e) => { console.log(e); },
+      error: (err) => { console.error(err); },
+    });
 
     // send data
-    // let assessmentStartCookie = getCookie('assessmentStart');
+    
   }
 
   openTawkChat() {

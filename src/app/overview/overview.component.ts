@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { HasuraService } from '../core/services/hasura.service';
 
 var gtag = window.gtag;
 
@@ -11,6 +12,10 @@ export class OverviewComponent {
 
   isOpen: boolean = false;
   serviceSelected: boolean = false;
+
+  constructor() {
+
+  }
 
   openTawkChat() {
     (window as any).Tawk_API.popup();

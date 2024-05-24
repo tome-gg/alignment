@@ -47,7 +47,10 @@ export class GrowthInventoryComponent implements OnInit {
   selectAnswer(choice: Choice) {
     if (this.currentQuestionIndex === 0 && document.cookie.includes('assessmentStart') === false) {
       document.cookie = "assessmentStart=" + new Date().toISOString() + ";max-age=" + 60*60*24*180 + ";path=/;Secure"; // 180 days expiration
-      document.cookie = "assessmentId=" + generateHash() + ";max-age=" + 60*60*24*180 + ";path=/;Secure"; // 180 days expiration
+
+      generateHash().then((id) => {
+        document.cookie = "assessmentId=" + id + ";max-age=" + 60*60*24*180 + ";path=/;Secure"; // 180 days expiration
+      })
     }
     if (document.cookie.includes('assessmentEarliest') === false) {
       document.cookie = "assessmentEarliest=" + new Date().toISOString() + ";max-age=" + 60*60*24*180 + ";path=/;Secure"; // 180 days expiration
@@ -112,9 +115,9 @@ async function generateHash() {
     const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
 
     // Shortening the hash to 10 characters and combining with date
-    return `${currentDate}-${hashHex.substring(0, 10)}`;
+    return `${currentDate}--${hashHex.substring(0, 10)}`;
 
   } catch (e) {
-    return `${currentDate}-http`;
+    return `${currentDate}--http`;
   }
 }

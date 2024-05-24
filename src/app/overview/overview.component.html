@@ -157,8 +157,9 @@
         <a href="/docs/about" class="text-sm font-semibold leading-6 text-gray-900">Company</a>
       </div>
       <div class="hidden lg:flex lg:flex-1 lg:justify-end">
-        <a href='/docs/onboarding' class="text-sm font-semibold leading-6 text-gray-900">Find
+        <a href='/docs/onboarding' class="text-sm font-semibold leading-6 text-gray-900 mx-4">Find
           a mentor</a>
+        <app-auth-button />
       </div>
     </nav>
 
@@ -231,12 +232,14 @@
                 class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Resources</a>
               <a href="/docs/about"
                 class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Company</a>
-            </div>
-            <!-- <div class="py-6">
+              <a href="/docs/onboarding"
+                class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Find
+                a Mentor</a>
               <a href="#"
-                class="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Log
-                in</a>
-            </div> -->
+                class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900">Account</a>
+              <app-auth-button />
+            </div>
+
           </div>
         </div>
       </div>
@@ -282,6 +285,7 @@
         Find a mentor
 
       </a>
+
     </div>
   </div>
   <div *ngIf="serviceSelected" id="for-detailing"
@@ -359,9 +363,9 @@
             <li class="mb-4">
               <a href="/privacy-policy" class="hover:underline">Privacy Policy</a>
             </li>
-            <li class="mb-4">
+            <!-- <li class="mb-4">
               <a href="/licensing" class="hover:underline">Licensing</a>
-            </li>
+            </li> -->
             <li class="mb-4">
               <a href="/terms-and-conditions" class="hover:underline">Terms &amp; Conditions</a>
             </li>
