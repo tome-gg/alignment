@@ -5,7 +5,7 @@
   <div class=" price-point">
     <span *ngIf="priceListing?.isMultipleSessions">
       {{priceListing?.sessions }} sessions, {{priceListing?.durationPerSession }} each ( total of {{
-      (priceListing?.sessions ?? 0) / (priceListing?.sessionsPerMonth ?? 1) }} months @ {{
+      (priceListing?.sessions ?? 0) / (priceListing?.sessionsPerMonth ?? 1) }} months &#64; {{
       priceListing?.sessionsPerMonth }} sessions per month)
     </span>
     <span *ngIf="priceListing?.isMultipleSessions === false">
