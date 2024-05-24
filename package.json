@@ -7,7 +7,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "prepublish": "node src/preprocess/imagemin.mjs",
+    "prepare-images": "node src/preprocess/imagemin.mjs",
     "build-css": "npx tailwindcss -i ./dist/poc/styles.css -o ./dist/poc/styles.css --watch"
   },
   "private": true,
@@ -38,7 +38,7 @@
     "marked": "^5.0.2",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
-    "zone.js": "~0.13.3"
+    "zone.js": "^0.14.0"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^16.2.14",
