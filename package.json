@@ -12,14 +12,14 @@
   },
   "private": true,
   "dependencies": {
-    "@angular/animations": "^17.3.10",
-    "@angular/common": "^17.3.10",
-    "@angular/compiler": "^17.3.10",
-    "@angular/core": "^17.3.10",
-    "@angular/forms": "^17.3.10",
-    "@angular/platform-browser": "^17.3.10",
-    "@angular/platform-browser-dynamic": "^17.3.10",
-    "@angular/router": "^17.3.10",
+    "@angular/animations": "^18.0.0",
+    "@angular/common": "^18.0.0",
+    "@angular/compiler": "^18.0.0",
+    "@angular/core": "^18.0.0",
+    "@angular/forms": "^18.0.0",
+    "@angular/platform-browser": "^18.0.0",
+    "@angular/platform-browser-dynamic": "^18.0.0",
+    "@angular/router": "^18.0.0",
     "@apollo/client": "^3.8.9",
     "@auth0/auth0-angular": "^2.2.1",
     "@coral-xyz/anchor": "^0.27.0",
@@ -41,9 +41,9 @@
     "zone.js": "^0.14.0"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^17.3.8",
-    "@angular/cli": "~17.3.8",
-    "@angular/compiler-cli": "^17.3.10",
+    "@angular-devkit/build-angular": "^18.0.1",
+    "@angular/cli": "~18.0.1",
+    "@angular/compiler-cli": "^18.0.0",
     "@types/bn.js": "^5.1.1",
     "@types/gtag.js": "^0.0.12",
     "@types/imagemin-webp": "^7.0.0",
@@ -59,7 +59,7 @@
     "karma-jasmine-html-reporter": "~2.0.0",
     "postcss": "^8.4.31",
     "tailwindcss": "^3.2.7",
-    "typescript": "5.4.5",
+    "typescript": "^5.4.5",
     "webpack": ">=5.76.0"
   }
 }
