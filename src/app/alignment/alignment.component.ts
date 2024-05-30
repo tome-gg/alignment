@@ -195,11 +195,11 @@ export class AlignmentComponent {
       return;
     }
 
-
-    gtag('event', 'view_alignment', {
-      'event_category': 'alignment',
-      'event_label': 'User viewed alignment',
-      'value': this.alignmentNegotiationPublicKey })
+    // Broken event tracking - public key is not a number
+    // gtag('event', 'view_alignment', {
+    //   'event_category': 'alignment',
+    //   'event_label': 'User viewed alignment',
+    //   'value': this.alignmentNegotiationPublicKey })
 
     console.log("Initializing tome service")
     this.tome.init();
