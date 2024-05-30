@@ -6,6 +6,7 @@ import { AlignmentNegotiationState, NegotiationParameters } from '../core/alignm
 import { TomeService } from '../tome/tome.service';
 import { BN } from '@coral-xyz/anchor';
 import { TermAndProtocolSelectorComponent } from './term-and-protocol-selector/term-and-protocol-selector.component';
+import { Gtag } from 'src';
 
 declare var gtag : Gtag.Gtag;
 
