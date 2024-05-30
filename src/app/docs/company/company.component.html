@@ -1,35 +1,40 @@
 <div class="hero min-h-screen bg-base-100 rounded-lg">
-  <div class="hero-content flex-col lg:flex-col">
+  <div class="max-w-2/3 flex-col lg:flex-col">
     <div class="flex flex-col md:flex-row">
-      <picture class="max-w-2 rounded-full my-4 md:my-auto mx-auto md:mx-4">
-        <source loading="lazy" srcset="/assets/dev-profile-microsoft-2023.webp" type="image/webp"
-          class="w-32 rounded-full">
-        <source loading="lazy" srcset="/assets/dev-profile-microsoft-2023.jpg" type="image/jpeg"
-          class="w-32 rounded-full">
-        <img loading="lazy" src="/assets/dev-profile-microsoft-2023.jpg" class="w-32 rounded-full" />
-      </picture>
-      <picture class="xs:max-w-sm md:max-w-2xl rounded-lg">
+
+      <picture class="xs:max-w-sm mx-2 md:max-w-2xl rounded-lg">
         <source loading="lazy" srcset="/assets/banner-linked-in.webp" type="image/webp" class="rounded-lg">
         <source loading="lazy" srcset="/assets/banner-linked-in.jpg" type="image/jpeg" class="rounded-lg">
         <img loading="lazy" src="/assets/banner-linked-in.jpg" class="rounded-lg" />
       </picture>
     </div>
 
-    <div class="px-3">
+    <div class="px-3 max-w-2xl">
       <h1 class="text-4xl font-bold mt-4">Darren Sapalo <small>MS, MBA</small></h1>
       <h2 class="text-2xl italic mt-2">Founder of Tome.gg</h2>
-      <p class="pb-6 mt-4">
-        Hi there! You can call me <strong>Darren</strong>.
-        I would describe myself as <i>a lifelong learner, and a generous classmate</i>.
-      </p>
-      <p class="pb-6">
-        I worked as a tech consultant since 2019, and have worked in various roles
-        such as software architect, software evangelist, engineering manager, and
-        full-stack software engineer.
-        I built Tome.gg as a for-profit social enterprise because I saw the
-        great demand in high-quality senior-level software engineering talent
-        in the Philippines, and in the US.
-      </p>
+      <div class="flex flex-col sm:flex-row">
+        <picture class="mx-auto sm:w-32 rounded-full my-4 md:my-auto mx-auto md:mx-8">
+          <source loading="lazy" srcset="/assets/dev-profile-microsoft-2023.webp" type="image/webp"
+            class="mx-auto sm:w-32 rounded-full">
+          <source loading="lazy" srcset="/assets/dev-profile-microsoft-2023.jpg" type="image/jpeg"
+            class="mx-auto sm:w-32 rounded-full">
+          <img loading="lazy" src="/assets/dev-profile-microsoft-2023.jpg" class="w-32 rounded-full" />
+        </picture>
+        <div class="flex-col flex w-full sm:max-w-md">
+          <p class="pb-6 mt-4">
+            Hi there! You can call me <strong>Darren</strong>.
+            I would describe myself as <i>a lifelong learner, and a generous classmate</i>.
+          </p>
+          <p class="pb-6">
+            I worked as a tech consultant since 2019, and have worked in various roles
+            such as software architect, software evangelist, engineering manager, and
+            full-stack software engineer.
+            I built Tome.gg as a for-profit social enterprise because I saw the
+            great demand in high-quality senior-level software engineering talent
+            in the Philippines, and in the US.
+          </p>
+        </div>
+      </div>
       <p class="pb-6">
         Let me share my background and tell you about the heart-breaking stories
         I've heard from different apprentices I've worked with in the past.
@@ -45,7 +50,7 @@
   <div class="hero-content flex-col-reverse lg:flex-row">
 
     <div class="px-3">
-      <h1 class="text-4xl font-bold mt-4">Academics</h1>
+      <h1 class="text-2xl font-bold mt-4">Academics</h1>
       <p class="mt-4">
         Darren is a computer-science graduate in De La Salle University Manila-
         one of the top universities in the Philippines. He finished his under-graduate
@@ -61,7 +66,7 @@
         He is currently taking his MBA at Hult International Business School in
         San Francisco, and is the president of the Hult EdTech Club.
       </p>
-      <h1 class="text-4xl font-bold mt-4">Profession</h1>
+      <h1 class="text-2xl font-bold mt-4">Profession</h1>
       <p class="mt-4">
         Upon completion of his undergraduate degree, Darren worked as a software
         engineer starting with mobile front-end
@@ -80,10 +85,10 @@
         Now that's out of the way- let's talk stories.
       </p>
     </div>
-    <picture class="xs:max-w-sm md:max-w-lg rounded-lg shadow-2xl">
-      <source loading="lazy" srcset="/assets/case-study.webp" type="image/webp">
-      <source loading="lazy" srcset="/assets/case-study.jpg" type="image/jpeg">
-      <img loading="lazy" src="/assets/case-study.jpg" />
+    <picture class="xs:max-w-sm md:max-w-lg rounded-lg ">
+      <source loading="lazy" srcset="/assets/books-lineart.webp" type="image/webp">
+      <source loading="lazy" srcset="/assets/books-lineart.jpg" type="image/jpeg">
+      <img loading="lazy" src="/assets/books-lineart.jpg" />
     </picture>
   </div>
 </div>
@@ -95,7 +100,7 @@
       <img loading="lazy" src="/assets/all-work-no-play.webp" />
     </picture>
     <div class="px-3">
-      <h1 class="text-4xl font-bold mt-4">All work and no play.</h1>
+      <h1 class="text-2xl font-bold mt-4">All work and no play.</h1>
       <p class="py-6">
         I've worked with engineering teams and individual apprentices that have found
         themselves in endless cycles of tiredness and ineffectiveness. They feel tired
@@ -114,7 +119,7 @@
 <div class="hero min-h-screen bg-base-100 my-8 rounded-lg">
   <div class="hero-content flex-col lg:flex-row">
     <div class="px-3">
-      <h1 class="text-4xl font-bold mt-4">Lack of confidence.</h1>
+      <h1 class="text-2xl font-bold mt-4">Lack of confidence.</h1>
       <p class="py-6">
         Some software engineers have felt lost and helpless when it comes to dealing
         with problems, and sometimes struggle to ask for help- thinking they would
@@ -138,13 +143,13 @@
 </div>
 <div class="hero min-h-screen bg-base-100 my-8 rounded-lg">
   <div class="hero-content flex-col-reverse lg:flex-row">
-    <picture class="xs:max-w-sm md:max-w-lg rounded-lg shadow-2xl">
-      <source loading="lazy" srcset="/assets/books.webp" type="image/webp">
-      <source loading="lazy" srcset="/assets/books.jpg" type="image/jpeg">
-      <img loading="lazy" src="/assets/books.jpg" />
+    <picture class="xs:max-w-sm md:max-w-lg rounded-lg ">
+      <source loading="lazy" srcset="/assets/mirana-thinking.webp" type="image/webp">
+      <source loading="lazy" srcset="/assets/mirana-thinking.jpg" type="image/jpeg">
+      <img loading="lazy" src="/assets/mirana-thinking.jpg" />
     </picture>
     <div class="px-3">
-      <h1 class="text-4xl font-bold mt-4">Limited communication and negotiation vocabulary.</h1>
+      <h1 class="text-2xl font-bold mt-4">Limited communication and negotiation vocabulary.</h1>
       <p class="py-6">
         I've met a lot of highly-proficient, deeply-technical software engineers that
         have struggled to understand how to better deliver value to their direct
@@ -169,7 +174,7 @@
 <div class="hero min-h-144 bg-base-100 my-8 rounded-lg">
   <div class="hero-content flex-col lg:flex-row">
     <div class="px-3">
-      <h1 class="text-4xl font-bold mt-4">Personalization.</h1>
+      <h1 class="text-2xl font-bold mt-4">Personalization.</h1>
       <p class="mt-4">
         Throughout my journey in my 18+ years of programming and software engineering,
         I've learned what works best for me when it comes to learning.
@@ -200,12 +205,12 @@
     </div>
   </div>
 </div>
-<div class="hero min-h-144 bg-base-100 my-8 rounded-lg">
+<div class="hero min-h-144 pb-8 bg-base-100 my-8 rounded-lg">
   <div class="hero-content flex-col lg:flex-row">
     <div class="px-3">
       <h1 class="text-4xl font-bold mt-4">The Team.</h1>
       <p class="mt-4">
-        Tome.gg is led by Darren and we are a strong, lean team of 5 with big
+        Tome.gg is composed of a lean team of 5 Filipinos, with big
         dreams of enabling scalable, hyper-personalized mentorship.
       </p>
       <p class="mt-4">
@@ -216,4 +221,3 @@
     </div>
   </div>
 </div>
-<app-cta-accelerate-your-growth></app-cta-accelerate-your-growth>
