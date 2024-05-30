@@ -10,73 +10,93 @@
       <span class="hidden ml-auto my-auto text-xs text-right text-gray-400 align-baseline sm:flex">Currently logged in
       </span>
       <span class="sm:ml-1 ml-auto my-auto text-xs text-right text-gray-400 align-baseline">
-        as <i>Furry Puppet</i></span>
+        as <i>{{ user.username }}</i></span>
     </div>
 
   </div>
   <div class="flex-col rounded-lg">
     <div class="mx-auto flex-col bg-white p-4 w-full sm:w-5/6 lg:w-3/4">
-      <div class="chat chat-start mr-auto">
+      @for (msg of messages; track $index) {
+      @switch (msg.type) {
+      @case ('ai'){
+      <div class="chat chat-start mr-auto my-2">
         <div class="chat-image w-12 mask mask-hexagon object-cover">
-
-          <img alt="Tailwind CSS chat bubble component"
-            src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
+          <img alt="ai" src="{{ msg.user.imageUrl }}" />
         </div>
         <div class="chat-header">
-          Ink
-          <time class="text-xs opacity-50">12:45</time>
-        </div>
-        <div class="chat-bubble text-sm">You were the Chosen One!</div>
-      </div>
-      <div class="chat chat-end ml-auto">
-        <div class="chat-image avatar">
-          <div class="w-12 rounded-full">
-            <img alt="Tailwind CSS chat bubble component"
-              src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
-          </div>
-        </div>
-        <div class="chat-header">
-          Anakin
-          <time class="text-xs opacity-50">12:46</time>
+          {{ msg.user.username }}
+          <time class="text-xs opacity-50">{{ parseTime(msg.timestamp) }}</time>
         </div>
         <div class="chat-bubble text-sm">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-          magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-          consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
-          est laborum.
-        </div>
-        <div class="chat-footer opacity-50">
-          Seen at 12:46
+          {{ msg.message }}
         </div>
       </div>
-    </div>
-
-    <div class="mx-auto flex-col bg-white p-4 w-full sm:w-5/6 lg:w-3/4">
-      <div class="chat chat-start mr-auto">
+      }
+      @case ('ai_thought') {
+      <div class="chat chat-start mr-auto my-2">
         <div class="chat-image w-12 mask mask-hexagon object-cover">
 
-          <img alt="Tailwind CSS chat bubble component"
-            src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
+          <img alt="ai" src="{{ msg.user.imageUrl }}" />
         </div>
         <div class="chat-header">
-          Ink
-          <time class="text-xs opacity-50">12:45</time>
+          {{ msg.user.username }}
+          <time class="text-xs opacity-50">{{ parseTime(msg.timestamp) }}</time>
         </div>
-        <div class="chat-bubble chat-thought-content text-sm opacity-25 text-gray-200">
-          Maybe that wasn't right. Let me try again.
+        <div class="chat-bubble text-sm opacity-25 text-white">
+          {{ msg.message }}
         </div>
         <div class="chat-footer chat-thought-label opacity-50">
           Thought
         </div>
       </div>
+      }
+      @case ('peer') {
+      <div class="chat chat-start mr-auto my-2">
+        <div class="chat-image avatar">
+          <div class="w-12 rounded-full">
+            <img alt="user" src="{{ msg.user.imageUrl }}" />
+          </div>
+        </div>
+        <div class="chat-header">
+          {{ msg.user.username }}
+          <time class="text-xs opacity-50">{{ parseTime(msg.timestamp) }}</time>
+        </div>
+        <div class="chat-bubble text-sm">
+          {{ msg.message }}
+        </div>
+      </div>
+      }
+      @case ('user') {
+      <div class="chat chat-end ml-auto">
+        <div class="chat-image avatar">
+          <div class="w-12 rounded-full">
+            <img alt="user" src="{{ msg.user.imageUrl }}" />
+          </div>
+        </div>
+        <div class="chat-header">
+          {{ msg.user.username }}
+          <time class="text-xs opacity-50">{{ parseTime(msg.timestamp) }}</time>
+        </div>
+        <div class="chat-bubble text-sm">
+          {{ msg.message }}
+        </div>
+        <div class="chat-footer opacity-50">
+
+        </div>
+      </div>
+      }
+      }
+      }
     </div>
+
+
+
 
 
     <!-- User input -->
     <div class="mx-auto flex-col bg-white p-4 w-full sm:w-5/6 lg:w-3/4">
       <div class="flex flex-row justify-center items-center">
-        <textarea class="textarea textarea-bordered w-full" rows="1" placeholder="Ink"></textarea>
+        <textarea class="textarea textarea-bordered w-full" rows="1" placeholder="Start anywhere, and ask."></textarea>
         <button class="btn btn-sm m-4 px-4">
           Send
         </button>

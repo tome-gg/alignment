@@ -16,7 +16,7 @@ const routes: Routes = [
   {
     path: "ink",
     loadChildren: () => import('./ink/ink.module').then(m => m.InkModule),
-    title: 'Growth Journal - Tome.gg'
+    title: 'Ink AI - Tome.gg'
   },
   {
     path: "",

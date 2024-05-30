@@ -8,3 +8,4 @@
 * comics - https://www.pexels.com/photo/collection-of-various-comic-books-in-box-6654171/
 * warehouse - https://www.pexels.com/photo/warehouse-building-with-empty-maneuvering-area-12069477/
 * case-study - https://www.pexels.com/photo/teacher-discussing-his-lesson-to-his-students-7092352/
+* ink - https://www.pexels.com/photo/close-up-photo-of-abstract-painting-3107143/
