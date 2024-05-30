@@ -7,7 +7,7 @@ import { TomeService } from '../tome/tome.service';
 import { BN } from '@coral-xyz/anchor';
 import { TermAndProtocolSelectorComponent } from './term-and-protocol-selector/term-and-protocol-selector.component';
 
-declare var gtag : any;
+declare var gtag : Gtag.Gtag;
 
 enum ComponentState {
   // Means the user is not connected yet

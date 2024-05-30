@@ -1,4 +1,8 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { Gtag } from 'src';
+
+declare var gtag : Gtag.Gtag;
 
 @Component({
   selector: 'app-home',
@@ -7,4 +11,16 @@ import { Component } from '@angular/core';
 })
 export class HomeComponent {
 
+  constructor( private router: Router) {
+
+  }
+
+  tryInk(evt: any) {
+    evt.preventDefault();
+    gtag('event', "click", {
+      event_category: "try ink",
+      event_label: "alpha"
+    });
+    this.router.navigate(['/ink']);
+  }
 }
