@@ -14,6 +14,11 @@ const routes: Routes = [
     title: 'Growth Journal - Tome.gg'
   },
   {
+    path: "ink",
+    loadChildren: () => import('./ink/ink.module').then(m => m.InkModule),
+    title: 'Growth Journal - Tome.gg'
+  },
+  {
     path: "",
     component: OverviewComponent,
     children: [
