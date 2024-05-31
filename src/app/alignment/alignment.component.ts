@@ -195,7 +195,7 @@ export class AlignmentComponent {
       return;
     }
 
-    // Broken event tracking - public key is not a number
+    // Broken event tracking - public key is not a number˛
     // gtag('event', 'view_alignment', {
     //   'event_category': 'alignment',
     //   'event_label': 'User viewed alignment',
