@@ -20,7 +20,7 @@ export class CompanyComponent implements OnInit {
 
   ngOnInit() {
     // How long before each message is sent over
-    const delayInSec = 4;
+    const delayInSec = 12;
 
     const messages$ = interval(delayInSec * 1000).pipe(
       filter((v) => v !== null && v !== undefined),
