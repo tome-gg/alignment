@@ -43,10 +43,11 @@
         Stories are anonymized and some elements have been
         partially revised for privacy purposes.
       </p>
+      <div class="btn btn-outline" *ngIf="minCounter <= 0" (click)="minCounter = 1">Next</div>
     </div>
   </div>
 </div>
-<div class="hero min-h-screen bg-base-100 my-8 rounded-lg">
+<div class="hero min-h-screen bg-base-100 my-8 rounded-lg animate-fadeIn" *ngIf="this.minimumDisplayCounter > 0">
   <div class="hero-content flex-col-reverse lg:flex-row">
 
     <div class="px-3">
@@ -74,11 +75,12 @@
         business. My journey continued as I took on roles as an engineering manager and software architect by 2021.
       </p>
       <div class="flex">
-        <a href="https://www.linkedin.com/in/darrensapalo/" class="my-6 w-fit px-8 btn btn-outline">View LinkedIn</a>
+        <a href="https://www.linkedin.com/in/darrensapalo/" class="my-6 w-fit px-4 btn btn-outline">View LinkedIn</a>
       </div>
       <p class="my-4">
         Now that's out of the way- let's talk stories.
       </p>
+      <div class="btn btn-outline" *ngIf="minCounter <= 1" (click)="minCounter = 2">Next</div>
     </div>
     <picture class="xs:max-w-sm md:max-w-lg rounded-lg ">
       <source loading="lazy" srcset="/assets/books-lineart.webp" type="image/webp">
@@ -87,7 +89,7 @@
     </picture>
   </div>
 </div>
-<div class="hero min-h-screen bg-base-100 my-8 rounded-lg">
+<div class="hero min-h-screen bg-base-100 my-8 rounded-lg animate-fadeIn" *ngIf="this.minimumDisplayCounter > 1">
   <div class="hero-content flex-col-reverse lg:flex-row">
     <picture class="max-w-sm rounded-lg shadow-2xl">
       <source class="" loading="lazy" srcset="/assets/sleeping-late.webp" type="image/webp">
@@ -107,11 +109,12 @@
       <div class="flex justify-center">
         <a href="https://docs.tome.gg/contexts/problems/all-work-and-no-play"
           class="my-6 w-fit lg:w-96 btn btn-outline">Read about the problem in library</a>
+        <div class="btn btn-outline my-6 mx-4" *ngIf="minCounter <= 2" (click)="minCounter = 3">Next</div>
       </div>
     </div>
   </div>
 </div>
-<div class="hero min-h-screen bg-base-100 my-8 rounded-lg">
+<div class="hero min-h-screen bg-base-100 my-8 rounded-lg animate-fadeIn" *ngIf="this.minimumDisplayCounter > 2">
   <div class="hero-content flex-col lg:flex-row">
     <div class="px-3">
       <h1 class="text-2xl font-bold mt-4">Lack of confidence.</h1>
@@ -126,6 +129,7 @@
       <div class="flex justify-center">
         <a href="https://docs.tome.gg/contexts/problems/building-confidence"
           class="my-6 w-fit lg:w-96 btn btn-outline">Read about the problem in library</a>
+        <div class="btn btn-outline my-6 mx-4" *ngIf="minCounter <= 3" (click)="minCounter = 4">Next</div>
       </div>
     </div>
     <picture class="xs:max-w-sm md:max-w-lg rounded-lg">
@@ -136,7 +140,7 @@
 
   </div>
 </div>
-<div class="hero min-h-screen bg-base-100 my-8 rounded-lg">
+<div class="hero min-h-screen bg-base-100 my-8 rounded-lg animate-fadeIn" *ngIf="this.minimumDisplayCounter > 3">
   <div class="hero-content flex-col-reverse lg:flex-row">
     <picture class="xs:max-w-sm md:max-w-lg rounded-lg ">
       <source loading="lazy" srcset="/assets/mirana-thinking.webp" type="image/webp">
@@ -160,13 +164,13 @@
       <div class="flex justify-center">
         <a href="https://sapalo.dev/2020/01/21/the-stairs/" class="my-6 w-fit lg:w-96 btn btn-outline">Read about
           it on a blog post</a>
-
+        <div class="btn btn-outline my-6 mx-4" *ngIf="minCounter <= 4" (click)="minCounter = 5">Next</div>
       </div>
     </div>
 
   </div>
 </div>
-<div class="hero min-h-144 bg-base-100 my-8 rounded-lg">
+<div class="hero min-h-144 bg-base-100 my-8 rounded-lg animate-fadeIn" *ngIf="this.minimumDisplayCounter > 4">
   <div class="hero-content flex-col lg:flex-row">
     <div class="px-3">
       <h1 class="text-2xl font-bold mt-4">Personalization.</h1>
@@ -196,6 +200,7 @@
       <div class="flex sm:flex-row flex-col justify-center my-4">
         <a href="https://protocol.tome.gg" class="mx-4 mt-4 w-fit lg:w-96 btn btn-outline">Read the Protocols</a>
         <a href="/docs/onboarding" class="mx-4 mt-4 w-fit lg:w-96 btn btn-outline">Find a Mentor</a>
+        <div class="btn btn-outline my-6 mx-4" *ngIf="minCounter <= 5" (click)="minCounter = 6">Next</div>
       </div>
     </div>
     <picture class="xs:max-w-sm md:max-w-lg rounded-lg">
@@ -205,7 +210,7 @@
     </picture>
   </div>
 </div>
-<div class="hero min-h-144 pb-8 bg-base-100 my-8 rounded-lg">
+<div class="hero min-h-144 pb-8 bg-base-100 my-8 rounded-lg animate-fadeIn" *ngIf="this.minimumDisplayCounter > 5">
   <div class="hero-content flex-col lg:flex-row">
     <div class="px-3">
       <h1 class="text-4xl font-bold mt-4">The Team.</h1>
