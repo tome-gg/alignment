@@ -109,7 +109,7 @@ const routes: Routes = [
       }, 
       {
         path: "privacy-policy",
-        loadChildren: () => import('./maintenance/maintenance.module').then(m => m.PageMaintenanceModule),
+        loadChildren: () => import('./privacy-policy/privacy-policy.module').then(m => m.PrivacyPolicyModule),
         title: 'Privacy Policy - Tome.gg'
       }, 
       {

@@ -23,4 +23,13 @@ export class HomeComponent {
     });
     this.router.navigate(['/ink']);
   }
+
+  tryDiscovery(evt: any) {
+    evt.preventDefault();
+    gtag('event', "click", {
+      event_category: "try discovery",
+      event_label: "alpha"
+    });
+    window.location.href = ('https://waitlist.tome.gg/discovery');
+  }
 }
