@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { TomeService } from './tome.service';
+import { TomeService } from './tome.service.ts-deprecated';
 
 describe('TomeService', () => {
   let service: TomeService;

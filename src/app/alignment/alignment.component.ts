@@ -1,9 +1,9 @@
 import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
-import { AlignmentNegotiation } from 'src/defn/alignment_negotiation';
+// import { AlignmentNegotiation } from 'src/defn/alignment_negotiation';
 import * as web3 from '@solana/web3.js';
 import { PhantomService } from '../wallet/phantom.service';
 import { AlignmentNegotiationState, NegotiationParameters } from '../core/alignment-client';
-import { TomeService } from '../tome/tome.service';
+// import { TomeService } from '../tome/tome.service.ts-deprecated';
 import { BN } from '@coral-xyz/anchor';
 import { TermAndProtocolSelectorComponent } from './term-and-protocol-selector/term-and-protocol-selector.component';
 import { Gtag } from 'src';
@@ -96,7 +96,7 @@ export class AlignmentComponent {
 
   isDirty: boolean = false;
 
-  constructor(private phantomService: PhantomService, private tome: TomeService, private changeDetectorRef: ChangeDetectorRef) {
+  constructor(private phantomService: PhantomService, private changeDetectorRef: ChangeDetectorRef) {
     // this.connect();
   }
 
@@ -140,27 +140,27 @@ export class AlignmentComponent {
       return;
     }
 
-    if (false) {
+    // if (false) {
 
-      const newNegotiation = new web3.Keypair();
+    //   const newNegotiation = new web3.Keypair();
 
-      const txnSetup = await this.tome.createTxnSetupNegotiation(
-        // TODO: These appear to be broken
-        // new web3.PublicKey(this.userWalletPublicKey),
-        // new web3.PublicKey(this.mentorWalletPublicKey),
-        this.userWalletPublicKey as any,
-        this.mentorWalletPublicKey as any,
-        newNegotiation.publicKey,
-      );
+    //   const txnSetup = await this.tome.createTxnSetupNegotiation(
+    //     // TODO: These appear to be broken
+    //     // new web3.PublicKey(this.userWalletPublicKey),
+    //     // new web3.PublicKey(this.mentorWalletPublicKey),
+    //     this.userWalletPublicKey as any,
+    //     this.mentorWalletPublicKey as any,
+    //     newNegotiation.publicKey,
+    //   );
 
-      const provider = this.phantomService.getPhantomProvider();
-      console.log("Requesting sign and send transaction");
+    //   const provider = this.phantomService.getPhantomProvider();
+    //   console.log("Requesting sign and send transaction");
 
-      const signedTransaction = await provider.signTransaction(txnSetup);
-      console.log("signed txn", signedTransaction);
-      const signature = await this.tome.sendTransaction(signedTransaction);
-      console.log("Result of transaction", signature);
-    }
+    //   const signedTransaction = await provider.signTransaction(txnSetup);
+    //   console.log("signed txn", signedTransaction);
+    //   const signature = await this.tome.sendTransaction(signedTransaction);
+    //   console.log("Result of transaction", signature);
+    // }
 
     gtag('event', 'initiate_alignment', {
       'event_category': 'alignment',
@@ -201,20 +201,20 @@ export class AlignmentComponent {
     //   'event_label': 'User viewed alignment',
     //   'value': this.alignmentNegotiationPublicKey })
 
-    console.log("Initializing tome service")
-    this.tome.init();
+    // console.log("Initializing tome service")
+    // this.tome.init();
     
-    console.log("Fetching alignment negotiation")
-    this.tome.fetchAlignmentNegotiation(this.alignmentNegotiationPublicKey).subscribe((data) => {
-      this.alignmentNegotiation = data as unknown as AlignmentNegotiationState;
-      for (const prop in this.alignmentNegotiation) {
-        let ref = this.alignmentNegotiation as any;
-        ref[prop] = (data as any)[prop]
-      }
-      this.reload();
-    })
+    // console.log("Fetching alignment negotiation")
+    // this.tome.fetchAlignmentNegotiation(this.alignmentNegotiationPublicKey).subscribe((data) => {
+    //   this.alignmentNegotiation = data as unknown as AlignmentNegotiationState;
+    //   for (const prop in this.alignmentNegotiation) {
+    //     let ref = this.alignmentNegotiation as any;
+    //     ref[prop] = (data as any)[prop]
+    //   }
+    //   this.reload();
+    // })
 
-    this.currentState = ComponentState.Viewing;
+    // this.currentState = ComponentState.Viewing;
   }
 
   reload() {

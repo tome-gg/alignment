@@ -25,7 +25,8 @@
       "ES2022",
       "dom",
       "esnext.asynciterable"
-    ]
+    ],
+    "skipLibCheck": true
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

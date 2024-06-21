@@ -1,57 +1,12 @@
+import { Program, Idl} from "@coral-xyz/anchor";
+import { IdlInstruction, IdlMetadata } from "@coral-xyz/anchor/dist/cjs/idl";
+
 export type AlignmentNegotiation = {
+  "address": "",
+  "metadata": IdlMetadata,
   "version": "0.1.0",
   "name": "alignment_negotiation",
-  "instructions": [
-    {
-      "name": "setupNegotation",
-      "accounts": [
-        {
-          "name": "negotiation",
-          "isMut": true,
-          "isSigner": true
-        },
-        {
-          "name": "apprentice",
-          "isMut": true,
-          "isSigner": true
-        },
-        {
-          "name": "systemProgram",
-          "isMut": false,
-          "isSigner": false
-        }
-      ],
-      "args": [
-        {
-          "name": "mentor",
-          "type": "publicKey"
-        }
-      ]
-    },
-    {
-      "name": "propose",
-      "accounts": [
-        {
-          "name": "negotiation",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "player",
-          "isMut": false,
-          "isSigner": true
-        }
-      ],
-      "args": [
-        {
-          "name": "proposal",
-          "type": {
-            "defined": "Proposal"
-          }
-        }
-      ]
-    }
-  ],
+  "instructions": IdlInstruction[],
   "accounts": [
     {
       "name": "alignmentNegotiation",
@@ -302,30 +257,42 @@ export type AlignmentNegotiation = {
 export const IDL: AlignmentNegotiation = {
   "version": "0.1.0",
   "name": "alignment_negotiation",
+  "address": "",
+  "metadata": {
+    "name": "",
+    "version": "",
+    "spec": "",
+    "description": "",
+    "repository": "",
+    "dependencies": [],
+    "contact": "",
+    "deployments": undefined,
+  },
   "instructions": [
     {
       "name": "setupNegotation",
+      discriminator: [],
       "accounts": [
         {
           "name": "negotiation",
-          "isMut": true,
-          "isSigner": true
+          "writable": true,
+          "signer": true
         },
         {
           "name": "apprentice",
-          "isMut": true,
-          "isSigner": true
+          "writable": true,
+          "signer": true
         },
         {
           "name": "systemProgram",
-          "isMut": false,
-          "isSigner": false
+          "writable": false,
+          "signer": false
         }
       ],
       "args": [
         {
           "name": "mentor",
-          "type": "publicKey"
+          "type": "pubkey"
         }
       ]
     },
@@ -334,13 +301,13 @@ export const IDL: AlignmentNegotiation = {
       "accounts": [
         {
           "name": "negotiation",
-          "isMut": true,
-          "isSigner": false
+          "writable": true,
+          "signer": false
         },
         {
           "name": "player",
-          "isMut": false,
-          "isSigner": true
+          "writable": false,
+          "signer": true
         }
       ],
       "args": [

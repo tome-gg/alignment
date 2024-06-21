@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AnchorProvider, Program, Provider, setProvider, Wallet} from "@coral-xyz/anchor";
+import { AnchorProvider, Program, Provider, setProvider} from "@coral-xyz/anchor";
 import * as web3 from "@solana/web3.js";
 import { defer, from } from 'rxjs';
 import { AlignmentNegotiation, IDL } from 'src/defn/alignment_negotiation';
