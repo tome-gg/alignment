@@ -10,21 +10,26 @@ module.exports = {
         '400': '4.00',
         '800': '8.00'
       },
-      // animation: {
-      //   'disappearslow': 'disappearslow 3s linear',
-      // },
-      // keyframes: {
-      //   disappearslow: {
-      //     '0%': { 
-      //       opacity: 0, 
-      //       transform: scale(1)
-      //     },
-      //     '100%': { 
-      //       opacity: 1,
-      //       transform: scale(0.5)
-      //     },
-      //   }
-      // }
+      animation: {
+        // 'disappearslow': 'disappearslow 3s linear',
+        fadeIn: 'fadeIn 0.5s ease-in-out',
+      },
+      keyframes: {
+        fadeIn: {
+          '0%': { opacity: '0' },
+          '100%': { opacity: '1' },
+        },
+        // disappearslow: {
+        //   '0%': { 
+        //     opacity: 0, 
+        //     transform: scale(1)
+        //   },
+        //   '100%': { 
+        //     opacity: 1,
+        //     transform: scale(0.5)
+        //   },
+        // }
+      }
     },
   },
   variants: {

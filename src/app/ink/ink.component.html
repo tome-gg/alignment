@@ -2,7 +2,7 @@
   <div id="ai-header">
     <div class="mx-auto mb-2 bg-white p-2 rounded w-full sm:w-5/6 lg:w-3/4 flex flex-row">
       <h1 class="font-bold align-baseline">Ink
-        <span class="mb-2 text-gray-600 text-sm">v0.1.0</span> &nbsp;
+        <span class="mb-2 text-gray-600 text-sm">v0.1.1</span> &nbsp;
         <span class="mb-2 text-gray-400 text-sm font-medium">by
           <a href="/" class="link cursor">Tome.gg</a>
         </span>
@@ -19,8 +19,10 @@
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
           d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
       </svg>
-      <p class="mx-2 inline">Hi there! This is currently a preview of the user interface for Ink AI.
-        <span class="hidden sm:inline">It is currently not yet functional, and is undergoing development. </span>
+      <p class="mx-2 inline">Hi there! This is a work-in-progress animated preview of the user interface for Ink AI.
+        <span class="hidden sm:inline">It is currently not yet functional, and is undergoing development. </span> Please
+        wait a
+        few seconds.
         Click here to <a class="link cursor" href="https://waitlist.tome.gg/ink">Join the
           waitlist!</a>
       </p>
@@ -32,7 +34,7 @@
       @for (msg of messages; track $index) {
       @switch (msg.type) {
       @case ('ai'){
-      <div class="chat chat-start mr-auto my-2">
+      <div class="chat chat-start mr-auto my-2 animate-fadeIn">
         <div class="chat-image w-12 mask mask-hexagon object-cover">
           <img alt="ai" src="{{ msg.user.imageUrl }}" />
         </div>
@@ -45,7 +47,7 @@
       </div>
       }
       @case ('ai_thought') {
-      <div class="chat chat-start mr-auto my-2">
+      <div class="chat chat-start mr-auto my-2 animate-fadeIn">
         <div class="chat-image w-12 mask mask-hexagon object-cover">
 
           <img alt="ai" src="{{ msg.user.imageUrl }}" />
@@ -54,7 +56,7 @@
           {{ msg.user.username }}
           <time class="text-xs opacity-50">{{ parseTime(msg.timestamp) }}</time>
         </div>
-        <div class="chat-bubble text-sm opacity-25 text-white">
+        <div class="chat-bubble text-sm opacity-50 text-white">
           {{ msg.message }}
         </div>
         <div class="chat-footer chat-thought-label opacity-50">
@@ -63,7 +65,7 @@
       </div>
       }
       @case ('peer') {
-      <div class="chat chat-start mr-auto my-2">
+      <div class="chat chat-start mr-auto my-2 animate-fadeIn">
         <div class="chat-image avatar">
           <div class="w-12 rounded-full">
             <img alt="user" src="{{ msg.user.imageUrl }}" />
@@ -78,7 +80,7 @@
       </div>
       }
       @case ('user') {
-      <div class="chat chat-end ml-auto">
+      <div class="chat chat-end ml-auto animate-fadeIn">
         <div class="chat-image avatar">
           <div class="w-12 rounded-full">
             <img alt="user" src="{{ msg.user.imageUrl }}" />
@@ -107,7 +109,7 @@
     <div class="mx-auto flex-col bg-white p-4 w-full sm:w-5/6 lg:w-3/4">
       <div class="flex flex-row justify-center items-center">
         <textarea class="textarea textarea-bordered w-full" rows="1" placeholder="Start anywhere, and ask."></textarea>
-        <button class="btn btn-sm m-4 px-4">
+        <button class="btn btn-sm m-4 px-4 btn-disabled">
           Send
         </button>
       </div>

@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Observable, filter, interval, map } from 'rxjs';
 
 export type User = {
   username: string
@@ -18,10 +19,10 @@ export type ChatMessage = {
   templateUrl: './ink.component.html',
   styleUrl: './ink.component.sass'
 })
-export class InkComponent {
+export class InkComponent implements OnInit {
   user: User = {
     imageUrl: 'https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg',
-    username: 'Furry Puppet'
+    username: 'Patient Grasshopper'
   }
 
   ink: User = {
@@ -41,7 +42,22 @@ export class InkComponent {
       }).format(date);
   }
 
-  messages: ChatMessage[] = [
+  ngOnInit() {
+    // How long before each message is sent over
+    const delayInSec = 4;
+
+    const messages$ = interval(delayInSec * 1000).pipe(
+      map((_, idx) => this.allMessages[idx]),
+      filter((v) => v !== null && v !== undefined)
+    );
+
+    (messages$ as Observable<ChatMessage>).subscribe((msg) => this.messages.push(msg));
+  }
+
+  messages: ChatMessage[] = []
+
+  allMessages: (ChatMessage|null)[] = [
+    null,
     {
       id: '1',
       type: 'user',
@@ -66,6 +82,7 @@ export class InkComponent {
       timestamp: new Date(),
       timestampRaw: 'now'
     },
+    null,
     {
       id: '4',
       type: 'peer',
@@ -73,7 +90,7 @@ export class InkComponent {
         imageUrl: this.user.imageUrl,
         username: 'Darren'
       },
-      message: `Hi Furry Puppet, nice to meet  you! I'm Darren, a mentor in Tome.gg. I highly recommend you check out <a class='link cursor' href='https://roadmap.sh'>Roadmap.sh</a> which provides some guidance and options for career paths in tech.`,
+      message: `Hi ` + this.user.username + `, nice to meet  you! I'm Darren, a mentor in Tome.gg. I highly recommend you check out <a class='link cursor' href='https://roadmap.sh'>Roadmap.sh</a> which provides some guidance and options for career paths in tech.`,
       timestamp: new Date(),
       timestampRaw: 'now'
     },
@@ -81,10 +98,12 @@ export class InkComponent {
       id: '5',
       type: 'ai_thought',
       user: this.ink,
-      message: `This demo illustrates the interactions between a AI copilot (Ink), a coach or a peer (Darren), and you, a learner (in this case: Furry Puppet).`,
+      message: `This demo illustrates the interactions between a AI copilot (Ink), a coach or a peer (Darren), and you, a learner (in this case: ` + this.user.username + `).`,
       timestamp: new Date(),
       timestampRaw: 'now'
     },
+    null,
+    null,
     {
       id: '6',
       type: 'ai',
@@ -93,6 +112,7 @@ export class InkComponent {
       timestamp: new Date(),
       timestampRaw: 'now'
     },
+    null,
     {
       id: '7',
       type: 'ai',
@@ -101,6 +121,8 @@ export class InkComponent {
       timestamp: new Date(),
       timestampRaw: 'now'
     },
+    null,
+    null,
     {
       id: '8',
       type: 'user',
