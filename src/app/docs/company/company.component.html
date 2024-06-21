@@ -43,7 +43,7 @@
         Stories are anonymized and some elements have been
         partially revised for privacy purposes.
       </p>
-      <div class="btn btn-outline" *ngIf="this.minimumDisplayCounter <= 0" (click)="minCounter = 1">Next</div>
+      <div class="btn btn-outline" *ngIf="minCounter <= 0" (click)="minCounter = 1">Next</div>
     </div>
   </div>
 </div>
@@ -80,7 +80,7 @@
       <p class="my-4">
         Now that's out of the way- let's talk stories.
       </p>
-      <div class="btn btn-outline" *ngIf="this.minimumDisplayCounter <= 1" (click)="minCounter = 2">Next</div>
+      <div class="btn btn-outline" *ngIf="minCounter <= 1" (click)="minCounter = 2">Next</div>
     </div>
     <picture class="xs:max-w-sm md:max-w-lg rounded-lg ">
       <source loading="lazy" srcset="/assets/books-lineart.webp" type="image/webp">
@@ -109,8 +109,7 @@
       <div class="flex justify-center">
         <a href="https://docs.tome.gg/contexts/problems/all-work-and-no-play"
           class="my-6 w-fit lg:w-96 btn btn-outline">Read about the problem in library</a>
-        <div class="btn btn-outline my-6 mx-4" *ngIf="this.minimumDisplayCounter <= 2" (click)="minCounter = 3">Next
-        </div>
+        <div class="btn btn-outline my-6 mx-4" *ngIf="minCounter <= 2" (click)="minCounter = 3">Next</div>
       </div>
     </div>
   </div>
@@ -130,8 +129,7 @@
       <div class="flex justify-center">
         <a href="https://docs.tome.gg/contexts/problems/building-confidence"
           class="my-6 w-fit lg:w-96 btn btn-outline">Read about the problem in library</a>
-        <div class="btn btn-outline my-6 mx-4" *ngIf="this.minimumDisplayCounter <= 3" (click)="minCounter = 4">Next
-        </div>
+        <div class="btn btn-outline my-6 mx-4" *ngIf="minCounter <= 3" (click)="minCounter = 4">Next</div>
       </div>
     </div>
     <picture class="xs:max-w-sm md:max-w-lg rounded-lg">
@@ -166,8 +164,7 @@
       <div class="flex justify-center">
         <a href="https://sapalo.dev/2020/01/21/the-stairs/" class="my-6 w-fit lg:w-96 btn btn-outline">Read about
           it on a blog post</a>
-        <div class="btn btn-outline my-6 mx-4" *ngIf="this.minimumDisplayCounter <= 4" (click)="minCounter = 5">Next
-        </div>
+        <div class="btn btn-outline my-6 mx-4" *ngIf="minCounter <= 4" (click)="minCounter = 5">Next</div>
       </div>
     </div>
 
@@ -203,8 +200,7 @@
       <div class="flex sm:flex-row flex-col justify-center my-4">
         <a href="https://protocol.tome.gg" class="mx-4 mt-4 w-fit lg:w-96 btn btn-outline">Read the Protocols</a>
         <a href="/docs/onboarding" class="mx-4 mt-4 w-fit lg:w-96 btn btn-outline">Find a Mentor</a>
-        <div class="btn btn-outline my-6 mx-4" *ngIf="this.minimumDisplayCounter <= 5" (click)="minCounter = 6">Next
-        </div>
+        <div class="btn btn-outline my-6 mx-4" *ngIf="minCounter <= 5" (click)="minCounter = 6">Next</div>
       </div>
     </div>
     <picture class="xs:max-w-sm md:max-w-lg rounded-lg">
