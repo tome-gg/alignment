@@ -49,19 +49,7 @@
                 }
               ],
               "outputHashing": "all",
-              "sourceMap": true,
-              "assets": [
-                {
-                  "glob": "robots.txt",
-                  "input": "src/robots/production/",
-                  "output": "./"
-                },
-                {
-                  "glob": "sitemap.xml",
-                  "input": "src/robots/production/",
-                  "output": "./"
-                }
-              ]
+              "sourceMap": true
             },
             "development": {
               "buildOptimizer": false,
@@ -69,19 +57,7 @@
               "vendorChunk": true,
               "extractLicenses": false,
               "sourceMap": true,
-              "namedChunks": true,
-              "assets": [
-                {
-                  "glob": "robots.txt",
-                  "input": "src/robots/development/",
-                  "output": "./"
-                },
-                {
-                  "glob": "sitemap.xml",
-                  "input": "src/robots/development/",
-                  "output": "./"
-                }
-              ]
+              "namedChunks": true
             }
           },
           "defaultConfiguration": "production"
