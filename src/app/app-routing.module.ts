@@ -103,6 +103,16 @@ const routes: Routes = [
         title: 'Careers - Tome.gg'
       }, 
       {
+        path: "docs/apply-as-mentor",
+        loadChildren: () => import('./maintenance/maintenance.module').then(m => m.PageMaintenanceModule),
+        title: 'Apply as a Mentor - Tome.gg'
+      }, 
+      {
+        path: "docs/affiliate-partners",
+        loadChildren: () => import('./maintenance/maintenance.module').then(m => m.PageMaintenanceModule),
+        title: 'Affiliate Program - Tome.gg'
+      }, 
+      {
         path: "contact-us",
         loadChildren: () => import('./contact-us/contact-us.module').then(m => m.ContactUsModule),
         title: 'Contact Us - Tome.gg'
