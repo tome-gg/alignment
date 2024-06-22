@@ -1,2 +1,13 @@
 .timeline-end
   max-width: 24rem
+
+.steps .step
+  text-align: left
+
+/* Using SCSS variables to store breakpoints */
+$breakpoint-tablet: 768px
+
+@media (min-width: $breakpoint-tablet)
+  .steps .step
+    text-align: center
+
