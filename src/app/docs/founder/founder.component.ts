@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { filter, interval, map } from 'rxjs';
+import { Gtag } from 'src';
+
+declare var gtag : Gtag.Gtag;
 
 @Component({
   selector: 'app-founder',
@@ -11,11 +15,23 @@ export class FounderComponent implements OnInit {
   counter = 0;
   minCounter = 0;
 
+  constructor( private router: Router) {
+
+  }
+
   get minimumDisplayCounter() {
     if (this.minCounter >= this.counter) {
       return this.minCounter;
     }
     return this.counter;
+  }
+
+  showProfessionalBackground(evt: any) {
+    evt.preventDefault();
+    gtag('event', 'click', {
+      'event_category': 'view professional background',
+      'event_label': 'view' });
+      this.next(1);
   }
 
   next(count: number) {

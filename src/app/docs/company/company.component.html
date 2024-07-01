@@ -20,7 +20,10 @@
           </p>
         </div>
       </div>
-      <div class="btn btn-outline" *ngIf="minCounter <= 0" (click)="next(1)">Next</div>
+      <div class="grid justify-items-end">
+        <a href="/docs/founder" class="btn btn-outline">About the Founder</a>
+        <div class="btn btn-outline" *ngIf="minCounter <= 0" (click)="next(1)">Next</div>
+      </div>
     </div>
   </div>
 </div>
