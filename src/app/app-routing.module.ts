@@ -141,6 +141,16 @@ const routes: Routes = [
         path: "docs/about",
         loadChildren: () => import('./docs/company/company.module').then(m => m.CompanyModule),
         title: 'About Us - Tome.gg'
+      },
+      {
+        path: "docs/founder",
+        loadChildren: () => import('./docs/founder/founder.module').then(m => m.FounderModule),
+        title: 'The Founder - Tome.gg'
+      }, 
+      {
+        path: "docs/challenges",
+        loadChildren: () => import('./docs/challenges/challenges.module').then(m => m.ChallengesModule),
+        title: 'Common Challenges - Tome.gg'
       }, 
       {
         path: "docs/why-choose-us",

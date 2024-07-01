@@ -2,14 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { filter, interval, map } from 'rxjs';
 
 @Component({
-  selector: 'app-company',
-  templateUrl: './company.component.html',
-  styleUrls: ['./company.component.sass']
+  selector: 'app-founder',
+  templateUrl: './founder.component.html',
+  styleUrls: ['./founder.component.sass']
 })
-export class CompanyComponent implements OnInit {
+export class FounderComponent implements OnInit {
 
   counter = 0;
-  minCounter = 7;
+  minCounter = 0;
 
   get minimumDisplayCounter() {
     if (this.minCounter >= this.counter) {
