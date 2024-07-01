@@ -37,6 +37,6 @@ export class OverviewComponent {
   }
 
   ngAfterViewInit(): void {
-      (<any>window).twttr.widgets.load();
+      // (<any>window).twttr.widgets.load();
   }
 }

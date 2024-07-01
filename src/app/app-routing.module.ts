@@ -158,8 +158,18 @@ const routes: Routes = [
         title: 'Why Choose Us - Tome.gg'
       }, 
       {
+        path: "docs/onboarding",
+        loadChildren: () => import('./onboarding/onboarding.module').then(m => m.PageOnboardingModule),
+        title: 'Onboarding - Tome.gg'
+      }, 
+      {
+        path: "docs/how-we-work",
+        loadComponent: () => import('./docs/how-we-work/how-we-work.component').then(m => m.HowWeWorkComponent),
+        title: 'How We Work - Tome.gg'
+      }, 
+      {
         path: "docs/learning-outcomes",
-        loadChildren: () => import('./maintenance/maintenance.module').then(m => m.PageMaintenanceModule),
+        loadComponent: () => import('./docs/learning-outcomes/learning-outcomes.component').then(m => m.LearningOutcomesComponent),
         title: 'Learning Outcomes - Tome.gg'
       }, 
       {
