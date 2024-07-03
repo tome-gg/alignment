@@ -34,6 +34,7 @@ import { HasuraService } from './core/services/hasura.service';
                 audience: 'https://hasura.tome.gg/v1/graphql',
                 scope: 'profile email'
             },
+            useRefreshTokens: true,
             httpInterceptor: {
                 allowedList: [
                     {

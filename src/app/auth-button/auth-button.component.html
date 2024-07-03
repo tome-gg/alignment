@@ -1,6 +1,5 @@
 <ng-container *ngIf="auth.isAuthenticated$ | async; else loggedOut">
-  <a (click)="auth.logout({ logoutParams: { returnTo: document.location.origin } })"
-    class="text-sm font-semibold leading-6 text-gray-900 mx-4 flex cursor-pointer">
+  <a (click)="logout()" class="text-sm font-semibold leading-6 text-gray-900 mx-4 flex cursor-pointer">
     Log out
   </a>
 </ng-container>

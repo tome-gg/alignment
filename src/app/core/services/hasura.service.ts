@@ -1,5 +1,5 @@
 import { catchError, concatMap, map } from 'rxjs/operators';
-
+import { Subject } from 'rxjs';
 // Import the HttpClient for making API requests
 import { HttpClient } from '@angular/common/http';
 
@@ -12,30 +12,96 @@ import { Apollo, gql } from 'apollo-angular';
 @Injectable()
 export class HasuraService {
 
+  userId : Subject<String> = new Subject();
+
   constructor(
     public auth: AuthService,
     private apollo: Apollo,
-    ) {}
+    ) {
+
+    }
 
 
-getUser(): Observable<{ id: string, external_id: string, email: string}> {
+    getUser(): Observable<{ id: string, external_id: string, email: string}> {
+      const MY_QUERY = gql`
+    query GetUserInfo {
+      attunement_users {
+        id
+        external_id
+        email
+      }
+    }
+        `
+    
+        return this.apollo.query({
+          query: MY_QUERY,
+        }).pipe(
+          map((result) => (result.data as any).attunement_users[0] ?? {}),
+          catchError(() => of({} as any))
+        );
+    }
+
+  getJournalUser(): Observable<{ id: string, external_id: string}> {
+    const MY_QUERY = gql`
+  query GetJournalUser {
+    journal_users {
+      id
+      external_id
+    }
+  }
+      `
+
+      return this.apollo.query({
+        query: MY_QUERY,
+      }).pipe(
+        map((result) => (result.data as any).journal_users[0] ?? {}),
+        catchError(() => of({} as any))
+      );
+  }
+
+requestForCoaching(content: String): Observable<any> {
   const MY_QUERY = gql`
-query GetUserInfo {
-  attunement_users {
-    id
-    external_id
-    email
+mutation RequestForCoaching ($content: String!, $journalUserId: uuid!) {
+  insert_journal_entries_one (
+    object: {
+      contents: $content
+      entry_type: raw,
+      journal: {
+        data: {
+          owner_id: $journalUserId
+          title: "Request for Coaching"
+        },
+        on_conflict: {
+          constraint: journals_title_key
+          update_columns: [title]
+        }
+      },
+      sort_id: 0
+    },
+    on_conflict: {
+      constraint: entries_journal_id_sort_id_key
+      update_columns: [contents]
+    } 
+  ) {
+    entry_type
+    contents
   }
 }
+  `
 
-    `
+  const user$ = this.getJournalUser();
 
-    return this.apollo.query({
-      query: MY_QUERY,
-    }).pipe(
-      map((result) => (result.data as any).attunement_users[0] ?? {}),
-      catchError(() => of({} as any))
-    );
+  const insertRequest$ = (journalUserId: string) => this.apollo.mutate({
+    mutation: MY_QUERY,
+    variables: {
+      content,
+      journalUserId
+    }
+  });
+
+  return user$.pipe(
+    concatMap((user) => insertRequest$(user.id))
+  )
 }
 
   insert(data: any, id: string, user_id: string|null): Observable<any> {

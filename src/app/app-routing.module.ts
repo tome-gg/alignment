@@ -179,7 +179,7 @@ const routes: Routes = [
       }, 
       {
         path: "journal",
-        loadComponent: () => import('./mdx-editor/mdx-editor.component').then(m => m.MdxEditorComponentWrapper),
+        loadChildren: () => import('./journal/journal.module').then(m => m.JournalModule),
         title: 'Journal - Tome.gg'
       }, 
       {
