@@ -28,6 +28,7 @@ import { HasuraService } from './core/services/hasura.service';
         AuthModule.forRoot({
             domain: 'dev-phh2u7lm3h45n2fy.us.auth0.com',
             clientId: 'xOWUb7eGFmKmdCobWEcpGswGEI87EL84',
+            cacheLocation: "localstorage",
             authorizationParams: {
                 redirect_uri: window.location.origin,
                 audience: 'https://hasura.tome.gg/v1/graphql',
