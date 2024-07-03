@@ -178,6 +178,11 @@ const routes: Routes = [
         title: 'Onboarding - Tome.gg'
       }, 
       {
+        path: "journal",
+        loadComponent: () => import('./mdx-editor/mdx-editor.component').then(m => m.MdxEditorComponentWrapper),
+        title: 'Journal - Tome.gg'
+      }, 
+      {
         path: "**", pathMatch: "full", loadChildren: () => import('./404/missing404.module').then(m => m.Missing404Module)
       }
     ]

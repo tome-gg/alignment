@@ -26,12 +26,13 @@
       "dom",
       "esnext.asynciterable"
     ],
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "jsx": "react",
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
     "strictInjectionParameters": true,
     "strictInputAccessModifiers": true,
     "strictTemplates": true
-  }
+  },
 }
