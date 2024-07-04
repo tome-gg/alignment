@@ -59,6 +59,42 @@ export class HasuraService {
       );
   }
 
+getCurrentRequestForCoaching(): Observable<any> {
+  const MY_QUERY = gql`
+query GetCurrentRequestForCoaching {
+  journal_journals {
+    id
+    owner_id
+    title
+    active_mentor_id
+    entries {
+      id
+      entry_type
+      contents
+      metadata
+      created_at
+      updated_at
+    }
+    created_at
+    updated_at
+    deleted_at
+  }
+}
+  `
+  const getEntries$ = this.apollo.query<any>({
+    query: MY_QUERY,
+    variables: {}
+  });
+
+  return getEntries$.pipe(map((e) => {
+    const latestEntry = e.data.journal_journals[0]?.entries[0];
+    if (!latestEntry) {
+      throw Error('missing journal entry');
+    }
+    return latestEntry
+  }))
+}
+
 requestForCoaching(content: String): Observable<any> {
   const MY_QUERY = gql`
 mutation RequestForCoaching ($content: String!, $journalUserId: uuid!) {
@@ -72,7 +108,7 @@ mutation RequestForCoaching ($content: String!, $journalUserId: uuid!) {
           title: "Request for Coaching"
         },
         on_conflict: {
-          constraint: journals_title_key
+          constraint: journals_title_owner_id_key
           update_columns: [title]
         }
       },

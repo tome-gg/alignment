@@ -45,6 +45,8 @@ const ReactMdxEditor: FC<EditorProps> = ({ markdown, originalContent, editorRef,
     toolBar = noToolbar
   }
 
+  console.log('markdown', markdown)
+
   return (
     <MDXEditor
       onChange={onChange}

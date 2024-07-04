@@ -29,12 +29,13 @@ export class AppMdxEditor implements OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log("something chnaged", changes)
+    console.log("Something changed", changes)
+    if (this.value === '') return;
     this.render();
   }
 
   ngAfterViewInit() {
-    this.render();
+    // this.render();
     window.React = React;
   }
 
@@ -52,11 +53,19 @@ export class AppMdxEditor implements OnChanges {
       const container = document.getElementById('mdx-editor');
       this.root = createRoot(container!); // createRoot(container!) if you use TypeScript
     }
-    console.log('editable', this.isEditable)
-    console.log('readonly', !this.isEditable)
 
-    this.root.render(<div className={'i-am-classy'}>
-      <MdxEditor originalContent={this.original} readOnly={!this.isEditable} onChange={onChange} markdown={this.value} />
-    </div>);
+    console.log('log', {
+      editable: this.isEditable,
+      readonly: !this.isEditable,
+      value: this.value,
+      original: this.original
+    })
+
+    setTimeout(() => {
+      console.log('rendering');
+      this.root.render(<div className={'i-am-classy'}>
+        <MdxEditor originalContent={this.original} readOnly={!this.isEditable} onChange={onChange} markdown={this.value} />
+      </div>);
+    }, 0)
   }
 }
