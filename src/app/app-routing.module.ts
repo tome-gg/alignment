@@ -153,6 +153,11 @@ const routes: Routes = [
         title: 'Common Challenges - Tome.gg'
       }, 
       {
+        path: "docs/hiring",
+        loadComponent: () => import('./docs/hiring/hiring.component').then(m => m.HiringComponent),
+        title: 'Hiring - Tome.gg'
+      }, 
+      {
         path: "docs/why-choose-us",
         loadChildren: () => import('./maintenance/maintenance.module').then(m => m.PageMaintenanceModule),
         title: 'Why Choose Us - Tome.gg'
