@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { ErrorHandler, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -14,6 +14,8 @@ import { APOLLO_OPTIONS } from 'apollo-angular';
 import { HttpLink } from 'apollo-angular/http';
 import { InMemoryCache } from '@apollo/client';
 import { HasuraService } from './core/services/hasura.service';
+import * as Sentry from "@sentry/angular";
+import { Router } from '@angular/router';
 
 @NgModule({ declarations: [
         AppComponent,
@@ -54,20 +56,30 @@ import { HasuraService } from './core/services/hasura.service';
             }
         }),
         NgIf,
-        GraphQLModule], providers: [
-        { provide: HasuraService },
-        { provide: HTTP_INTERCEPTORS, useClass: AuthHttpInterceptor, multi: true },
-        {
-            provide: APOLLO_OPTIONS,
-            useFactory(httpLink: HttpLink) {
-                return {
-                    // other options
-                    link: httpLink.create({ uri: 'https://hasura.tome.gg/v1/graphql' }),
-                    cache: new InMemoryCache(),
-                };
+        GraphQLModule], 
+        providers: [
+            { provide: HasuraService },
+            { provide: HTTP_INTERCEPTORS, useClass: AuthHttpInterceptor, multi: true },
+            {
+                provide: APOLLO_OPTIONS,
+                useFactory(httpLink: HttpLink) {
+                    return {
+                        // other options
+                        link: httpLink.create({ uri: 'https://hasura.tome.gg/v1/graphql' }),
+                        cache: new InMemoryCache(),
+                    };
+                },
+                deps: [HttpLink],
             },
-            deps: [HttpLink],
-        },
-        provideHttpClient(withInterceptorsFromDi()),
+            {
+                provide: ErrorHandler,
+                useValue: Sentry.createErrorHandler({
+                showDialog: true,
+            }),
+            }, {
+                provide: Sentry.TraceService,
+                deps: [Router],
+            },
+            provideHttpClient(withInterceptorsFromDi()),
     ] })
 export class AppModule { }

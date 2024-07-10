@@ -2,14 +2,15 @@
   "name": "tomegg-alignment",
   "version": "1.0.0",
   "scripts": {
-    "ng": "ng",
+    "ng": "ng && yarn sentry:sourcemaps",
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "prepare-images": "node src/preprocess/imagemin.mjs",
     "prepare-sitemap": "node src/preprocess/sitemap.js",
-    "build-css": "npx tailwindcss -i ./dist/poc/styles.css -o ./dist/poc/styles.css --watch"
+    "build-css": "npx tailwindcss -i ./dist/poc/styles.css -o ./dist/poc/styles.css --watch",
+    "sentry:sourcemaps": "sentry-cli sourcemaps inject --org sapalodev --project tomegg ./dist && sentry-cli sourcemaps upload --org sapalodev --project tomegg ./dist"
   },
   "private": true,
   "dependencies": {
@@ -26,6 +27,8 @@
     "@coral-xyz/anchor": "^0.30.1",
     "@mdxeditor/editor": "^3.7.0",
     "@project-serum/sol-wallet-adapter": "^0.2.6",
+    "@sentry/angular": "^8.16.0",
+    "@sentry/cli": "^2.32.1",
     "@solana/wallet-adapter-base": "^0.9.23",
     "@solana/wallet-adapter-wallets": "^0.19.32",
     "@solana/web3.js": "^1.93.0",

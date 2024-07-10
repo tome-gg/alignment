@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { OverviewComponent } from './overview/overview.component';
+import { authGuard } from './auth.guard';
 
 const routes: Routes = [
   {
@@ -185,7 +186,8 @@ const routes: Routes = [
       {
         path: "journal",
         loadChildren: () => import('./journal/journal.module').then(m => m.JournalModule),
-        title: 'Journal - Tome.gg'
+        title: 'Journal - Tome.gg',
+        canActivate: [authGuard]
       }, 
       {
         path: "**", pathMatch: "full", loadChildren: () => import('./404/missing404.module').then(m => m.Missing404Module)

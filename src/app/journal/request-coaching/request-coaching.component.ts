@@ -61,7 +61,6 @@ Please answer the following, as these gives us clear information about your moti
 
     `;
 
-    console.log('editor', this.editor)
     this.hasura.getCurrentRequestForCoaching()
     .pipe(
       tap((data) => {
@@ -75,11 +74,9 @@ Please answer the following, as these gives us clear information about your moti
     )
     .subscribe({
       next: (data: any) => {
-        console.log('new data', data)
         this.original = data;
         this.value = data;
         this.markdownContent = data;
-        // setTimeout(() => this.editor?.render(), 0)
       }
     })
   }
