@@ -1,5 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { Observable, filter, interval, map } from 'rxjs';
+import { Component, model, OnInit, signal } from '@angular/core';
+import { BehaviorSubject, Observable, Subject, combineLatest, concatMap, filter, from, interval, map, of, take, tap, toArray, zip } from 'rxjs';
+import { HasuraService } from '../core/services/hasura.service';
+import { DateTime } from 'luxon';
+import { AuthService } from '@auth0/auth0-angular';
 
 export type User = {
   username: string
@@ -30,6 +33,33 @@ export class InkComponent implements OnInit {
     username: 'Ink'
   }
 
+  protected chatMessage = signal("");
+
+  username$: BehaviorSubject<string> = new BehaviorSubject("User");
+
+  displayAIThoughts: boolean = false;
+  conversation_id: string = "";
+
+  constructor(private hasuraService: HasuraService, private authService: AuthService) {
+
+  }
+
+  onValueChange(event: any) {
+    this.chatMessage.set(event.target.value);
+  }
+
+  onSubmit() {
+    this.hasuraService.messageInk(this.conversation_id, this.chatMessage())
+      .subscribe({
+          next: (v) => {
+            console.log(v);
+          },
+          error: (e) => {
+            console.error(e);
+          }
+        })
+  }
+
   parseDate(date: Date): string {
     return new Intl.DateTimeFormat('en', {
       dateStyle: 'short',
@@ -44,14 +74,68 @@ export class InkComponent implements OnInit {
 
   ngOnInit() {
     // How long before each message is sent over
-    const delayInSec = 4;
+    // const delayInSec = 4;
 
-    const messages$ = interval(delayInSec * 1000).pipe(
-      map((_, idx) => this.allMessages[idx]),
-      filter((v) => v !== null && v !== undefined)
+    // const messages$ = interval(delayInSec * 1000).pipe(
+    //   map((_, idx) => this.allMessages[idx]),
+    //   filter((v) => v !== null && v !== undefined)
+    // );
+
+    // (messages$ as Observable<ChatMessage>).subscribe((msg) => this.messages.push(msg));
+
+    this.authService.user$.pipe(
+      map((user) => user?.name || 'User')
+    ).subscribe(this.username$);
+
+
+    const conversation$ = this.hasuraService.getInkConversation().pipe(
+      tap((c) => {
+        this.conversation_id = c.id;
+      })
     );
 
-    (messages$ as Observable<ChatMessage>).subscribe((msg) => this.messages.push(msg));
+    const messages$ = conversation$.pipe(
+      concatMap((c) => from(c.messages))
+    );
+
+    const determineMessageType = (type: string, message_author: string, conversation_author: string) => {
+      if (type === 'thought') {
+        return 'ai_thought';
+      } 
+      
+      if (type === 'message') {
+        if (message_author === conversation_author) {
+          return 'user';
+        } else {
+          return 'ai';
+        }
+      }
+
+      return 'user';
+    }
+
+    const constructUser = (conversation: any, entry: any) => {
+        return ({
+        imageUrl: entry.author_id === conversation.owner_id ? this.user.imageUrl : this.ink.imageUrl,
+        username: entry.author_id === conversation.owner_id ? this.user.username : this.ink.username
+      });
+    }
+
+    combineLatest([conversation$, messages$]).pipe(
+      map(([conversation, entry] : [any, any]) => ({
+        ...entry,
+        id: entry.id,
+        type: determineMessageType(entry.type, entry.author_id, conversation.owner_id),
+        user: constructUser(conversation, entry),
+        message: entry.message,
+        timestamp: DateTime.fromISO(entry.created_at),
+        timestampRaw: entry.created_at
+      } as ChatMessage)),
+    ).subscribe({
+      next: (entry) => {
+        this.messages.push(entry)
+      }
+    })
   }
 
   messages: ChatMessage[] = []

@@ -59,6 +59,71 @@ export class HasuraService {
       );
   }
 
+messageInk(conversationId: string, message: string): Observable<any> {
+  const MY_MUTATION = gql`
+  mutation SendMessageToInk ($conversation_id: uuid!, $message:String!) {
+    message_ink(request: {
+      conversation_id: $conversation_id,
+      message: $message
+    })
+    {
+      conversation_id
+      message
+    }
+  }`
+
+  return this.apollo.mutate({
+    mutation: MY_MUTATION,
+    variables: {
+      conversation_id: conversationId,
+      message: message
+    }
+  }).pipe(
+    map((result) => (result.data as any).message_ink.__typename),
+    catchError(() => of({} as any))
+  );
+}
+
+getInkConversation(): Observable<any> {
+  const MY_QUERY = gql`
+query GetInkConversation {
+  ink_conversations(
+    limit: 1
+    order_by: {created_at: desc}
+  ) {
+    id
+    title
+    owner_id
+    metadata
+    messages (order_by: {created_at: asc}) {
+      id
+      author_id
+      message
+      mentor_read
+      apprentice_read
+      ai_read
+      conversation_id
+      type
+      created_at
+      updated_at
+      deleted_at
+    }
+    created_at
+    updated_at
+    deleted_at
+  }
+}
+  `
+
+  return this.apollo.query({
+    query: MY_QUERY,
+    variables: {}
+  }).pipe(
+    map((result) => (result.data as any).ink_conversations[0] ?? {}),
+    catchError(() => of({} as any))
+  );
+}
+
 getCurrentRequestForCoaching(): Observable<any> {
   const MY_QUERY = gql`
 query GetCurrentRequestForCoaching {

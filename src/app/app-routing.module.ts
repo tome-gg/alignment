@@ -17,6 +17,7 @@ const routes: Routes = [
   {
     path: "ink",
     loadChildren: () => import('./ink/ink.module').then(m => m.InkModule),
+    canActivate: [authGuard],
     title: 'Ink AI - Tome.gg'
   },
   {
