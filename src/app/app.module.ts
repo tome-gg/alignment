@@ -21,6 +21,7 @@ import { getMainDefinition } from '@apollo/client/utilities';
 import { firstValueFrom } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
+
 @NgModule({ declarations: [
         AppComponent,
         TrainingComponent,
@@ -32,24 +33,24 @@ import { environment } from 'src/environments/environment';
         CommonModule,
         // Import the module into the application, with configuration
         AuthModule.forRoot({
-            domain: environment.auth.domain,
-            clientId: environment.auth.clientId,
+            domain: environment.auth.domain ?? '',
+            clientId: environment.auth.clientId ?? '',
             cacheLocation: "localstorage",
             authorizationParams: {
                 redirect_uri: window.location.origin,
-                audience: environment.hasura.graphql,
+                audience: environment.hasura.graphql ?? '',
                 scope: 'profile email'
             },
             useRefreshTokens: true,
             httpInterceptor: {
                 allowedList: [
                     {
-                        uri: environment.hasura.api,
+                        uri: environment.hasura.api ?? '',
                         allowAnonymous: true,
                         tokenOptions: {
                             authorizationParams: {
                                 // The attached token should target this audience
-                                audience: environment.hasura.graphql,
+                                audience: environment.hasura.graphql ?? '',
                                 // The attached token should have these scopes
                                 scope: 'profile email'
                             }
@@ -66,10 +67,10 @@ import { environment } from 'src/environments/environment';
             {
                 provide: APOLLO_OPTIONS,
                 useFactory(httpLink: HttpLink, authService: AuthService) {
-                    const http = httpLink.create({ uri: environment.hasura.graphql });
+                    const http = httpLink.create({ uri: environment.hasura.graphql ?? '' });
 
                     const ws = new WebSocketLink({
-                        uri: environment.hasura.wss,
+                        uri: environment.hasura.wss ?? '',
                         options: {
                             reconnect: true,
                             lazy: true,
