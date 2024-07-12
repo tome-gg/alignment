@@ -19,6 +19,7 @@ import * as Sentry from "@sentry/angular";
 import { Router } from '@angular/router';
 import { getMainDefinition } from '@apollo/client/utilities';
 import { firstValueFrom } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @NgModule({ declarations: [
         AppComponent,
@@ -31,25 +32,24 @@ import { firstValueFrom } from 'rxjs';
         CommonModule,
         // Import the module into the application, with configuration
         AuthModule.forRoot({
-            domain: 'dev-phh2u7lm3h45n2fy.us.auth0.com',
-            clientId: 'xOWUb7eGFmKmdCobWEcpGswGEI87EL84',
+            domain: environment.auth.domain,
+            clientId: environment.auth.clientId,
             cacheLocation: "localstorage",
             authorizationParams: {
                 redirect_uri: window.location.origin,
-                audience: 'https://hasura.tome.gg/v1/graphql',
+                audience: environment.hasura.graphql,
                 scope: 'profile email'
             },
             useRefreshTokens: true,
             httpInterceptor: {
                 allowedList: [
                     {
-                        // Match any request that starts 'https://{yourDomain}/api/v2/' (note the asterisk)
-                        uri: 'https://hasura.tome.gg/v1/*',
+                        uri: environment.hasura.api,
                         allowAnonymous: true,
                         tokenOptions: {
                             authorizationParams: {
                                 // The attached token should target this audience
-                                audience: 'https://hasura.tome.gg/v1/graphql',
+                                audience: environment.hasura.graphql,
                                 // The attached token should have these scopes
                                 scope: 'profile email'
                             }
@@ -66,10 +66,10 @@ import { firstValueFrom } from 'rxjs';
             {
                 provide: APOLLO_OPTIONS,
                 useFactory(httpLink: HttpLink, authService: AuthService) {
-                    const http = httpLink.create({ uri: 'https://hasura.tome.gg/v1/graphql' });
+                    const http = httpLink.create({ uri: environment.hasura.graphql });
 
                     const ws = new WebSocketLink({
-                        uri: `wss://hasura.tome.gg/v1/graphql`,
+                        uri: environment.hasura.wss,
                         options: {
                             reconnect: true,
                             lazy: true,
@@ -92,8 +92,6 @@ import { firstValueFrom } from 'rxjs';
                             },
                         },
                     });
-                    
-                    console.log('configuring apollo link');
 
                     const link = split(
                     ({ query }) => {
