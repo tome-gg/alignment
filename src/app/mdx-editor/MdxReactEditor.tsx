@@ -41,9 +41,9 @@ const ReactMdxEditor: FC<EditorProps> = ({ markdown, originalContent, editorRef,
   const noToolbar = () => (<></>)
 
   let toolBar = complexToolbar;
-  if (readOnly) {
-    toolBar = noToolbar
-  }
+  // if (readOnly) {
+  //   toolBar = noToolbar
+  // }
 
   return (
     <MDXEditor

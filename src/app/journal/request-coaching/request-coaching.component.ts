@@ -1,16 +1,17 @@
-import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnDestroy, ViewChild } from '@angular/core';
 import classNames from 'classnames';
 import { DateTime, Zone } from 'luxon';
-import { catchError, map, of, single, tap } from 'rxjs';
+import { catchError, map, of, single, Subscription, tap } from 'rxjs';
 import { HasuraService } from 'src/app/core/services/hasura.service';
 import { AppMdxEditor } from 'src/app/mdx-editor/mdx-editor.component';
+import { RequestForCoachingTemplate } from './prompts';
 
 @Component({
   selector: 'app-request-coaching',
   templateUrl: './request-coaching.component.html',
   styleUrl: './request-coaching.component.sass'
 })
-export class RequestCoachingComponent implements AfterViewInit {
+export class RequestCoachingComponent implements AfterViewInit, OnDestroy {
   
   @ViewChild('journaleditor') editor!: AppMdxEditor;
 
@@ -23,6 +24,8 @@ export class RequestCoachingComponent implements AfterViewInit {
   markdownContent: string = '';
   original: string = '';
   entry: any;
+
+  subscriptions: Subscription[] = [];
 
   get lastEdited() {
     const createdAt = this.entry?.created_at;
@@ -38,30 +41,14 @@ export class RequestCoachingComponent implements AfterViewInit {
 
     this.markdownContent = this.original;
   }
+  ngOnDestroy(): void {
+    this.subscriptions.forEach(s => s.unsubscribe());
+  }
   ngAfterViewInit(): void {
 
-    const defaultText = `
-## Top 3 Questions for Aspiring Apprentices
+    
 
-Please answer the following, as these gives us clear information about your motivations and goals.
-
-**What specific skills or areas do you hope to develop through the Tome.gg program?** 
-
-> Your answer
-<BR />
-**Can you provide an example of a challenging project or task you've worked on, and how you approached it?**
-
-> Your answer
-
-<BR />
-**Why do you want to join Tome.gg, and how do you see this program contributing to your career growth?**
-
-> Your answer
-
-
-    `;
-
-    this.hasura.getCurrentRequestForCoaching()
+    let s = this.hasura.getCurrentRequestForCoaching()
     .pipe(
       tap((data) => {
         this.entry = data;
@@ -70,7 +57,7 @@ Please answer the following, as these gives us clear information about your moti
         return data?.contents;
       }),
       single(),
-      catchError(() => of(defaultText))
+      catchError(() => of(RequestForCoachingTemplate))
     )
     .subscribe({
       next: (data: any) => {
@@ -79,6 +66,8 @@ Please answer the following, as these gives us clear information about your moti
         this.markdownContent = data;
       }
     })
+
+    this.subscriptions.push(s);
   }
 
   setValue(value: String) {
@@ -92,7 +81,7 @@ Please answer the following, as these gives us clear information about your moti
     this.state = 'loading';
     this.editor.isEditable = false;
 
-    this.hasura.requestForCoaching(this.value).subscribe({
+    let s = this.hasura.requestForCoaching(this.value).subscribe({
       next: (data) => {
         this.state = 'done';
         
@@ -103,5 +92,7 @@ Please answer the following, as these gives us clear information about your moti
          console.log('err', err);
       }
     })
+
+    this.subscriptions.push(s);
   }
 }
