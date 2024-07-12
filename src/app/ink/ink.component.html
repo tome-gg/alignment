@@ -1,83 +1,93 @@
-<div id="main" class="min-h-screen">
-  <div id="ai-header">
-    <div class="mx-auto mb-2 bg-white p-2 rounded w-full sm:w-5/6 lg:w-3/4 flex flex-row">
-      <h1 class="font-bold align-baseline">Ink
-        <span class="mb-2 text-gray-600 text-sm">v0.1.1</span> &nbsp;
-        <span class="mb-2 text-gray-400 text-sm font-medium">by
-          <a href="/" class="link cursor">Tome.gg</a>
-        </span>
-      </h1>
+<div id="main" class="min-h-screen flex flex-col justify-between">
+  <div id="ai-header" class="sticky top-0 bg-white z-40">
+    <div class="mx-auto p-2 rounded w-full sm:w-5/6 lg:w-3/4 flex flex-row">
+      <a href="/" class="cursor">
+        <h1 class="font-bold text-lg align-baseline my-0">Ink
+          <span class="text-gray-600 text-xs">v1.0.0</span>
+        </h1>
+      </a>
       <span class="hidden ml-auto my-auto text-xs text-right text-gray-400 align-baseline sm:flex">Currently logged in
       </span>
       <span class="sm:ml-1 ml-auto my-auto text-xs text-right text-gray-400 align-baseline">
         as <i>{{ username$ | async }}</i></span>
     </div>
   </div>
-  <div class="flex-col rounded-lg">
-    <div class="mx-auto flex-col bg-white p-4 w-full sm:w-5/6 lg:w-3/4">
-      @for (msg of messages; track $index) {
+  <div class="flex-col rounded p-4">
+    <div class="mx-auto flex-col w-full h-svh sm:w-5/6 lg:w-3/4">
+      @for (msg of messages$ | async; track $index) {
       @switch (msg.type) {
       @case ('ai'){
-      <div class="chat chat-start mr-auto my-2 animate-fadeIn">
-        <div class="chat-image w-12 mask mask-hexagon object-cover">
+      <div class="chat chat-start rounded mr-auto animate-fadeIn">
+        <div class="chat-image w-8 mask mask-hexagon object-cover">
           <img alt="ai" src="{{ msg.user.imageUrl }}" />
         </div>
-        <div class="chat-header">
-          {{ msg.user.username }}
-          <time class="text-xs opacity-50">{{ parseTime(msg.timestamp) }}</time>
-        </div>
-        <div class="chat-bubble text-sm" [innerHTML]="msg.message">
+        <div class="chat-bubble text-sm">
+          <div class="chat-header">
+            {{ msg.user.username }}
+            <div class="tooltip" [attr.data-tip]="msg.timestampReadable">
+              <time class="text-xs opacity-50">{{ parseTime(msg.timestamp) }}</time>
+            </div>
+          </div>
+          <div [innerHTML]="msg.message">
+          </div>
         </div>
       </div>
       }
       @case ('ai_thought') {
-      <div *ngIf="displayAIThoughts" class="chat chat-start mr-auto my-2 animate-fadeIn">
-        <div class="chat-image w-12 mask mask-hexagon object-cover">
-
+      <div *ngIf="displayAIThoughts" class="chat chat-start rounded mr-auto my-2 animate-fadeIn">
+        <div class="chat-image w-8 mask mask-hexagon object-cover">
           <img alt="ai" src="{{ msg.user.imageUrl }}" />
         </div>
-        <div class="chat-header">
-          {{ msg.user.username }}
-          <time class="text-xs opacity-50">{{ parseTime(msg.timestamp) }}</time>
-        </div>
-        <div class="chat-bubble text-sm opacity-50 text-white">
-          {{ msg.message }}
-        </div>
-        <div class="chat-footer chat-thought-label opacity-50">
-          Thought
+        <div class="chat-bubble thought text-sm">
+          <div class="chat-header">
+            {{ msg.user.username }}
+            <div class="tooltip" [attr.data-tip]="msg.timestampReadable">
+              <time class="text-xs opacity-50">{{ parseTime(msg.timestamp) }}</time>
+            </div>
+          </div>
+          <div [innerHTML]="msg.message">
+          </div>
+          <div class="chat-footer chat-thought-label opacity-50">
+            Thought
+          </div>
         </div>
       </div>
       }
       @case ('peer') {
-      <div class="chat chat-start mr-auto my-2 animate-fadeIn">
+      <div class="chat chat-start rounded mr-auto animate-fadeIn">
         <div class="chat-image avatar">
-          <div class="w-12 rounded-full">
+          <div class="w-8 rounded-full">
             <img alt="user" src="{{ msg.user.imageUrl }}" />
           </div>
         </div>
-        <div class="chat-header">
-          {{ msg.user.username }}
-          <time class="text-xs opacity-50">{{ parseTime(msg.timestamp) }}</time>
-        </div>
-        <div class="chat-bubble text-sm" [innerHTML]="msg.message">
+        <div class="chat-bubble text-sm">
+          <div class="chat-header">
+            {{ msg.user.username }}
+            <div class="tooltip" [attr.data-tip]="msg.timestampReadable">
+              <time class="text-xs opacity-50">{{ parseTime(msg.timestamp) }}</time>
+            </div>
+          </div>
+          <div [innerHTML]="msg.message">
+          </div>
         </div>
       </div>
       }
       @case ('user') {
-      <div class="chat chat-end ml-auto animate-fadeIn">
+      <div class="chat chat-end rounded ml-auto animate-fadeIn">
         <div class="chat-image avatar">
-          <div class="w-12 rounded-full">
+          <div class="w-8 rounded-full">
             <img alt="user" src="{{ msg.user.imageUrl }}" />
           </div>
         </div>
-        <div class="chat-header">
-          {{ msg.user.username }}
-          <time class="text-xs opacity-50">{{ parseTime(msg.timestamp) }}</time>
-        </div>
-        <div class="chat-bubble text-sm" [innerHTML]="msg.message">
-        </div>
-        <div class="chat-footer opacity-50">
-
+        <div class="chat-bubble text-sm">
+          <div class="chat-header">
+            {{ username$ | async }}
+            <div class="tooltip" [attr.data-tip]="msg.timestampReadable">
+              <time class="text-xs opacity-50">{{ parseTime(msg.timestamp) }}</time>
+            </div>
+          </div>
+          <div [innerHTML]="msg.message">
+          </div>
         </div>
       </div>
       }
@@ -85,16 +95,16 @@
       }
     </div>
 
-    <!-- User input -->
-    <div class="mx-auto flex-col bg-white p-4 w-full sm:w-5/6 lg:w-3/4">
-      <div class="flex flex-row justify-center items-center">
-        <textarea class="textarea textarea-bordered w-full" rows="1" 
-          [value]="chatMessage()" (input)="onValueChange($event)"
-          placeholder="Start anywhere, and ask."></textarea>
-        <button (click)="onSubmit()" class="btn btn-sm m-4 px-4">
-          Send
-        </button>
-      </div>
+
+  </div>
+  <!-- User input -->
+  <div class="mx-auto flex-col bg-white p-2 w-full sticky bottom-0 bg-white z-40">
+    <div class="flex flex-row justify-center items-center">
+      <textarea class="textarea textarea-ghost w-full text-xs sm:text-sm" rows="3" (keydown)="checkSubmit($event)"
+        [value]="chatMessage()" (input)="onValueChange($event)" placeholder="Start anywhere, and ask."></textarea>
+      <button (click)="onSubmit()" class="btn btn-sm m-2 px-4">
+        Send
+      </button>
     </div>
   </div>
 </div>

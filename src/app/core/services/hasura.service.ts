@@ -86,7 +86,7 @@ messageInk(conversationId: string, message: string): Observable<any> {
 
 getInkConversation(): Observable<any> {
   const MY_QUERY = gql`
-query GetInkConversation {
+subscription GetInkConversation {
   ink_conversations(
     limit: 1
     order_by: {created_at: desc}
@@ -115,7 +115,7 @@ query GetInkConversation {
 }
   `
 
-  return this.apollo.query({
+  return this.apollo.subscribe({
     query: MY_QUERY,
     variables: {}
   }).pipe(

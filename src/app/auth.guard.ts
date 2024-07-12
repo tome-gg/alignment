@@ -9,12 +9,12 @@ export const authGuard: CanActivateFn = (route, state) => {
 
   return combineLatest([authService.isAuthenticated$, authService.idTokenClaims$])
   .pipe(
-    filter(([isAuthenticated, tokenClaims]) => isAuthenticated && Boolean(tokenClaims)),
     map(([isAuthenticated, tokenClaims]) => {
       
       const expiryDate = DateTime.fromMillis((tokenClaims?.exp ?? 0) * 1000);
       
       if (expiryDate < DateTime.now()) {
+        console.log('expired!');
         authService.loginWithRedirect();
         return false;
       }

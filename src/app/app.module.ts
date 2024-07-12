@@ -6,22 +6,25 @@ import { AppComponent } from './app.component';
 import { TrainingComponent } from './training/training.component';
 import { OverviewComponent } from './overview/overview.component';
 import { CommonModule, NgIf } from '@angular/common';
-import { AuthHttpInterceptor, AuthModule } from '@auth0/auth0-angular';
+import { AuthHttpInterceptor, AuthModule, AuthService } from '@auth0/auth0-angular';
 import { AuthButtonComponent } from './auth-button/auth-button.component';
 import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { GraphQLModule } from './graphql.module';
 import { APOLLO_OPTIONS } from 'apollo-angular';
 import { HttpLink } from 'apollo-angular/http';
-import { InMemoryCache } from '@apollo/client';
+import { InMemoryCache, split } from '@apollo/client';
+import { WebSocketLink } from '@apollo/client/link/ws';
 import { HasuraService } from './core/services/hasura.service';
 import * as Sentry from "@sentry/angular";
 import { Router } from '@angular/router';
+import { getMainDefinition } from '@apollo/client/utilities';
+import { firstValueFrom } from 'rxjs';
 
 @NgModule({ declarations: [
         AppComponent,
         TrainingComponent,
         OverviewComponent,
-        AuthButtonComponent,
+        AuthButtonComponent
     ],
     bootstrap: [AppComponent], imports: [BrowserModule,
         AppRoutingModule,
@@ -62,14 +65,54 @@ import { Router } from '@angular/router';
             { provide: HTTP_INTERCEPTORS, useClass: AuthHttpInterceptor, multi: true },
             {
                 provide: APOLLO_OPTIONS,
-                useFactory(httpLink: HttpLink) {
+                useFactory(httpLink: HttpLink, authService: AuthService) {
+                    const http = httpLink.create({ uri: 'https://hasura.tome.gg/v1/graphql' });
+
+                    const ws = new WebSocketLink({
+                        uri: `wss://hasura.tome.gg/v1/graphql`,
+                        options: {
+                            reconnect: true,
+                            lazy: true,
+                            timeout: 30000,
+                            inactivityTimeout: 30000,
+                            connectionParams: async () => {
+
+                                try {
+                                        // Retrieve the authorization token from your auth service
+                                    let token = await firstValueFrom(authService.getAccessTokenSilently())
+                                    return {
+                                        headers: {
+                                            Authorization: token ? `Bearer ${token}` : '',
+                                        },
+                                    };
+                                } catch (error) {
+                                    console.error('Error getting access token:', error);
+                                }
+                                return {}
+                            },
+                        },
+                    });
+                    
+                    console.log('configuring apollo link');
+
+                    const link = split(
+                    ({ query }) => {
+                        const definition = getMainDefinition(query);
+                        return (
+                        definition.kind === 'OperationDefinition' &&
+                        definition.operation === 'subscription'
+                        );
+                    },
+                    ws,
+                    http
+                    );
+
                     return {
-                        // other options
-                        link: httpLink.create({ uri: 'https://hasura.tome.gg/v1/graphql' }),
-                        cache: new InMemoryCache(),
+                    link: link,
+                    cache: new InMemoryCache(),
                     };
                 },
-                deps: [HttpLink],
+                deps: [HttpLink, AuthService],
             },
             {
                 provide: ErrorHandler,
