@@ -22,11 +22,29 @@ export class HomeComponent implements OnInit {
 
   tryInk(evt: any) {
     evt.preventDefault();
-    gtag('event', "click", {
-      event_category: "try ink",
-      event_label: "alpha"
-    });
-    this.router.navigate(['/ink']);
+
+    this.auth.isAuthenticated$.subscribe({
+      next: (isLoggedIn) => {
+        if (isLoggedIn) {
+          gtag('event', "click", {
+            event_category: "try ink",
+            event_label: "alpha"
+          });
+          this.router.navigate(['/ink']);
+        } else {
+          this.auth.loginWithPopup({
+            authorizationParams: {
+              redirect_uri: 'https://tome.gg/ink'
+            }
+          });
+        }
+      }, 
+      error: (err) => {
+        console.log('err', err);
+      }
+    })
+
+    
   }
 
   tryDiscovery(evt: any) {
