@@ -5,6 +5,8 @@ import { DateTime } from 'luxon';
 import { AuthService } from '@auth0/auth0-angular';
 import { Data as SampleData } from './sample'
 
+var gtag = window.gtag;
+
 export type User = {
   username: string
   imageUrl: string
@@ -71,6 +73,14 @@ export class InkComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
+
+    const message = this.chatMessage()
+
+    gtag('event', 'message', {
+      'event_category': 'ink',
+      'value': message.length
+     });
+
     let s = this.hasuraService.messageInk(this.conversation_id, this.chatMessage())
       .subscribe({
           next: (v) => {

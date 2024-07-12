@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { HasuraService } from '../core/services/hasura.service';
 
 var gtag = window.gtag;
 
