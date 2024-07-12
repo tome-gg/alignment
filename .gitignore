@@ -46,3 +46,7 @@ raw/
 .vscode/
 # Sentry Config File
 .sentryclirc
+
+.env
+src/environments/environment.ts
+src/environments/.env
