@@ -13,6 +13,7 @@ const setEnv = () => {
 // `environment.ts` file structure
   const envConfigFile = `export const environment = {
   production: ${process.env['PRODUCTION'] || false},
+  baseUrl: '${process.env['BASE_URL'] || ''}',
   appVersion: '${appVersion}',
   auth: {
     domain: '${process.env['AUTH0_DOMAIN']}',
