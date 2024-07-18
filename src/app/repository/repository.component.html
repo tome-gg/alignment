@@ -1,87 +1,111 @@
 <div class="repository-container h-screen">
-  <div class="growth-container w-lg h-fit max-h-2/6 mx-auto bg-stone-700 p-4">
-
-    <div class="plant-container mx-auto flex flex-row justify-center">
-      <div class="plot h-fit mx-1 md:mx-4 hidden md:block">
-        <img class="max-h-16 sm:max-h-24 md:max-h-36 aspect-square opacity-10" [src]="plantProgress[6].imageSource" />
-        <p class="my-2 sm:my-4 font-mono italic text-xs text-center text-stone-400">
-          {{plantProgress[6].dateTime }}</p>
-      </div>
-      <div class="plot h-fit mx-1 md:mx-4 hidden sm:block">
-        <img class="max-h-16 sm:max-h-24 md:max-h-36 aspect-square opacity-30" [src]="plantProgress[5].imageSource" />
-        <p class="my-2 sm:my-4 font-mono italic text-xs text-center text-stone-400">
-          {{plantProgress[5].dateTime }}</p>
-      </div>
-      <div class="plot h-fit mx-1 md:mx-4 ">
-        <img class="max-h-16 sm:max-h-24 md:max-h-36 aspect-square opacity-50" [src]="plantProgress[4].imageSource" />
-        <p class="my-2 sm:my-4 font-mono italic text-xs text-center text-stone-400">
-          {{plantProgress[4].dateTime }}</p>
-      </div>
-      <div class="plot h-fit mx-1 md:mx-4">
-        <img class="max-h-16 sm:max-h-24 md:max-h-36 aspect-square" [src]="plantProgress[3].imageSource" />
-        <p class="my-2 sm:my-4 font-mono italic text-xs font-bold text-center text-white"> {{plantProgress[3].dateTime
-          }}</p>
-      </div>
-      <div class="plot h-fit mx-1 md:mx-4">
-        <img class="max-h-16 sm:max-h-24 md:max-h-36 aspect-square opacity-50" [src]="plantProgress[2].imageSource" />
-        <p class="my-2 sm:my-4 font-mono italic text-xs text-center text-stone-400"> {{
-          plantProgress[2].dateTime }}</p>
-      </div>
-      <div class="plot h-fit mx-1 md:mx-4 hidden sm:block">
-        <img class="max-h-16 sm:max-h-24 md:max-h-36 aspect-square opacity-30" [src]="plantProgress[1].imageSource" />
-        <p class="my-2 sm:my-4 font-mono italic text-xs text-center text-stone-400">
-          {{plantProgress[1].dateTime }}</p>
-      </div>
-      <div class="plot h-fit mx-1 md:mx-4 hidden  md:block">
-        <img class="max-h-16 sm:max-h-24 md:max-h-36 aspect-square opacity-10" [src]="plantProgress[0].imageSource" />
-        <p class="my-2 sm:my-4 font-mono italic text-xs text-center text-stone-400">
-          {{plantProgress[0].dateTime }}</p>
-      </div>
-    </div>
-    <h1 class="text-white text-bold">
+  <div class="growth-container h-fit sticky top-0 z-50 w-lg mx-auto bg-stone-700 p-4">
+    <h1 class="text-white mb-1 text-lg text-bold">
       <span class="hidden sm:inline-block">Goal: </span>
       {{ goals?.title || '' }}
       <span class="hidden sm:inline-block">(Evaluated by: {{ evaluator?.name || '' }})</span>
     </h1>
-    <p class="my-1 italic text-xs text-white">
+    <p class="italic my-0 text-xs text-white">
       {{ goals?.description || '' }}
     </p>
-    <p class="text-xs text-stone-400 italic">Powered by <a class="link cursor" href="https://tome.gg">Tome.gg</a>.
+    <p class="text-xs my-0 text-stone-400 italic">
       <span class="hidden sm:inline-block" *ngIf="repository !== null">
         Generated from
-        <a class="link cursor" [href]="'https://' + repository">{{ repository }}</a>. Want to build your own? <a
-          class="link cursor" href="https://waitlist.tome.gg">
-          Join the waitlist
-        </a>.
+        <a class="link cursor" [href]="'https://' + repository">{{ repository }}</a>.
+        Powered by <a class="link cursor" href="https://tome.gg">Tome.gg</a>
       </span>
     </p>
+    <div class="plant-container h-16 -mt-3 mx-auto flex flex-row justify-center">
+      <div class="plot mx-1 md:mx-4  hidden md:block">
+        <img class="h-12 top-0 mx-auto aspect-square opacity-10" [src]="plantProgress[6].imageSource" />
+        <p class="my-1 bottom-0 font-mono italic text-xs text-center text-stone-400">
+          {{plantProgress[6].dateTime }}</p>
+      </div>
+      <div class="plot mx-1 md:mx-4  hidden sm:block">
+        <img class="h-12 top-0 mx-auto aspect-square opacity-30" [src]="plantProgress[5].imageSource" />
+        <p class="my-1 bottom-0 font-mono italic text-xs text-center text-stone-400">
+          {{plantProgress[5].dateTime }}</p>
+      </div>
+      <div class="plot mx-1 md:mx-4  ">
+        <img class="h-12 top-0 mx-auto aspect-square opacity-50" [src]="plantProgress[4].imageSource" />
+        <p class="my-1 bottom-0 font-mono italic text-xs text-center text-stone-400">
+          {{plantProgress[4].dateTime }}</p>
+      </div>
+      <div class="plot mx-1 md:mx-4 ">
+        <img class="h-12 top-0 mx-auto aspect-square" [src]="plantProgress[3].imageSource" />
+        <p class="my-1 bottom-0 font-mono italic text-xs font-bold text-center text-white"> {{plantProgress[3].dateTime
+          }}</p>
+      </div>
+      <div class="plot mx-1 md:mx-4 ">
+        <img class="h-12 top-0 mx-auto aspect-square opacity-50" [src]="plantProgress[2].imageSource" />
+        <p class="my-1 bottom-0 font-mono italic text-xs text-center text-stone-400"> {{
+          plantProgress[2].dateTime }}</p>
+      </div>
+      <div class="plot mx-1 md:mx-4  hidden sm:block">
+        <img class="h-12 top-0 mx-auto aspect-square opacity-30" [src]="plantProgress[1].imageSource" />
+        <p class="my-1 bottom-0 font-mono italic text-xs text-center text-stone-400">
+          {{plantProgress[1].dateTime }}</p>
+      </div>
+      <div class="plot mx-1 md:mx-4  hidden  md:block">
+        <img class="h-12 top-0 mx-auto aspect-square opacity-10" [src]="plantProgress[0].imageSource" />
+        <p class="my-1 bottom-0 font-mono italic text-xs text-center text-stone-400">
+          {{plantProgress[0].dateTime }}</p>
+      </div>
+    </div>
   </div>
 
-  <div class="data-container h-4/6 pt-4 overflow-auto bg-stone-200">
-    <ol class="relative max-w-lg w-lg mx-4 sm:mx-auto">
-      <li class="mb-6 data-entry" *ngFor="let entry of trainingData; index as i">
-        <div
-          class="repo-content p-4 bg-white border border-stone-600 rounded-lg shadow-sm dark:bg-stone-600 dark:border-stone-600">
-          <div class="items-center justify-between mb-3 sm:flex">
-            <time class="mb-1 text-xs font-normal text-gray-400 sm:order-last sm:mb-0">{{entry.datetimeReadable}}</time>
-            <div class="text-sm font-normal text-gray-500 lex dark:text-gray-300">{{ studentName }} wrote on their <a
-                [href]="sourceURL" class="font-semibold text-gray-900 dark:text-white hover:underline">DSU report </a>
+  <div class="h-full relative">
+    <div class="data-container overflow-auto snap-mandatory snap-y bg-stone-200 p-4">
+      <ul class="relative w-full px-2 md:w-2/3 mx-auto list list-none">
+        <!-- <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Officiis earum iste corporis repellendus voluptatem
+          fugiat ut minus harum consequuntur. Debitis culpa ipsa totam fugit eos laborum ea quo deserunt harum.</p>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Officiis earum iste corporis repellendus voluptatem
+          fugiat ut minus harum consequuntur. Debitis culpa ipsa totam fugit eos laborum ea quo deserunt harum.</p>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Officiis earum iste corporis repellendus voluptatem
+          fugiat ut minus harum consequuntur. Debitis culpa ipsa totam fugit eos laborum ea quo deserunt harum.</p>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Officiis earum iste corporis repellendus voluptatem
+          fugiat ut minus harum consequuntur. Debitis culpa ipsa totam fugit eos laborum ea quo deserunt harum.</p>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Officiis earum iste corporis repellendus voluptatem
+          fugiat ut minus harum consequuntur. Debitis culpa ipsa totam fugit eos laborum ea quo deserunt harum.</p>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Officiis earum iste corporis repellendus voluptatem
+          fugiat ut minus harum consequuntur. Debitis culpa ipsa totam fugit eos laborum ea quo deserunt harum.</p>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Officiis earum iste corporis repellendus voluptatem
+          fugiat ut minus harum consequuntur. Debitis culpa ipsa totam fugit eos laborum ea quo deserunt harum.</p>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Officiis earum iste corporis repellendus voluptatem
+          fugiat ut minus harum consequuntur. Debitis culpa ipsa totam fugit eos laborum ea quo deserunt harum.</p>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Officiis earum iste corporis repellendus voluptatem
+          fugiat ut minus harum consequuntur. Debitis culpa ipsa totam fugit eos laborum ea quo deserunt harum.</p>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Officiis earum iste corporis repellendus voluptatem
+          fugiat ut minus harum consequuntur. Debitis culpa ipsa totam fugit eos laborum ea quo deserunt harum.</p> -->
+        <li class="data-entry snap-center " *ngFor="let entry of trainingData; index as i">
+          <div
+            class="repo-content p-4 bg-white border border-stone-600 rounded-lg shadow-sm dark:bg-stone-600 dark:border-stone-600">
+            <div class="items-center justify-between sm:flex">
+              <time class="mb-1 text-sm font-normal text-gray-400 sm:order-last sm:mb-0 tooltip"
+                [attr.data-tip]="entry.datetimeReadable">
+                {{entry.dateTimeRelative}}
+              </time>
+              <div class="text-base mb-2 font-normal text-white lex">{{ studentName }} wrote on
+                their
+                <a [href]="sourceURL" class="font-semibold text-gray-900 dark:text-white hover:underline">DSU report
+                </a>
 
+              </div>
+            </div>
+            <label class="text-sm italic font-normal text-gray-400">Done yesterday</label>
+            <div
+              class="text-sm italic font-normal text-white m-1 border rounded bg-stone-600 border-stone-500 text-stone-300"
+              [innerHTML]="entry.done_yesterday">
+            </div>
+            <label class="text-sm italic font-normal text-gray-400">Doing today</label>
+            <div
+              class="text-sm italic font-normal text-white m-1 border rounded bg-stone-600 border-stone-500 text-stone-300"
+              [innerHTML]="entry.doing_today">
             </div>
           </div>
-          <span class="text-sm italic font-normal text-gray-300">Done yesterday</span>
-          <div
-            class="p-3 my-3 text-xs italic font-normal text-stone-500 border border-stone-200 rounded-lg bg-stone-50 dark:bg-stone-600 dark:border-stone-500 dark:text-stone-300"
-            [innerHTML]="entry.done_yesterday">
-          </div>
-          <span class="text-sm italic font-normal text-stone-300">Doing today</span>
-          <div
-            class="p-3 my-3 text-xs italic font-normal text-stone-500 border border-stone-200 rounded-lg bg-stone-50 dark:bg-stone-600 dark:border-stone-500 dark:text-stone-300"
-            [innerHTML]="entry.doing_today">
-          </div>
-        </div>
 
-      </li>
-    </ol>
+        </li>
+      </ul>
+    </div>
   </div>
 </div>
