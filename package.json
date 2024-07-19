@@ -1,6 +1,6 @@
 {
   "name": "tomegg-alignment",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "scripts": {
     "ng": "ng && yarn sentry:sourcemaps",
     "start": "ng serve",
