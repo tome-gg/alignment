@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '@auth0/auth0-angular';
 import { Gtag } from 'src';
+import { environment } from 'src/environments/environment';
 
 declare var gtag : Gtag.Gtag;
 
@@ -34,7 +35,7 @@ export class HomeComponent implements OnInit {
         } else {
           this.auth.loginWithPopup({
             authorizationParams: {
-              redirect_uri: 'https://tome.gg/ink'
+              redirect_uri: `${environment.baseUrl}/ink`
             }
           });
         }
@@ -64,7 +65,11 @@ export class HomeComponent implements OnInit {
 
     this.auth.isAuthenticated$.subscribe(isAuthenticated => {
       if (!isAuthenticated) {
-        this.auth.loginWithPopup();
+        this.auth.loginWithPopup({
+          authorizationParams: {
+            redirect_uri: `${environment.baseUrl}/journal/request-coaching`
+          }
+        });
       }
     })
 
