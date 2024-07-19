@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import yaml from 'js-yaml';
+import { DateTime } from 'luxon';
 import {marked} from 'marked';
 marked.use({
   pedantic: false,
@@ -89,7 +90,7 @@ export class RepositoryComponent {
       this.trainingDataFile = params.get('training');
       this.evalDataFile = params.get('eval');
 
-      this.sourceURL = `https://${this.repository}`;
+      this.sourceURL = `https://${this.repository}/blob/main/training/${this.trainingDataFile}`;
       
       const trainingData$ = defer(() => from(this.fetchYaml(this.getUrl("training"))));
       const evaluationData$ = defer(() => from(this.fetchYaml(this.getUrl("evals"))));
@@ -115,7 +116,8 @@ export class RepositoryComponent {
 
         this.trainingData = this.trainingData.map((t: any) => ({
           ...t,
-          datetimeReadable: t.datetime?.toISOString().substring(0, 10),
+          datetimeReadable: t.datetime?.toISOString().substr(0, 10),
+          dateTimeRelative: DateTime.fromISO(t.datetime?.toISOString()).toRelative({ unit: 'days' }),
           doing_today: t.doing_today ? marked(t.doing_today) : null,
           done_yesterday: t.done_yesterday ? marked(t.done_yesterday) : null,
           blockers: t.blockers ? marked(t.blockers) : null,
