@@ -52,7 +52,16 @@
                 }
               ],
               "outputHashing": "all",
-              "sourceMap": true
+              "sourceMap": true,
+              "assets": [
+                "src/favicon.ico",
+                "src/assets",
+                {
+                  "glob": "robots.txt",
+                  "input": "src/robots/production/",
+                  "output": "./"
+                }
+              ]
             },
             "development": {
               "buildOptimizer": false,
@@ -60,7 +69,16 @@
               "vendorChunk": true,
               "extractLicenses": false,
               "sourceMap": true,
-              "namedChunks": true
+              "namedChunks": true,
+              "assets": [
+                "src/favicon.ico",
+                "src/assets",
+                {
+                  "glob": "robots.txt",
+                  "input": "src/robots/development/",
+                  "output": "./"
+                }
+              ]
             }
           },
           "defaultConfiguration": "production"
