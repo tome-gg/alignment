@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Meta } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { AuthService } from '@auth0/auth0-angular';
 import { Gtag } from 'src';
@@ -13,12 +14,15 @@ declare var gtag : Gtag.Gtag;
 })
 export class HomeComponent implements OnInit {
 
-  constructor( private router: Router, private auth: AuthService) {
+  constructor( private router: Router, private auth: AuthService, private meta: Meta) {
 
   }
 
   ngOnInit(): void {
-    
+    this.meta.addTags([
+      { name: 'title', content: 'Coaching and Mentoring | Tome.gg' },
+      { name: 'description', content: 'Coaching and mentoring for mid- to senior-level software engineers.' }
+    ]);
   }
 
   tryInk(evt: any) {

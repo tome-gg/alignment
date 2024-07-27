@@ -1,5 +1,5 @@
 import { ErrorHandler, NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, Meta } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -62,6 +62,7 @@ import { environment } from 'src/environments/environment';
         NgIf,
         GraphQLModule], 
         providers: [
+            Meta,
             { provide: HasuraService },
             { provide: HTTP_INTERCEPTORS, useClass: AuthHttpInterceptor, multi: true },
             {
