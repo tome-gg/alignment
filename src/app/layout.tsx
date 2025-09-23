@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import ThemeRegistry from "./ThemeRegistry";
-import { Typography, Box, Container } from '@mui/material';
+import { Typography, Box, Container, Link } from '@mui/material';
 import Image from 'next/image';
 
 const geistSans = Geist({
@@ -43,13 +43,37 @@ export default function RootLayout({
               <Box sx={{ 
                 display: 'flex', 
                 alignItems: 'center', 
-                gap: 2, 
+                justifyContent: 'space-between',
                 py: 2
               }}>
-                <Image src="/tome_gg_logo.avif" alt="Tome.gg" width={32} height={32} />
-                <Typography variant="h5" component="h1" sx={{ fontWeight: 'bold' }}>
-                  Tome.gg
-                </Typography>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                <Link style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 8, textDecoration: 'none', cursor: 'pointer', color: 'black' }} href="https://tome.gg" target="_blank" rel="noopener noreferrer"> 
+                  <Image src="/tome_gg_logo.avif" alt="Tome.gg" width={32} height={32} />
+                  <Typography variant="h5" component="h1" sx={{ fontWeight: 'bold' }}>
+                    Tome.gg
+                  </Typography>
+                  </Link>
+                </Box>
+                <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
+                  <Typography variant="body1" sx={{ fontWeight: 'bold', color: 'text.primary' }}>
+                    darrensapalo
+                  </Typography>
+                  <Link 
+                    href="https://github.com/darrensapalo/growth-journal" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    sx={{ 
+                      textDecoration: 'underline',
+                      color: 'text.secondary',
+                      fontSize: '0.8rem',
+                      '&:hover': {
+                        textDecoration: 'underline'
+                      }
+                    }}
+                  >
+                    Growth Journal
+                  </Link>
+                </Box>
               </Box>
             </Container>
           </Box>

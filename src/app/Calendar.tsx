@@ -221,8 +221,14 @@ ${formatClose(d.close)}`}`);
   return (
     <Container maxWidth="lg" sx={{ py: 4 }}>
       <Box sx={{ mb: 4 }}>
-        <Typography variant="body1" color="text.secondary" sx={{ mb: 3 }}>
-		To build your legendary <Link style={{ cursor: 'pointer', textDecoration: 'underline', fontWeight: 'bold' }} href="https://protocol.tome.gg" target="_blank">tome of knowledge</Link>: just get started and build the habit first. Consistency is your first goal.
+        <Typography variant="body1" color="text.primary" sx={{ mb: 3 }}>
+		In video games, a tome of knowledge is an item that allows you to learn new spells or abilities, or level up quickly.
+		In real life, a tome of knowledge is a collection of your knowledge and experiences.
+		You can&apos;t buy a tome of knowledge in real life, but you can build your own.
+		</Typography>
+		<Typography variant="body1" color="text.primary" sx={{ mb: 3 }}>
+		Each legendary <Link style={{ cursor: 'pointer', textDecoration: 'underline', fontWeight: 'bold' }} href="https://protocol.tome.gg" target="_blank">tome of knowledge</Link>
+		{' '} is unique. To build your own, you simply need to get started and build the habit first. Consistency is your first goal.
         </Typography>
       </Box>
 
