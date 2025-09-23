@@ -1,0 +1,35 @@
+[
+  {
+    "id": "null",
+    "tag": "",
+    "label": "No proposal yet",
+    "value": null
+  },
+  {
+    "id": "tnp1_0",
+    "tag": "tnp_protocol",
+    "label": "Tome Negotiation Protocol 1 (TNP 1.0) - DSU Transparency",
+    "value": "BB9Ewao8p1qoEFWNPZjAHnXeKwvmb7q2G2vfFi8MEhLe"
+  },
+  {
+    "id": "tnp_term_1_0",
+    "tag": "tnp_term",
+    "disabled": true,
+    "label": "Mentoring Timeline (Coming soon)",
+    "value": "5yPwFGQCssFRzXgW5qEqksqynQ7k5kxBfaj8TtmSPtEn"
+  },
+  {
+    "id": "tnp_term_2_0",
+    "tag": "tnp_term",
+    "selected": true,
+    "label": "Session Frequency",
+    "value": "5yPwFGQCssFRzXgW5qEqksqynQ7k5kxBfaj8TtmSPtEn"
+  },
+  {
+    "id": "tnp_term_3_0",
+    "tag": "tnp_term",
+    "disabled": true,
+    "label": "Session Duration (Coming soon)",
+    "value": "5yPwFGQCssFRzXgW5qEqksqynQ7k5kxBfaj8TtmSPtEn"
+  }
+]

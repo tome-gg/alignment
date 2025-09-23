@@ -28,18 +28,32 @@ export async function GET(request: NextRequest) {
     
     if (processData) {
       const data = await GitHubRepositoryService.fetchProcessedRepositoryData(params);
-      return NextResponse.json({
+      const response = NextResponse.json({
         success: true,
         data,
         sourceUrl: GitHubRepositoryService.getSourceUrl(params.source, params.training),
       });
+      
+      // Add caching headers for better performance
+      response.headers.set('Cache-Control', 'public, s-maxage=300, stale-while-revalidate=600');
+      response.headers.set('CDN-Cache-Control', 'max-age=300');
+      response.headers.set('Vary', 'Accept-Encoding');
+      
+      return response;
     } else {
       const data = await GitHubRepositoryService.fetchRepositoryData(params);
-      return NextResponse.json({
+      const response = NextResponse.json({
         success: true,
         data,
         sourceUrl: GitHubRepositoryService.getSourceUrl(params.source, params.training),
       });
+      
+      // Add caching headers for better performance
+      response.headers.set('Cache-Control', 'public, s-maxage=300, stale-while-revalidate=600');
+      response.headers.set('CDN-Cache-Control', 'max-age=300');
+      response.headers.set('Vary', 'Accept-Encoding');
+      
+      return response;
     }
   } catch (error) {
     console.error('API Error:', error);
@@ -72,18 +86,32 @@ export async function POST(request: NextRequest) {
     
     if (processData) {
       const data = await GitHubRepositoryService.fetchProcessedRepositoryData(body);
-      return NextResponse.json({
+      const response = NextResponse.json({
         success: true,
         data,
         sourceUrl: GitHubRepositoryService.getSourceUrl(body.source, body.training),
       });
+      
+      // Add caching headers for better performance
+      response.headers.set('Cache-Control', 'public, s-maxage=300, stale-while-revalidate=600');
+      response.headers.set('CDN-Cache-Control', 'max-age=300');
+      response.headers.set('Vary', 'Accept-Encoding');
+      
+      return response;
     } else {
       const data = await GitHubRepositoryService.fetchRepositoryData(body);
-      return NextResponse.json({
+      const response = NextResponse.json({
         success: true,
         data,
         sourceUrl: GitHubRepositoryService.getSourceUrl(body.source, body.training),
       });
+      
+      // Add caching headers for better performance
+      response.headers.set('Cache-Control', 'public, s-maxage=300, stale-while-revalidate=600');
+      response.headers.set('CDN-Cache-Control', 'max-age=300');
+      response.headers.set('Vary', 'Accept-Encoding');
+      
+      return response;
     }
   } catch (error) {
     console.error('API Error:', error);
