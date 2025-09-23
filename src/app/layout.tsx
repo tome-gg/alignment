@@ -23,7 +23,7 @@ const figtree = Figtree({
 
 
 export const metadata: Metadata = {
-  title: "Tome.gg - Alignment Calendar",
+  title: "Growth Journal | Tome.gg",
   description: "A calendar visualization showing daily percentage changes over time",
 };
 

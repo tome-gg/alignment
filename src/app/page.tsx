@@ -1,12 +1,18 @@
 'use client';
 
 import Calendar from './Calendar';
+import Peers from '../components/Peers';
 import { Suspense } from 'react';
 import { Container, Typography, CircularProgress, Box } from '@mui/material';
 
 function CalendarWithParams() {
   // Calendar now uses context data directly, no props needed
-  return <Calendar />;
+  return (
+    <>
+      <Calendar />
+      <Peers />
+    </>
+  );
 }
 
 export default function Home() {

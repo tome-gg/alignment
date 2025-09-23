@@ -12,9 +12,9 @@ import {
   Button,
   Autocomplete,
   TextField,
-  useMediaQuery
+  useMediaQuery,
+  Link
 } from '@mui/material';
-import Link from 'next/link';
 import { trackCalendarCellSelection } from './analytics';
 import { useTomeSWR } from '../contexts/TomeContextSWR';
 import { ProcessedTrainingEntry } from '../types/github-repository';
@@ -294,33 +294,6 @@ export default function Calendar({}: CalendarProps) {
             // Add stroke to selected cell
             d3.select(this).attr("stroke", "#333").attr("stroke-width", 2);
           }
-        })
-      .append("title")
-        .text(d => {
-          let tooltip = `${formatDate(d.date)}`;
-          
-          if (d.entry) {
-            if (d.entry.eval.score && d.entry.eval.score > 0) {
-              tooltip += `\n${formatValue(d.value)}`;
-              if (d.close !== undefined) {
-                tooltip += `\n${formatClose(d.close)}`;
-              }
-              tooltip += `\nScore: ${d.entry.eval.score}`;
-            } else {
-              tooltip += `\nDSU Entry (No evaluation score)`;
-            }
-            
-            if (d.entry.doing_today) {
-              const plainText = extractTextContent(d.entry.doing_today).trim();
-              if (plainText) {
-                tooltip += `\nDoing: ${plainText}`;
-              }
-            }
-          } else {
-            tooltip += `\nNo entry for this date`;
-          }
-          
-          return tooltip;
         });
 
     const month = year.append("g")
@@ -433,14 +406,60 @@ export default function Calendar({}: CalendarProps) {
 
   // Show error state
   if (error) {
+    const generateCurrentTomeUrl = (): string => {
+      let baseUrl = "https://tome.gg";
+      if (process.env.NODE_ENV === "development") {
+        baseUrl = "http://localhost:3000";
+      }
+      const params = new URLSearchParams({
+        source: repositoryParams.source,
+        training: repositoryParams.training,
+        eval: repositoryParams.eval
+      });
+      return `${baseUrl}?${params.toString()}`;
+    };
+
     return (
       <Container maxWidth="lg" sx={{ py: 4 }}>
-        <Alert severity="error" sx={{ mb: 3 }}>
-          Failed to load repository data: {error}
+        <Alert severity="warning" sx={{ mb: 3 }}>
+          <Typography variant="body1" sx={{ mb: 1 }}>
+            <strong>Growth journal not found</strong>
+          </Typography>
+          <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+            We couldn&apos;t find your training data at the specified repository location. This might happen if:
+          </Typography>
+          <Box component="ul" sx={{ pl: 2, mb: 2 }}>
+            <li>The repository is private or doesn&apos;t exist</li>
+            <li>The training or evaluation files are missing</li>
+            <li>The file paths in the URL are incorrect</li>
+          </Box>
+          <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
+            <strong>Current URL:</strong>
+          </Typography>
+          <Link
+            href={generateCurrentTomeUrl()}
+            target="_blank"
+            rel="noopener noreferrer"
+            sx={{
+              wordBreak: 'break-all',
+              fontSize: '0.9rem',
+              display: 'block',
+              mb: 2
+            }}
+          >
+            {generateCurrentTomeUrl()}
+          </Link>
+          <Typography variant="body2" color="text.secondary">
+            Try checking if your repository exists and contains the required training files, or{' '}
+            <Link
+              href="https://protocol.tome.gg?utm_source=app&utm_medium=error&utm_campaign=tome.gg"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              learn how to create your growth journal
+            </Link>.
+          </Typography>
         </Alert>
-        <Typography variant="body1" color="text.secondary">
-          Unable to display calendar without repository data. Please check your repository configuration.
-        </Typography>
       </Container>
     );
   }
@@ -453,12 +472,31 @@ export default function Calendar({}: CalendarProps) {
 	In real life, a tome of knowledge is a collection of your knowledge and experiences.
 	You can&apos;t buy a tome of knowledge in real life, but you can build your own.
 	</Typography>
-	<Typography variant="body1" color="text.primary" sx={{ mb: 3 }}>
-	Each legendary <Link style={{ cursor: 'pointer', textDecoration: 'underline', fontWeight: 'bold' }} href="https://protocol.tome.gg" target="_blank">tome of knowledge</Link>
-	{' '} is unique. To build your own, you simply need to get started and build the habit first. Consistency is your first goal.
+	<Typography variant="body1" color="text.primary" sx={{ mb: 2 }}>
+	Each legendary tome of knowledge is unique. You simply need to get started and build the habit first. Consistency is your first goal.
         </Typography>
+        <Box sx={{ mb: 3 }}>
+          <Button
+            href="https://protocol.tome.gg?utm_source=app&utm_medium=direct&utm_campaign=tome.gg"
+            target="_blank"
+            variant="contained"
+            size="small"
+            sx={{
+              borderRadius: 3,
+              textTransform: 'none',
+              fontWeight: 'medium',
+              backgroundColor: '#444',
+              color: 'white',
+              '&:hover': {
+                backgroundColor: '#333'
+              }
+            }}
+          >
+            Build Your Tome
+          </Button>
+        </Box>
         {repositoryData && (
-          <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
+          <Typography variant="body2" sx={{ mb: 3, color: 'black' }}>
             Showing data from: <strong>{repositoryData.repository.student.name}</strong>&apos;s repository
           </Typography>
         )}

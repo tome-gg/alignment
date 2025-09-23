@@ -5,10 +5,24 @@ import Image from 'next/image';
 import { useTomeSWR } from '../contexts/TomeContextSWR';
 
 export default function Header() {
-  const { getRepositoryUrl, getStudentName } = useTomeSWR();
-  
+  const { getRepositoryUrl, getStudentName, error, repositoryParams } = useTomeSWR();
+
   const repositoryUrl = getRepositoryUrl();
   const studentName = getStudentName();
+
+  // Generate tome.gg URL for error states
+  const generateCurrentTomeUrl = (): string => {
+    let baseUrl = "https://tome.gg";
+    if (process.env.NODE_ENV === "development") {
+      baseUrl = "http://localhost:3000";
+    }
+    const params = new URLSearchParams({
+      source: repositoryParams.source,
+      training: repositoryParams.training,
+      eval: repositoryParams.eval
+    });
+    return `${baseUrl}?${params.toString()}`;
+  };
 
   return (
     <Box sx={{ 
@@ -34,8 +48,7 @@ export default function Header() {
                 cursor: 'pointer', 
                 color: 'black' 
               }} 
-              href="https://tome.gg" 
-              target="_blank" 
+              href="/" 
               rel="noopener noreferrer"
             > 
               <Image src="/tome_gg_logo.avif" alt="Tome.gg" width={32} height={32} />
@@ -46,14 +59,30 @@ export default function Header() {
           </Box>
           <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
             <Typography variant="body1" sx={{ fontWeight: 'bold', color: 'text.primary' }}>
-              {studentName || 'darrensapalo'}
+              {error ? 'Growth journal not found' : (studentName || 'darrensapalo')}
             </Typography>
-            {repositoryUrl && (
-              <Link 
-                href={repositoryUrl}
-                target="_blank" 
+            {error ? (
+              <Link
+                href={generateCurrentTomeUrl()}
+                target="_blank"
                 rel="noopener noreferrer"
-                sx={{ 
+                sx={{
+                  textDecoration: 'underline',
+                  color: 'text.secondary',
+                  fontSize: '0.8rem',
+                  '&:hover': {
+                    textDecoration: 'underline'
+                  }
+                }}
+              >
+                {generateCurrentTomeUrl()}
+              </Link>
+            ) : repositoryUrl ? (
+              <Link
+                href={repositoryUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                sx={{
                   textDecoration: 'underline',
                   color: 'text.secondary',
                   fontSize: '0.8rem',
@@ -64,7 +93,7 @@ export default function Header() {
               >
                 Growth Journal
               </Link>
-            )}
+            ) : null}
           </Box>
         </Box>
       </Container>
