@@ -1,7 +1,0 @@
-User-agent: *
-Disallow: /private/
-Disallow: /tmp/
-Disallow: /logs/
-Allow: /public/
-Allow: /static/
-Sitemap: http://dev.tome.gg/sitemap.xml
