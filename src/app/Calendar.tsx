@@ -6,12 +6,10 @@ import {
   Container, 
   Typography, 
   Paper, 
-  Box,
-  Chip,
-  Stack
+  Box
 } from '@mui/material';
-import { TrendingUp, TrendingDown } from '@mui/icons-material';
 import Link from 'next/link';
+import { trackCalendarCellSelection } from './analytics';
 
 interface DataPoint {
   date: Date;
@@ -164,6 +162,9 @@ export default function Calendar() {
             setSelectedCell(d);
             setHoveredCell(null);
             
+            // Track the calendar cell selection event
+            trackCalendarCellSelection(d.date, d.value);
+            
             // Remove stroke from all other cells
             svg.selectAll("rect").attr("stroke", null).attr("stroke-width", null);
             // Add stroke to selected cell
@@ -193,30 +194,6 @@ ${formatClose(d.close)}`}`);
 
   }, [selectedCell]);
 
-  // Calculate stats for the display (generate sample data for stats)
-  const generateStatsData = (): DataPoint[] => {
-    const data: DataPoint[] = [];
-    const endDate = new Date();
-    const startDate = new Date(endDate);
-    startDate.setFullYear(endDate.getFullYear() - 1);
-    
-    const currentDate = new Date(startDate);
-    let currentValue = 100;
-    
-    while (currentDate <= endDate) {
-      const change = (Math.random() - 0.5) * 0.1;
-      currentValue *= (1 + change);
-      
-      data.push({
-        date: new Date(currentDate),
-        value: change,
-        close: currentValue
-      });
-      currentDate.setDate(currentDate.getDate() + 1);
-    }
-    
-    return data;
-  };
 
   return (
     <Container maxWidth="lg" sx={{ py: 4 }}>
