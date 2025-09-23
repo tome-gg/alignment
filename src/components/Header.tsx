@@ -75,7 +75,7 @@ export default function Header() {
                   }
                 }}
               >
-                {generateCurrentTomeUrl()}
+                {repositoryUrl}
               </Link>
             ) : repositoryUrl ? (
               <Link
