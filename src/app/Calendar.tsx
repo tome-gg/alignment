@@ -72,7 +72,7 @@ export default function Calendar({}: CalendarProps) {
   };
   
   // Use context data instead of making duplicate SWR calls
-  const { repositoryData, repositoryParams, loading, error, validating } = useTomeSWR();
+  const { repositoryData, repositoryParams, loading, error, validating, getRepositoryUrl } = useTomeSWR();
 
   useEffect(() => {
     if (!svgRef.current) return;
@@ -406,18 +406,7 @@ export default function Calendar({}: CalendarProps) {
 
   // Show error state
   if (error) {
-    const generateCurrentTomeUrl = (): string => {
-      let baseUrl = "https://tome.gg";
-      if (process.env.NODE_ENV === "development") {
-        baseUrl = "http://localhost:3000";
-      }
-      const params = new URLSearchParams({
-        source: repositoryParams.source,
-        training: repositoryParams.training,
-        eval: repositoryParams.eval
-      });
-      return `${baseUrl}?${params.toString()}`;
-    };
+    const repositoryUrl = getRepositoryUrl();
 
     return (
       <Container maxWidth="lg" sx={{ py: 4 }}>
@@ -437,7 +426,7 @@ export default function Calendar({}: CalendarProps) {
             <strong>Current URL:</strong>
           </Typography>
           <Link
-            href={generateCurrentTomeUrl()}
+            href={repositoryUrl}
             target="_blank"
             rel="noopener noreferrer"
             sx={{
@@ -447,7 +436,7 @@ export default function Calendar({}: CalendarProps) {
               mb: 2
             }}
           >
-            {generateCurrentTomeUrl()}
+            {repositoryUrl}
           </Link>
           <Typography variant="body2" color="text.secondary">
             Try checking if your repository exists and contains the required training files, or{' '}
