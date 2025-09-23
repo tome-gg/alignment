@@ -1,44 +1,36 @@
-# Tome.gg: Alignment Negotiation
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-This is the frontend web application for Tome.gg's proof-of-concept [Alignment Negotiation smart contract](https://github.com/tome-gg/negotiation-protocols). It allows non-developer users to interact with the smart contract.
+## Getting Started
 
-## What is it?
+First, run the development server:
 
- Alignment negotiation is a process in mentoring where one party proposes changes to the mentoring agreement, sets clear conditions for failure, outlines potential solutions, and defines the stakes for both parties. 
-
-* Read more on our [FAQ](docs/faq.md). 
-* If you're unfamiliar with the other Tome.gg terminologies, check out the [Definitions](docs/definitions.md) to understand what the concepts mean.
-
-## Installation
-
-### Requirements
-
-1. Angular CLI `15.2.2`
-2. Node.js `v16.14.0`
-3. Typescript `4.9.4`
-
-### Development instructions
-
-To run this project locally, serve it on a local development server using:
-
-```
-ng serve
+```bash
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
 ```
 
-It will then be accessible at http://localhost:4200 which will automatically reload upon file changes.
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-## Roadmap
+You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-### Tasks ahead
+This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-1. Fix Phantom wallet being unable to sign transactions.
-2. Leverage [JSON Forms](https://jsonforms.io/) library for declarative form generation, given a negotiation protocol.
-3. Add copyright attribution for used image content, lifted from Pexels.com.
+## Learn More
 
-## Contributing
+To learn more about Next.js, take a look at the following resources:
 
-I haven't set up contributing guidelines yet, but feel free to connect with me on Twitter @darrensapalo or [join my community on Discord](http://bit.ly/3yCdUiE).
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-## License
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
-Apache License 2.0. See [LICENSE.md](LICENSE.md).
+## Deploy on Vercel
+
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
