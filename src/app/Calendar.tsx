@@ -642,9 +642,15 @@ export default function Calendar({}: CalendarProps) {
 					  </Typography>
 					)}
 					{selectedCell.entry.blockers && (
-					  <Typography variant="body2" color="text.secondary">
+					  <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
 						<strong>Blockers:</strong>{' '}
 						{extractTextContent(selectedCell.entry.blockers)}
+					  </Typography>
+					)}
+					{(selectedCell.entry.remarks || selectedCell.entry.notes) && (
+					  <Typography variant="body2" color="text.secondary">
+						<strong>Notes:</strong>{' '}
+						{extractTextContent(selectedCell.entry.remarks || selectedCell.entry.notes)}
 					  </Typography>
 					)}
 				  </Box>
@@ -696,9 +702,15 @@ export default function Calendar({}: CalendarProps) {
 					  </Typography>
 					)}
 					{hoveredCell.entry.blockers && (
-					  <Typography variant="body2" color="text.secondary">
+					  <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
 						<strong>Blockers:</strong>{' '}
 						{extractTextContent(hoveredCell.entry.blockers)}
+					  </Typography>
+					)}
+					{(hoveredCell.entry.remarks || hoveredCell.entry.notes) && (
+					  <Typography variant="body2" color="text.secondary">
+						<strong>Notes:</strong>{' '}
+						{extractTextContent(hoveredCell.entry.remarks || hoveredCell.entry.notes)}
 					  </Typography>
 					)}
 				  </Box>
