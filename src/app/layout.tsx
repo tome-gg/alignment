@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Figtree, Roboto_Condensed } from "next/font/google";
+import { Geist, Figtree } from "next/font/google";
 import "./globals.css";
 import ThemeRegistry from "./ThemeRegistry";
 import Script from 'next/script';
 import { TomeProviderSWR } from '../contexts/TomeContextSWR';
 import { SWRProvider } from '../contexts/SWRProvider';
 import Header from '../components/Header';
-import { SWRDebugger } from '../components/SWRDebugger';
+import { Suspense } from 'react';
+// import { SWRDebugger } from '../components/SWRDebugger';
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -41,11 +42,13 @@ export default function RootLayout({
       <body className={`${geistSans.variable} ${figtree.variable} `}>
         <ThemeRegistry>
           <SWRProvider>
-            <TomeProviderSWR>
-              <Header />
-              {children}
-              {/* <SWRDebugger /> */}
-            </TomeProviderSWR>
+            <Suspense fallback={<div>Loading...</div>}>
+              <TomeProviderSWR>
+                <Header />
+                {children}
+                {/* <SWRDebugger /> */}
+              </TomeProviderSWR>
+            </Suspense>
           </SWRProvider>
         </ThemeRegistry>
         

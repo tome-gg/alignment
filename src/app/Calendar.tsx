@@ -2,24 +2,22 @@
 
 import { useEffect, useRef, useState } from 'react';
 import * as d3 from 'd3';
-import { 
-  Container, 
-  Typography, 
-  Paper, 
+import {
+  Container,
+  Typography,
+  Paper,
   Box,
   CircularProgress,
   Alert,
-  IconButton,
   Button,
   Autocomplete,
   TextField,
-  useMediaQuery,
-  useTheme
+  useMediaQuery
 } from '@mui/material';
 import Link from 'next/link';
 import { trackCalendarCellSelection } from './analytics';
 import { useTomeSWR } from '../contexts/TomeContextSWR';
-import { RepositoryParams, ProcessedTrainingEntry } from '../types/github-repository';
+import { ProcessedTrainingEntry } from '../types/github-repository';
 
 interface DataPoint {
   date: Date;
@@ -30,6 +28,7 @@ interface DataPoint {
 
 interface CalendarProps {
   // No props needed - will use context data
+  [key: string]: unknown;
 }
 
 // Define formatting functions as constants
@@ -62,7 +61,6 @@ export default function Calendar({}: CalendarProps) {
   const [allDataPoints, setAllDataPoints] = useState<DataPoint[]>([]);
   
   // Responsive detection
-  const theme = useTheme();
   const isMobile = useMediaQuery('(max-width:720px)');
   
   // Format date for dropdown display (MM/DD/YYYY)
@@ -261,14 +259,14 @@ export default function Calendar({}: CalendarProps) {
           }
         })
         .attr("cursor", "pointer")
-        .on("mouseover", function(event, d) {
+        .on("mouseover", function(_, d) {
           // Only update hover state if no cell is selected
           if (!selectedCell) {
             setHoveredCell(d);
             d3.select(this).attr("stroke", "#333").attr("stroke-width", 1);
           }
         })
-        .on("mouseout", function(event, d) {
+        .on("mouseout", function(_, d) {
           // Only clear hover state if this cell is not selected
           if (!selectedCell || selectedCell !== d) {
             setHoveredCell(null);
@@ -341,7 +339,7 @@ export default function Calendar({}: CalendarProps) {
         .attr("y", -5)
         .text(formatMonth);
 
-  }, [selectedCell, repositoryData, isMobile]);
+  }, [selectedCell, repositoryData, isMobile, repositoryParams]);
 
 
   // Show loading state only when there's no data at all (not when revalidating with cached data)
@@ -522,7 +520,7 @@ export default function Calendar({}: CalendarProps) {
                   return `${dateStr}${scoreText}`;
                 }}
                 value={selectedCell}
-                onChange={(event, newValue) => {
+                onChange={(_, newValue) => {
                   setSelectedCell(newValue);
                   setHoveredCell(null);
                   if (newValue) {
