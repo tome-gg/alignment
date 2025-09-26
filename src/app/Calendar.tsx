@@ -75,11 +75,6 @@ export default function Calendar({}: CalendarProps) {
   const { repositoryData, repositoryParams, loading, error, validating, getRepositoryUrl } = useTomeSWR();
 
   useEffect(() => {
-    if (!svgRef.current) return;
-
-    // Clear previous content
-    d3.select(svgRef.current).selectAll('*').remove();
-
     // Transform repository data - generate full calendar with entries mapped to dates
     const transformRepositoryData = (): DataPoint[] => {
       // Get the date range to cover
@@ -152,9 +147,17 @@ export default function Calendar({}: CalendarProps) {
     };
 
     const data = transformRepositoryData();
-    
+
     // Store data points for dropdown use
     setAllDataPoints(data);
+
+    // Only render SVG on desktop - mobile uses dropdown
+    if (isMobile) return;
+
+    if (!svgRef.current) return;
+
+    // Clear previous content
+    d3.select(svgRef.current).selectAll('*').remove();
 
     // If no data is available, show empty calendar or message
     if (data.length === 0) {
@@ -563,24 +566,27 @@ export default function Calendar({}: CalendarProps) {
                     fullWidth
                   />
                 )}
-                renderOption={(props, option) => (
-                  <Box component="li" {...props}>
-                    <Box>
-                      <Typography variant="body2" sx={{ fontWeight: 'medium' }}>
-                        {formatDateForDropdown(option.date)}
-                      </Typography>
-                      {option.entry?.eval?.score && option.entry.eval.score > 0 ? (
-                        <Typography variant="caption" color="text.secondary">
-                          Score: {option.entry.eval.score}/5 • Change: {formatValue(option.value)}
+                renderOption={(props, option) => {
+                  const { key, ...otherProps } = props;
+                  return (
+                    <Box component="li" key={key} {...otherProps}>
+                      <Box>
+                        <Typography variant="body2" sx={{ fontWeight: 'medium' }}>
+                          {formatDateForDropdown(option.date)}
                         </Typography>
-                      ) : (
-                        <Typography variant="caption" color="text.secondary">
-                          DSU Entry (No evaluation score)
-                        </Typography>
-                      )}
+                        {option.entry?.eval?.score && option.entry.eval.score > 0 ? (
+                          <Typography variant="caption" color="text.secondary">
+                            Score: {option.entry.eval.score}/5 • Change: {formatValue(option.value)}
+                          </Typography>
+                        ) : (
+                          <Typography variant="caption" color="text.secondary">
+                            DSU Entry (No evaluation score)
+                          </Typography>
+                        )}
+                      </Box>
                     </Box>
-                  </Box>
-                )}
+                  );
+                }}
                 noOptionsText="No dates with entries found"
                 sx={{ my: 2 }}
               />
