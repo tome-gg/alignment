@@ -40,6 +40,8 @@ export interface ProcessedTrainingEntry extends Omit<TrainingEntry, 'doing_today
   blockers?: string | null;
   eval: {
     score: number;
+    notes?: string;
+    evaluator?: string;
   };
 }
 

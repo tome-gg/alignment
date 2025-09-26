@@ -23,6 +23,7 @@ interface DataPoint {
   date: Date;
   value: number;
   close: number;
+  scoreChange?: number; // Score difference from neutral (3)
   entry?: ProcessedTrainingEntry; // Optional training entry data
 }
 
@@ -32,8 +33,6 @@ interface CalendarProps {
 }
 
 // Define formatting functions as constants
-const formatValue = d3.format("+.2%");
-const formatClose = d3.format("$,.2f");
 const formatDate = d3.utcFormat("%x");
 
 // Helper function to safely extract text content from HTML strings
@@ -52,6 +51,33 @@ const extractTextContent = (htmlString: string): string => {
   
   // Extract text content and clean up whitespace
   return tempDiv.textContent || tempDiv.innerText || '';
+};
+
+// Helper function to safely extract evaluator information
+const getEvaluatorDisplayName = (evaluator: any): string => {
+  if (!evaluator) return '';
+  
+  if (typeof evaluator === 'string') {
+    return evaluator;
+  }
+  
+  if (typeof evaluator === 'object') {
+    // Try common object properties that might contain the evaluator name
+    return evaluator.name || evaluator.username || evaluator.displayName || evaluator.email || JSON.stringify(evaluator);
+  }
+  
+  return String(evaluator);
+};
+
+// Helper function to format score change
+const formatScoreChange = (scoreChange: number | undefined): string => {
+  if (scoreChange === undefined) {
+    return 'First entry';
+  }
+  if (scoreChange === 0) {
+    return '±0';
+  }
+  return scoreChange > 0 ? `+${scoreChange}` : `${scoreChange}`;
 };
 
 export default function Calendar({}: CalendarProps) {
@@ -113,6 +139,7 @@ export default function Calendar({}: CalendarProps) {
 
       const data: DataPoint[] = [];
       let currentValue = 100; // Starting value for cumulative calculation
+      let previousScore: number | null = null; // Track previous entry score
 
       // Generate all days for each year in the range
       for (let year = startYear; year <= endYear; year++) {
@@ -124,10 +151,18 @@ export default function Calendar({}: CalendarProps) {
           const entry = entryMap.get(dateKey);
           
           let change: number = 0;
+          let scoreChange: number | undefined = undefined;
           
           if (entry) {
             if (entry.eval.score && entry.eval.score > 0) {
-              // Map evaluation score (1-5) to percentage change (-10% to +10%)
+              // Calculate score difference from previous entry
+              if (previousScore !== null) {
+                scoreChange = entry.eval.score - previousScore;
+              }
+              // Update previous score for next iteration
+              previousScore = entry.eval.score;
+              
+              // Map evaluation score (1-5) to percentage change (-10% to +10%) for color scaling
               change = ((entry.eval.score - 3) / 2) * 0.1;
               currentValue *= (1 + change);
             }
@@ -138,6 +173,7 @@ export default function Calendar({}: CalendarProps) {
             date: new Date(d), // Create new Date object to avoid reference issues
             value: change,
             close: currentValue,
+            scoreChange,
             entry
           });
         }
@@ -494,7 +530,11 @@ export default function Calendar({}: CalendarProps) {
         )}
       </Box>
 
-      <Paper elevation={2} sx={{ p: 3, borderRadius: 1 }}>
+      <Paper elevation={2} sx={{ 
+        p: 3, 
+        borderRadius: 1, 
+        minHeight: { xs: 'auto', md: '720px' }
+      }}>
         <Box sx={{ overflowX: 'auto' }}>
 			<Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 0 }}>
 				<Typography variant="h3" component="h1" sx={{ 
@@ -576,7 +616,7 @@ export default function Calendar({}: CalendarProps) {
                         </Typography>
                         {option.entry?.eval?.score && option.entry.eval.score > 0 ? (
                           <Typography variant="caption" color="text.secondary">
-                            Score: {option.entry.eval.score}/5 • Change: {formatValue(option.value)}
+                            Score: {option.entry.eval.score}/5 • Change: {formatScoreChange(option.scoreChange)}
                           </Typography>
                         ) : (
                           <Typography variant="caption" color="text.secondary">
@@ -600,13 +640,11 @@ export default function Calendar({}: CalendarProps) {
 				<Typography variant="body1" color="text.primary" sx={{ fontWeight: 'bold', mb: 1 }}>
 				  {formatDate(selectedCell.date)} (Selected)
 				</Typography>
-				{selectedCell.entry && selectedCell.entry.eval.score && selectedCell.entry.eval.score > 0 ? (
+				{selectedCell.entry ? (
 				  <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
-					Change: {formatValue(selectedCell.value)} | Close: {formatClose(selectedCell.close)}
-				  </Typography>
-				) : selectedCell.entry ? (
-				  <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
-					DSU Entry (No evaluation score)
+					{selectedCell.entry.eval.score && selectedCell.entry.eval.score > 0
+						? `Daily Standup with Score: ${selectedCell.entry.eval.score}/5`
+						: "Daily Standup Entry (No evaluation score)"}
 				  </Typography>
 				) : (
 				  <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
@@ -615,15 +653,6 @@ export default function Calendar({}: CalendarProps) {
 				)}
 				{selectedCell.entry ? (
 				  <Box sx={{ mt: 2 }}>
-					{selectedCell.entry.eval.score && selectedCell.entry.eval.score > 0 ? (
-					  <Typography variant="body2" sx={{ fontWeight: 'medium', mb: 1 }}>
-						Score: {selectedCell.entry.eval.score}/5
-					  </Typography>
-					) : (
-					  <Typography variant="body2" sx={{ fontWeight: 'medium', mb: 1 }}>
-						Training entry without evaluation
-					  </Typography>
-					)}
 					{selectedCell.entry.doing_today && (
 					  <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
 						<strong>Doing today:</strong>{' '}
@@ -643,10 +672,28 @@ export default function Calendar({}: CalendarProps) {
 					  </Typography>
 					)}
 					{(selectedCell.entry.remarks || selectedCell.entry.notes) && (
-					  <Typography variant="body2" color="text.secondary">
+					  <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
 						<strong>Notes:</strong>{' '}
 						{extractTextContent(selectedCell.entry.remarks || selectedCell.entry.notes)}
 					  </Typography>
+					)}
+					{selectedCell.entry.eval.score && selectedCell.entry.eval.score > 0 && (
+					  <Box sx={{ mt: 2, pt: 1, borderTop: '1px solid', borderColor: 'divider' }}>
+						<Typography variant="body2" sx={{ fontWeight: 'medium', mb: 1 }}>
+						  Evaluation Score: {selectedCell.entry.eval.score}/5
+						</Typography>
+						{selectedCell.entry.eval.evaluator && (
+						  <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
+							<strong>Evaluator:</strong> {getEvaluatorDisplayName(selectedCell.entry.eval.evaluator)}
+						  </Typography>
+						)}
+						{selectedCell.entry.eval.notes && (
+						  <Typography variant="body2" color="text.secondary">
+							<strong>Evaluation Notes:</strong>{' '}
+							{extractTextContent(selectedCell.entry.eval.notes)}
+						  </Typography>
+						)}
+					  </Box>
 					)}
 				  </Box>
 				) : (
@@ -660,13 +707,11 @@ export default function Calendar({}: CalendarProps) {
 				<Typography variant="body1" color="text.primary" sx={{ fontWeight: 'bold', mb: 1 }}>
 				  {formatDate(hoveredCell.date)}
 				</Typography>
-				{hoveredCell.entry && hoveredCell.entry.eval.score && hoveredCell.entry.eval.score > 0 ? (
+				{hoveredCell.entry ? (
 				  <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
-					Change: {formatValue(hoveredCell.value)} | Close: {formatClose(hoveredCell.close)}
-				  </Typography>
-				) : hoveredCell.entry ? (
-				  <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
-					DSU Entry (No evaluation score)
+					{hoveredCell.entry.eval.score && hoveredCell.entry.eval.score > 0
+						? `Daily Standup with Score: ${hoveredCell.entry.eval.score}/5`
+						: "Daily Standup Entry (No evaluation score)"}
 				  </Typography>
 				) : (
 				  <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
@@ -675,15 +720,6 @@ export default function Calendar({}: CalendarProps) {
 				)}
 				{hoveredCell.entry ? (
 				  <Box sx={{ mt: 2 }}>
-					{hoveredCell.entry.eval.score && hoveredCell.entry.eval.score > 0 ? (
-					  <Typography variant="body2" sx={{ fontWeight: 'medium', mb: 1 }}>
-						Score: {hoveredCell.entry.eval.score}/5
-					  </Typography>
-					) : (
-					  <Typography variant="body2" sx={{ fontWeight: 'medium', mb: 1 }}>
-						Training entry without evaluation
-					  </Typography>
-					)}
 					{hoveredCell.entry.doing_today && (
 					  <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
 						<strong>Doing today:</strong>{' '}
@@ -703,10 +739,28 @@ export default function Calendar({}: CalendarProps) {
 					  </Typography>
 					)}
 					{(hoveredCell.entry.remarks || hoveredCell.entry.notes) && (
-					  <Typography variant="body2" color="text.secondary">
+					  <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
 						<strong>Notes:</strong>{' '}
 						{extractTextContent(hoveredCell.entry.remarks || hoveredCell.entry.notes)}
 					  </Typography>
+					)}
+					{hoveredCell.entry.eval.score && hoveredCell.entry.eval.score > 0 && (
+					  <Box sx={{ mt: 2, pt: 1, borderTop: '1px solid', borderColor: 'divider' }}>
+						<Typography variant="body2" sx={{ fontWeight: 'medium', mb: 1 }}>
+						  Evaluation Score: {hoveredCell.entry.eval.score}/5
+						</Typography>
+						{hoveredCell.entry.eval.evaluator && (
+						  <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
+							<strong>Evaluator:</strong> {getEvaluatorDisplayName(hoveredCell.entry.eval.evaluator)}
+						  </Typography>
+						)}
+						{hoveredCell.entry.eval.notes && (
+						  <Typography variant="body2" color="text.secondary">
+							<strong>Evaluation Notes:</strong>{' '}
+							{extractTextContent(hoveredCell.entry.eval.notes)}
+						  </Typography>
+						)}
+					  </Box>
 					)}
 				  </Box>
 				) : null}

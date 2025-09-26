@@ -85,14 +85,20 @@ export class GitHubRepositoryService {
   }
 
   /**
-   * Finds evaluation score for a training entry
+   * Finds evaluation data for a training entry
    */
-  private static findEvaluationScore(entryId: string, evaluations: EvaluationEntry[]): number {
+  private static findEvaluationData(entryId: string, evaluations: EvaluationEntry[], evaluator?: string): { score: number; notes?: string; evaluator?: string } {
     const evaluation = evaluations.find((d) => d.id === entryId);
     if (!evaluation || !evaluation.measurements || evaluation.measurements.length === 0) {
-      return 0;
+      return { score: 0 };
     }
-    return evaluation.measurements[0]?.score || 0;
+
+    const measurement = evaluation.measurements[0];
+    return {
+      score: measurement?.score || 0,
+      notes: measurement?.notes || measurement?.comment || measurement?.remarks,
+      evaluator
+    };
   }
 
   /**
@@ -115,9 +121,7 @@ export class GitHubRepositoryService {
           doing_today: await this.processMarkdown(entry.doing_today),
           done_yesterday: await this.processMarkdown(entry.done_yesterday),
           blockers: await this.processMarkdown(entry.blockers),
-          eval: {
-            score: this.findEvaluationScore(entry.id, evaluationData.evaluations),
-          },
+          eval: this.findEvaluationData(entry.id, evaluationData.evaluations, evaluationData.meta.evaluator),
         };
       })
     );
