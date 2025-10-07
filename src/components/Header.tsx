@@ -26,14 +26,18 @@ export default function Header() {
     <Box sx={{ 
       borderBottom: '1px solid', 
       borderColor: 'divider',
-      bgcolor: 'background.default'
+      bgcolor: 'background.default',
+      // Prevent layout shift
+      minHeight: '80px',
+      contain: 'layout'
     }}>
       <Container maxWidth="lg">
         <Box sx={{ 
           display: 'flex', 
           alignItems: 'center', 
           justifyContent: 'space-between',
-          py: 2
+          py: 2,
+          minHeight: '64px'
         }}>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
             <Link 
@@ -62,8 +66,21 @@ export default function Header() {
               </Typography>
             </Link>
           </Box>
-          <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
-            <Typography variant="body1" sx={{ fontWeight: 'bold', color: 'text.primary' }}>
+          <Box sx={{ 
+            display: 'flex', 
+            flexDirection: 'column', 
+            alignItems: 'flex-end',
+            minWidth: '200px', // Reserve space to prevent shift
+            transition: 'opacity 0.2s ease'
+          }}>
+            <Typography 
+              variant="body1" 
+              sx={{ 
+                fontWeight: 'bold', 
+                color: 'text.primary',
+                transition: 'color 0.2s ease'
+              }}
+            >
               {error ? 'Growth journal not found' : (studentName || 'darrensapalo')}
             </Typography>
             {error ? (
@@ -75,6 +92,7 @@ export default function Header() {
                   textDecoration: 'underline',
                   color: 'text.secondary',
                   fontSize: '0.8rem',
+                  transition: 'color 0.2s ease',
                   '&:hover': {
                     textDecoration: 'underline'
                   }
@@ -91,6 +109,7 @@ export default function Header() {
                   textDecoration: 'underline',
                   color: 'text.secondary',
                   fontSize: '0.8rem',
+                  transition: 'color 0.2s ease',
                   '&:hover': {
                     textDecoration: 'underline'
                   }

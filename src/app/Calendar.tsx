@@ -24,6 +24,7 @@ import {
 import { trackCalendarCellSelection } from './analytics';
 import { useTomeSWR } from '../contexts/TomeContextSWR';
 import { ProcessedTrainingEntry, getDimensionDisplayName } from '../types/github-repository';
+import { useCalendarDimensions } from '../hooks/useCalendarDimensions';
 
 interface DataPoint {
   date: Date;
@@ -103,6 +104,9 @@ function Calendar({}: CalendarProps) {
     const year = date.getFullYear();
     return `${month}/${day}/${year}`;
   }, []);
+  
+  // Calculate fixed layout dimensions to prevent CLS
+  const layoutDimensions = useCalendarDimensions();
   
   // Use context data instead of making duplicate SWR calls
   const { repositoryData, repositoryParams, loading, error, validating, getRepositoryUrl } = useTomeSWR();
@@ -230,8 +234,8 @@ function Calendar({}: CalendarProps) {
       return;
     }
 
-    // Chart configuration - make responsive
-    const cellSize = isMobile ? 12 : 16; // height of a day
+    // Chart configuration - use memoized dimensions
+    const cellSize = layoutDimensions.cellSize;
     const height = cellSize * 9; // height of a week (7 days + padding)
     const width = (cellSize + 1.5) * 53; // width of the chart
 
@@ -368,7 +372,7 @@ function Calendar({}: CalendarProps) {
         .attr("y", -5)
         .text(formatMonth);
 
-  }, [transformedData, selectedCell, isMobile, repositoryParams]);
+  }, [transformedData, selectedCell, isMobile, repositoryParams, layoutDimensions]);
 
 
   // Show loading state only when there's no data at all (not when revalidating with cached data)
@@ -376,20 +380,60 @@ function Calendar({}: CalendarProps) {
     return (
       <Container maxWidth="lg" sx={{ py: 4 }}>
         <Box sx={{ mb: 4 }}>
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 3 }}>
+          {/* Static content - always show */}
+          <Typography variant="body1" color="text.primary" sx={{ mb: 3 }}>
+            In video games, a tome of knowledge is an item that allows you to learn new spells or abilities, or level up quickly.
+            In real life, a tome of knowledge is a collection of your knowledge and experiences.
+            You can&apos;t buy a tome of knowledge in real life, but you can build your own.
+          </Typography>
+          <Typography variant="body1" color="text.primary" sx={{ mb: 2 }}>
+            Each legendary tome of knowledge is unique. You simply need to get started and build the habit first. Consistency is your first goal.
+          </Typography>
+          <Box sx={{ mb: 3 }}>
+            <Button
+              href="https://protocol.tome.gg?utm_source=app&utm_medium=direct&utm_campaign=tome.gg"
+              target="_blank"
+              variant="contained"
+              size="small"
+              sx={{
+                borderRadius: 3,
+                textTransform: 'none',
+                fontWeight: 'medium',
+                backgroundColor: '#444',
+                color: 'white',
+                '&:hover': {
+                  backgroundColor: '#333'
+                }
+              }}
+            >
+              Build Your Tome
+            </Button>
+          </Box>
+          {/* Only show loading skeleton for dynamic repository owner */}
+          <Typography variant="body2" component="div" sx={{ mb: 3, color: 'black', display: 'flex', alignItems: 'center', gap: 0.5 }}>
+            Showing data from:{' '}
             <Box 
               sx={{ 
-                width: 150, 
-                height: 20, 
+                width: 120, 
+                height: 18, 
                 borderRadius: 1, 
                 backgroundColor: 'action.hover',
                 animation: 'pulse 1.5s ease-in-out infinite'
               }} 
             />
-          </Box>
+            &apos;s repository
+          </Typography>
 		</Box>
 
-        <Paper elevation={2} sx={{ p: 3, borderRadius: 1 }}>
+        <Paper elevation={2} sx={{ 
+          p: 3, 
+          borderRadius: 1,
+          minHeight: { 
+            xs: '400px', 
+            md: `${layoutDimensions.totalHeight}px` 
+          },
+          contain: 'layout style'
+        }}>
           <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
             <Box 
               sx={{ 
@@ -400,10 +444,17 @@ function Calendar({}: CalendarProps) {
                 animation: 'pulse 1.5s ease-in-out infinite'
               }} 
             />
+            {/* Reserved space for Clear button */}
+            <Box sx={{ width: '80px', height: '40px' }} />
           </Box>
           
-          {/* Calendar skeleton */}
-          <Box sx={{ overflowX: 'hidden', px: 2 }}>
+          {/* Calendar skeleton with fixed height */}
+          <Box sx={{ 
+            height: `${layoutDimensions.svgContainerHeight}px`,
+            minHeight: `${layoutDimensions.svgContainerHeight}px`,
+            overflowX: 'hidden', 
+            px: 2 
+          }}>
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1, minWidth: 800 }}>
               
               {/* Calendar grid skeleton */}
@@ -425,8 +476,14 @@ function Calendar({}: CalendarProps) {
             </Box>
           </Box>
           
-          {/* Detail section skeleton */}
-          <Box sx={{ minHeight: '120px', mt: 3, pt: 2 }}>
+          {/* Detail section skeleton with fixed height */}
+          <Box sx={{ 
+            height: `${layoutDimensions.detailHeight}px`,
+            minHeight: `${layoutDimensions.detailHeight}px`,
+            mt: 3, 
+            pt: 2,
+            overflow: 'auto'
+          }}>
             <Box 
               sx={{ 
                 width: '100%', 
@@ -550,12 +607,17 @@ function Calendar({}: CalendarProps) {
       <Paper elevation={2} sx={{ 
         p: 3, 
         borderRadius: 1, 
-        // Use min-height to prevent layout shift but allow content to expand
-        minHeight: { xs: '400px', md: '600px' },
+        // Fixed height to prevent CLS - calculated from dimensions
+        minHeight: { 
+          xs: '400px', 
+          md: `${layoutDimensions.totalHeight}px` 
+        },
         display: 'flex',
         flexDirection: 'column',
         // Allow content to flow naturally while preventing horizontal overflow
-        overflow: 'hidden'
+        overflow: 'hidden',
+        // CSS containment for performance and CLS prevention
+        contain: 'layout style'
       }}>
         <Box sx={{ overflowX: 'auto' }}>
 			<Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 0 }}>
@@ -570,31 +632,35 @@ function Calendar({}: CalendarProps) {
 					<CircularProgress size={16} sx={{ ml: 1 }} />
 				  )}
 				</Typography>
-				{selectedCell && (
-					<Button 
-						onClick={() => {
-							setSelectedCell(null);
-							setHoveredCell(null);
-							// Remove stroke from all cells
-							if (svgRef.current) {
-								select(svgRef.current).selectAll("rect").attr("stroke", null).attr("stroke-width", null);
-							}
-						}}
-						variant="outlined"
-						size="small"
-						sx={{ 
-							color: 'text.secondary',
-							borderColor: 'divider',
-							'&:hover': { 
-								color: 'text.primary',
-								borderColor: 'text.secondary',
-								backgroundColor: 'action.hover'
-							}
-						}}
-					>
-						Clear
-					</Button>
-				)}
+				{/* Clear button with transform animation to prevent CLS */}
+				<Button 
+					onClick={() => {
+						setSelectedCell(null);
+						setHoveredCell(null);
+						// Remove stroke from all cells
+						if (svgRef.current) {
+							select(svgRef.current).selectAll("rect").attr("stroke", null).attr("stroke-width", null);
+						}
+					}}
+					variant="outlined"
+					size="small"
+					sx={{ 
+						minWidth: '80px', // Reserve space to prevent shift
+						opacity: selectedCell ? 1 : 0,
+						transform: selectedCell ? 'scale(1)' : 'scale(0.8)',
+						transition: 'opacity 0.2s ease, transform 0.2s ease',
+						pointerEvents: selectedCell ? 'auto' : 'none',
+						color: 'text.secondary',
+						borderColor: 'divider',
+						'&:hover': { 
+							color: 'text.primary',
+							borderColor: 'text.secondary',
+							backgroundColor: 'action.hover'
+						}
+					}}
+				>
+					Clear
+				</Button>
 			</Box>
           
           {/* Responsive rendering: dropdown for mobile, calendar for desktop */}
@@ -656,8 +722,9 @@ function Calendar({}: CalendarProps) {
           ) : (
             <Box sx={{ 
               width: '100%', 
-              minHeight: '300px',
-              maxHeight: '500px',
+              height: `${layoutDimensions.svgContainerHeight}px`,
+              minHeight: `${layoutDimensions.svgContainerHeight}px`,
+              maxHeight: `${layoutDimensions.svgContainerHeight}px`,
               display: 'flex',
               justifyContent: 'center',
               alignItems: 'flex-start',
@@ -672,17 +739,28 @@ function Calendar({}: CalendarProps) {
                 style={{ 
                   maxWidth: '100%', 
                   height: 'auto',
-                  minHeight: '300px'
+                  opacity: transformedData.length ? 1 : 0,
+                  transition: 'opacity 0.4s ease',
+                  willChange: 'opacity'
                 }}
               ></svg>
             </Box>
           )}
 		  <Box sx={{ 
-        minHeight: '120px', 
-        mb: 3,
-        // Allow content to expand naturally while maintaining minimum space
-        flex: '1 1 auto',
-        overflow: 'visible'
+        p: 2,
+        height: `${layoutDimensions.detailHeight}px`,
+        minHeight: `${layoutDimensions.detailHeight}px`,
+        maxHeight: `${layoutDimensions.detailHeight}px`,
+        my: 3,
+        overflow: 'auto',
+        position: 'relative',
+        borderRadius: 2,
+        border: '1px solid',
+        borderColor: 'divider',
+        // Smooth transitions for content changes
+        '& > *': {
+          transition: 'opacity 0.2s ease, transform 0.2s ease'
+        }
       }}>
 			{selectedCell ? (
 			  <Box>
