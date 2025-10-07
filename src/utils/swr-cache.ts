@@ -5,6 +5,7 @@
 
 import { mutate } from 'swr';
 import { RepositoryParams } from '../types/github-repository';
+import { log } from './logger';
 
 /**
  * Generate cache keys consistently across the app
@@ -85,7 +86,7 @@ export const SWRCacheManager = {
           });
         }
       } catch (e) {
-        console.warn('Failed to read SWR cache from sessionStorage:', e);
+        log.warn('Failed to read SWR cache from sessionStorage:', e);
       }
     }
     
@@ -127,7 +128,7 @@ export const SWRCacheManager = {
           totalSizeBytes = cached.length * 2; // Rough estimate (UTF-16)
         }
       } catch (e) {
-        console.warn('Failed to estimate cache size:', e);
+        log.warn('Failed to estimate cache size:', e);
       }
     }
     
@@ -151,7 +152,7 @@ export const SWRPerformanceMonitor = {
     const stats = SWRCacheManager.getCacheStats();
     const memory = SWRCacheManager.getMemoryUsage();
     
-    console.log('SWR Cache Performance:', {
+    log.debug('SWR Cache Performance:', {
       stats,
       memory,
       timestamp: new Date().toISOString()
@@ -169,11 +170,11 @@ export const SWRPerformanceMonitor = {
     
     return fetchFn().then(result => {
       const duration = performance.now() - startTime;
-      console.log(`SWR Fetch Duration for ${key}:`, `${duration.toFixed(2)}ms`);
+      log.debug(`SWR Fetch Duration for ${key}:`, `${duration.toFixed(2)}ms`);
       return result;
     }).catch(error => {
       const duration = performance.now() - startTime;
-      console.error(`SWR Fetch Error for ${key} after ${duration.toFixed(2)}ms:`, error);
+      log.error(`SWR Fetch Error for ${key} after ${duration.toFixed(2)}ms:`, error);
       throw error;
     });
   }
@@ -187,7 +188,7 @@ export const SWRCacheWarming = {
    * Preload commonly accessed repository data
    */
   warmCommonRepositories: async (commonParams: RepositoryParams[]) => {
-    console.log('Warming cache for repositories:', commonParams);
+    log.debug('Warming cache for repositories:', commonParams);
     // This would be implemented with actual SWR preload calls
   },
 
@@ -195,7 +196,7 @@ export const SWRCacheWarming = {
    * Background refresh of stale data
    */
   backgroundRefresh: () => {
-    console.log('Background refresh would check for stale data');
+    log.debug('Background refresh would check for stale data');
     // In a real implementation, this would check cache timestamps
     // and trigger refreshes for stale data
   }

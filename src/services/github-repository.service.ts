@@ -20,6 +20,7 @@ import {
   TrainingFile,
   EvaluationFile
 } from '../types/github-repository';
+import { log } from '../utils/logger';
 
 // Configure marked options
 marked.setOptions({
@@ -56,7 +57,7 @@ export class GitHubRepositoryService {
 
       return data;
     } catch (error) {
-      console.error('Failed to fetch YAML:', error);
+      log.error('Failed to fetch YAML:', error);
       throw new Error(`Failed to fetch YAML from ${url}: ${error instanceof Error ? error.message : 'Unknown error'}`);
     }
   }
@@ -71,7 +72,7 @@ export class GitHubRepositoryService {
       const result = await marked(content);
       return typeof result === 'string' ? result : content;
     } catch (error) {
-      console.error('Failed to process markdown:', error);
+      log.error('Failed to process markdown:', error);
       return content; // Return original content if markdown processing fails
     }
   }
@@ -208,7 +209,7 @@ export class GitHubRepositoryService {
       const contents = await response.json();
       return Array.isArray(contents) ? contents : [contents];
     } catch (error) {
-      console.error('Failed to fetch GitHub directory contents:', error);
+      log.error('Failed to fetch GitHub directory contents:', error);
       throw new Error(`Failed to fetch directory contents from ${repository}/${path}: ${error instanceof Error ? error.message : 'Unknown error'}`);
     }
   }
@@ -224,7 +225,7 @@ export class GitHubRepositoryService {
         .filter(item => item.type === 'file' && (item.name.endsWith('.yaml') || item.name.endsWith('.yml')))
         .map(item => item.name);
     } catch (error) {
-      console.warn('No training directory found or error accessing it:', error);
+      log.warn('No training directory found or error accessing it:', error);
       return [];
     }
   }
@@ -240,7 +241,7 @@ export class GitHubRepositoryService {
         .filter(item => item.type === 'file' && (item.name.endsWith('.yaml') || item.name.endsWith('.yml')))
         .map(item => item.name);
     } catch (error) {
-      console.warn('No evaluations directory found or error accessing it:', error);
+      log.warn('No evaluations directory found or error accessing it:', error);
       return [];
     }
   }
@@ -288,7 +289,7 @@ export class GitHubRepositoryService {
         if (result.status === 'fulfilled') {
           results.push(result.value);
         } else {
-          console.warn('Batch processing error:', result.reason);
+          log.warn('Batch processing error:', result.reason);
           // Continue processing other items instead of failing completely
         }
       }
@@ -302,6 +303,8 @@ export class GitHubRepositoryService {
    * Optimized with parallel fetching, concurrency limits, and error resilience
    */
   static async fetchRepositoryData(params: RepositoryParams): Promise<GitHubRepositoryData> {
+    log.debug('Fetching repository data for:', params.source);
+    
     try {
       // First, discover all files and repository meta in parallel with better error handling
       const [trainingFilesResult, evaluationFilesResult, repositoryMetaResult] = await Promise.allSettled([
@@ -327,10 +330,10 @@ export class GitHubRepositoryService {
         repositoryMetaResult.status === 'rejected';
       
       if (allFailed) {
-        console.error('All repository data fetches failed - repository is invalid or inaccessible');
-        console.error('Training files error:', trainingFilesResult.reason);
-        console.error('Evaluation files error:', evaluationFilesResult.reason);
-        console.error('Repository meta error:', repositoryMetaResult.reason);
+        log.error('All repository data fetches failed - repository is invalid or inaccessible');
+        log.error('Training files error:', trainingFilesResult.reason);
+        log.error('Evaluation files error:', evaluationFilesResult.reason);
+        log.error('Repository meta error:', repositoryMetaResult.reason);
         
         throw new Error(
           `Invalid or inaccessible repository: ${params.source}. ` +
@@ -340,13 +343,13 @@ export class GitHubRepositoryService {
 
       // Log any discovery errors but continue processing if at least one succeeded
       if (trainingFilesResult.status === 'rejected') {
-        console.warn('Failed to discover training files:', trainingFilesResult.reason);
+        log.warn('Failed to discover training files:', trainingFilesResult.reason);
       }
       if (evaluationFilesResult.status === 'rejected') {
-        console.warn('Failed to discover evaluation files:', evaluationFilesResult.reason);
+        log.warn('Failed to discover evaluation files:', evaluationFilesResult.reason);
       }
       if (repositoryMetaResult.status === 'rejected') {
-        console.warn('Failed to fetch repository meta:', repositoryMetaResult.reason);
+        log.warn('Failed to fetch repository meta:', repositoryMetaResult.reason);
       }
 
       // Fetch training data with concurrency control and caching
@@ -379,6 +382,14 @@ export class GitHubRepositoryService {
         3 // Limit concurrent evaluation file fetches
       );
 
+      // Log the data we retrieved
+      log.info('Repository data fetched successfully:', {
+        source: params.source,
+        studentName: repositoryMeta.student.name,
+        trainingCount: trainings.length,
+        evaluationCount: evaluations.length
+      });
+
       // Final validation: if we have no data at all (empty arrays) and Unknown student,
       // this indicates the repository structure is invalid
       const hasNoData = 
@@ -387,7 +398,7 @@ export class GitHubRepositoryService {
         repositoryMeta.student.name === 'Unknown';
       
       if (hasNoData) {
-        console.error('Repository returned no usable data - likely invalid or empty');
+        log.error('Repository returned no usable data - likely invalid or empty');
         throw new Error(
           `Invalid or inaccessible repository: ${params.source}. ` +
           `No training data, evaluation data, or repository metadata found.`

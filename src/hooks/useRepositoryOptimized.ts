@@ -8,6 +8,7 @@ import { mutate } from 'swr';
 import { useGitHubRepositorySWR } from './useGitHubRepositorySWR';
 import { RepositoryParams, ProcessedRepositoryData } from '../types/github-repository';
 import { SWRCacheManager, CacheKeys } from '../utils/swr-cache';
+import { log } from '../utils/logger';
 
 /**
  * Enhanced repository hook with preloading capabilities
@@ -38,7 +39,7 @@ export function useRepositoryWithPreload(
   useEffect(() => {
     if (preloadRelated && params && repositoryState.processedData) {
       // This could preload similar repositories or common next steps
-      console.log('Preloading related repositories for:', params);
+      log.debug('Preloading related repositories for:', params);
     }
   }, [preloadRelated, params, repositoryState.processedData]);
 
@@ -166,7 +167,7 @@ export function useRepositoryWithIntelligentCache(
       const stats = SWRCacheManager.getCacheStats();
       
       if (stats.repositoryCacheEntries > maxCacheSize) {
-        console.log('Cache size limit exceeded, cleaning up old entries');
+        log.debug('Cache size limit exceeded, cleaning up old entries');
         // In a real implementation, you'd clean up oldest entries
         // This is a simplified example
       }
@@ -204,7 +205,7 @@ export function useRepositoryRealTime(
   // WebSocket implementation would go here
   useEffect(() => {
     if (enableWebSocket) {
-      console.log('WebSocket real-time updates would be enabled for:', params);
+      log.debug('WebSocket real-time updates would be enabled for:', params);
       // In a real implementation, you'd set up WebSocket connections
       // to receive real-time updates and mutate the cache accordingly
     }

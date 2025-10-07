@@ -10,13 +10,14 @@ import {
   ProcessedRepositoryData,
   GitHubRepositoryData
 } from '../types/github-repository';
+import { log } from '../utils/logger';
 
 /**
  * SWR key generator for repository data
  */
 const getRepositoryKey = (params: RepositoryParams, processData: boolean = true) => {
   const key = ['repository', params.source, processData];
-  console.debug('SWR cache key generated:', key);
+  log.debug('SWR cache key generated:', key);
   return key;
 };
 
@@ -88,23 +89,23 @@ export function useGitHubRepositorySWR(
       fallbackData: undefined,
       // Custom error handling
       onError: (error, key) => {
-        console.error('SWR Error for key:', key);
-        console.error('Error details:', error);
-        console.error('Error message:', error?.message);
+        log.error('SWR Error for key:', key);
+        log.error('Error details:', error);
+        log.error('Error message:', error?.message);
       },
       // Custom success handling
       onSuccess: (data, key) => {
-        console.log('SWR Success for key:', key);
-        console.log('Data loaded successfully');
+        log.debug('SWR Success for key:', key);
+        log.debug('Data loaded successfully');
       }
     }
   );
 
   // Debug logging for error state
   if (error) {
-    console.error('SWR returned error:', error);
-    console.error('Error type:', typeof error);
-    console.error('Error message:', error?.message);
+    log.error('SWR returned error:', error);
+    log.error('Error type:', typeof error);
+    log.error('Error message:', error?.message);
   }
 
   const errorMessage = error ? (error?.message || String(error)) : null;

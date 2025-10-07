@@ -6,6 +6,7 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { GitHubRepositoryService } from '../../../services/github-repository.service';
+import { log } from '../../../utils/logger';
 
 // Simple in-memory cache for API responses
 const apiCache = new Map<string, { data: any; timestamp: number; etag: string }>();
@@ -40,7 +41,7 @@ export async function GET(request: NextRequest) {
     const processData = searchParams.get('process') !== 'false';
     const cacheKey = `${params.source}:${processData}`;
     
-    console.log(`Request for repository: ${params.source}, cache key: ${cacheKey}`);
+    log.debug(`Request for repository: ${params.source}, cache key: ${cacheKey}`);
     
     // Check cache first
     const cached = apiCache.get(cacheKey);
@@ -53,7 +54,7 @@ export async function GET(request: NextRequest) {
         return new NextResponse(null, { status: 304 });
       }
       
-      console.log(`Cache hit for ${cacheKey}, served in ${Date.now() - startTime}ms`);
+      log.debug(`Cache hit for ${cacheKey}, served in ${Date.now() - startTime}ms`);
       
       const response = NextResponse.json({
         success: true,
@@ -102,7 +103,7 @@ export async function GET(request: NextRequest) {
     }
     
     const responseTime = Date.now() - startTime;
-    console.log(`Fresh data fetched for ${cacheKey} in ${responseTime}ms`);
+    log.info(`Fresh data fetched for ${cacheKey} in ${responseTime}ms`);
     
     const response = NextResponse.json({
       success: true,
@@ -122,7 +123,7 @@ export async function GET(request: NextRequest) {
     
   } catch (error) {
     const responseTime = Date.now() - startTime;
-    console.error('API Error:', error, `(${responseTime}ms)`);
+    log.error('API Error:', error, `(${responseTime}ms)`);
     
     return NextResponse.json(
       { 
@@ -182,7 +183,7 @@ export async function POST(request: NextRequest) {
       return response;
     }
   } catch (error) {
-    console.error('API Error:', error);
+    log.error('API Error:', error);
     
     return NextResponse.json(
       { 

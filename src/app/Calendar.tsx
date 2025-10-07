@@ -25,6 +25,7 @@ import { trackCalendarCellSelection } from './analytics';
 import { useTomeSWR } from '../contexts/TomeContextSWR';
 import { ProcessedTrainingEntry, getDimensionDisplayName } from '../types/github-repository';
 import { useCalendarDimensions } from '../hooks/useCalendarDimensions';
+import { log } from '../utils/logger';
 
 interface DataPoint {
   date: Date;
@@ -125,7 +126,7 @@ function Calendar({}: CalendarProps) {
   const { repositoryData, repositoryParams, loading, error, validating, getRepositoryUrl } = useTomeSWR();
   
   // Debug logging
-  console.log('Calendar render state:', { 
+  log.debug('Calendar render state:', { 
     hasRepositoryData: !!repositoryData, 
     loading, 
     error, 

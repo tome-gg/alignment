@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
+import { log } from '../utils/logger';
 
 interface PerformanceMetrics {
   fcp?: number; // First Contentful Paint
@@ -35,7 +36,7 @@ export default function PerformanceMonitor() {
 
       // Report metrics
       if (Object.keys(metrics).length > 0) {
-        console.log('Performance Metrics:', metrics);
+        log.info('Performance Metrics:', metrics);
         
         // Send to analytics (replace with your analytics service)
         if (window.gtag) {

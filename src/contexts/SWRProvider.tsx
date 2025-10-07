@@ -2,6 +2,7 @@
 
 import { SWRConfig } from 'swr';
 import { ReactNode } from 'react';
+import { log } from '../utils/logger';
 
 interface SWRProviderProps {
   children: ReactNode;
@@ -95,12 +96,12 @@ export function SWRProvider({ children }: SWRProviderProps) {
                   }
                 });
                 
-                if (process.env.NODE_ENV === 'development' && restoredCount > 0) {
-                  console.log('Restored SWR cache from sessionStorage:', restoredCount, 'entries');
+                if (restoredCount > 0) {
+                  log.debug('Restored SWR cache from sessionStorage:', restoredCount, 'entries');
                 }
               }
             } catch (e) {
-              console.warn('Failed to restore SWR cache from sessionStorage:', e);
+              log.warn('Failed to restore SWR cache from sessionStorage:', e);
             }
           }
           
@@ -125,13 +126,11 @@ export function SWRProvider({ children }: SWRProviderProps) {
                   
                   if (cleaned) {
                     sessionStorage.setItem('swr-cache', JSON.stringify(parsed));
-                    if (process.env.NODE_ENV === 'development') {
-                      console.log('Cleaned up old SWR cache entries');
-                    }
+                    log.debug('Cleaned up old SWR cache entries');
                   }
                 }
               } catch (e) {
-                console.warn('Failed to cleanup SWR cache:', e);
+                log.warn('Failed to cleanup SWR cache:', e);
               }
             }, 30 * 60 * 1000); // Run every 30 minutes
             
@@ -145,7 +144,7 @@ export function SWRProvider({ children }: SWRProviderProps) {
         
         // Global error handler
         onError: (error, key) => {
-          console.error('SWR Global Error:', { error, key });
+          log.error('SWR Global Error:', { error, key });
           
           // You could integrate with error reporting services here
           // Example: Sentry.captureException(error, { extra: { swrKey: key } });
@@ -183,10 +182,10 @@ export function SWRProvider({ children }: SWRProviderProps) {
               if (serialized.length < 5 * 1024 * 1024) { // 5MB limit
                 sessionStorage.setItem('swr-cache', serialized);
               } else {
-                console.warn('SWR cache too large for sessionStorage, skipping persistence');
+                log.warn('SWR cache too large for sessionStorage, skipping persistence');
               }
             } catch (e) {
-              console.warn('Failed to persist SWR cache to sessionStorage:', e);
+              log.warn('Failed to persist SWR cache to sessionStorage:', e);
             }
           }
         },
