@@ -7,9 +7,7 @@ const Calendar = dynamic(() => import('./Calendar'), {
   loading: () => <CalendarSkeleton />,
   ssr: false // Calendar uses D3 DOM manipulation, better to render client-side only
 });
-import Peers from '../components/Peers';
 import CalendarSkeleton from '../components/CalendarSkeleton';
-import PeersSkeleton from '../components/PeersSkeleton';
 import { Suspense } from 'react';
 
 function CalendarWithParams() {
@@ -18,9 +16,6 @@ function CalendarWithParams() {
     <>
       <Suspense fallback={<CalendarSkeleton />}>
         <Calendar />
-      </Suspense>
-      <Suspense fallback={<PeersSkeleton />}>
-        <Peers />
       </Suspense>
     </>
   );

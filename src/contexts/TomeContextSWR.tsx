@@ -42,10 +42,16 @@ export function TomeProviderSWR({ children, initialParams }: TomeProviderProps) 
 
     const params = GitHubRepositoryService.createParamsFromSearchParams(searchParams);
     
-    // If no valid parameters are found, use defaults
-    return params || {
-      source: 'github.com/darrensapalo/founder'
-    };
+    // Log when using defaults vs actual params
+    if (!params) {
+      console.log('No source parameter found, using default repository');
+      return {
+        source: 'github.com/darrensapalo/founder'
+      };
+    }
+    
+    console.log('Using repository from URL:', params.source);
+    return params;
   };
 
   const [repositoryParams, setRepositoryParams] = useState<RepositoryParams>(getInitialParams());
@@ -53,20 +59,23 @@ export function TomeProviderSWR({ children, initialParams }: TomeProviderProps) 
   // Update repository parameters when search params change
   useEffect(() => {
     if (initialParams) {
+      console.log('Using initial params:', initialParams.source);
       setRepositoryParams(initialParams);
       return;
     }
 
-    let params = GitHubRepositoryService.createParamsFromSearchParams(searchParams);
+    const params = GitHubRepositoryService.createParamsFromSearchParams(searchParams);
     
     // If no valid parameters are found, use defaults
     if (!params) {
-      params = {
+      console.log('No source parameter found in search params, using default repository');
+      setRepositoryParams({
         source: 'github.com/darrensapalo/founder'
-      };
+      });
+    } else {
+      console.log('Updating repository from search params:', params.source);
+      setRepositoryParams(params);
     }
-    
-    setRepositoryParams(params);
   }, [searchParams, initialParams]);
 
   // Use SWR hook for data fetching with optimized settings

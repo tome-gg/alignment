@@ -23,18 +23,24 @@ export async function GET(request: NextRequest) {
     const searchParams = request.nextUrl.searchParams;
     
     // Extract repository parameters
-    let params = GitHubRepositoryService.createParamsFromSearchParams(searchParams);
+    const params = GitHubRepositoryService.createParamsFromSearchParams(searchParams);
     
-    // Use default parameters if none provided
+    // Return error if parameters are missing or invalid
     if (!params) {
-      params = {
-        source: 'github.com/darrensapalo/founder'
-      };
+      return NextResponse.json(
+        { 
+          error: 'Missing or invalid repository parameters',
+          message: 'Please provide a valid source parameter (e.g., ?source=github.com/username/repo)'
+        },
+        { status: 400 }
+      );
     }
 
-    // Create cache key
+    // Create cache key - ensure it includes the actual repository source
     const processData = searchParams.get('process') !== 'false';
     const cacheKey = `${params.source}:${processData}`;
+    
+    console.log(`Request for repository: ${params.source}, cache key: ${cacheKey}`);
     
     // Check cache first
     const cached = apiCache.get(cacheKey);

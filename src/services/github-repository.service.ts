@@ -320,7 +320,25 @@ export class GitHubRepositoryService {
         ? repositoryMetaResult.value 
         : { student: { name: 'Unknown' } } as RepositoryMeta;
 
-      // Log any discovery errors but continue processing
+      // Check if ALL fetches failed - this indicates an invalid/inaccessible repository
+      const allFailed = 
+        trainingFilesResult.status === 'rejected' && 
+        evaluationFilesResult.status === 'rejected' && 
+        repositoryMetaResult.status === 'rejected';
+      
+      if (allFailed) {
+        console.error('All repository data fetches failed - repository is invalid or inaccessible');
+        console.error('Training files error:', trainingFilesResult.reason);
+        console.error('Evaluation files error:', evaluationFilesResult.reason);
+        console.error('Repository meta error:', repositoryMetaResult.reason);
+        
+        throw new Error(
+          `Invalid or inaccessible repository: ${params.source}. ` +
+          `Please check that the repository exists and is public.`
+        );
+      }
+
+      // Log any discovery errors but continue processing if at least one succeeded
       if (trainingFilesResult.status === 'rejected') {
         console.warn('Failed to discover training files:', trainingFilesResult.reason);
       }
@@ -361,12 +379,32 @@ export class GitHubRepositoryService {
         3 // Limit concurrent evaluation file fetches
       );
 
+      // Final validation: if we have no data at all (empty arrays) and Unknown student,
+      // this indicates the repository structure is invalid
+      const hasNoData = 
+        trainings.length === 0 && 
+        evaluations.length === 0 && 
+        repositoryMeta.student.name === 'Unknown';
+      
+      if (hasNoData) {
+        console.error('Repository returned no usable data - likely invalid or empty');
+        throw new Error(
+          `Invalid or inaccessible repository: ${params.source}. ` +
+          `No training data, evaluation data, or repository metadata found.`
+        );
+      }
+
       return {
         repository: repositoryMeta,
         trainings,
         evaluations
       };
     } catch (error) {
+      // If the error already has a message about invalid repository, just re-throw it
+      if (error instanceof Error && error.message.includes('Invalid or inaccessible repository')) {
+        throw error;
+      }
+      // Otherwise, wrap it with a generic message
       throw new Error(`Failed to fetch repository data: ${error instanceof Error ? error.message : 'Unknown error'}`);
     }
   }

@@ -123,6 +123,15 @@ function Calendar({}: CalendarProps) {
   
   // Use context data instead of making duplicate SWR calls
   const { repositoryData, repositoryParams, loading, error, validating, getRepositoryUrl } = useTomeSWR();
+  
+  // Debug logging
+  console.log('Calendar render state:', { 
+    hasRepositoryData: !!repositoryData, 
+    loading, 
+    error, 
+    validating,
+    repositoryParams 
+  });
 
   // Memoize the data transformation to avoid recalculating on every render
   const transformedData = useMemo(() => {
@@ -516,23 +525,67 @@ function Calendar({}: CalendarProps) {
   // Show error state
   if (error) {
     const repositoryUrl = getRepositoryUrl();
+    
+    // Determine if this is an invalid repository error (all data failed to load)
+    const isInvalidRepository = error.includes('Invalid or inaccessible repository') || 
+                                error.includes('All repository data fetches failed');
 
     return (
       <Container maxWidth="lg" sx={{ py: 4 }}>
-        <Alert severity="warning" sx={{ mb: 3 }}>
-          <Typography variant="body1" sx={{ mb: 1 }}>
-            <strong>Growth journal not found</strong>
+        <Alert 
+          severity="error" 
+          sx={{ 
+            mb: 3,
+            p: 3,
+            border: '2px solid',
+            borderColor: 'error.main',
+            '& .MuiAlert-message': {
+              width: '100%'
+            }
+          }}
+        >
+          <Typography variant="h5" sx={{ mb: 2, fontWeight: 'bold', color: 'error.dark' }}>
+            {isInvalidRepository ? 'Invalid Growth Journal' : 'Growth Journal Not Found'}
           </Typography>
-          <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-            We couldn&apos;t find your training data at the specified repository location. This might happen if:
-          </Typography>
-          <Box component="ul" sx={{ pl: 2, mb: 2 }}>
-            <li>The repository is private or doesn&apos;t exist</li>
-            <li>The training or evaluation files are missing</li>
-            <li>The file paths in the URL are incorrect</li>
-          </Box>
-          <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
-            <strong>Current URL:</strong>
+          
+          {isInvalidRepository ? (
+            <>
+              <Typography variant="body1" sx={{ mb: 2, fontWeight: 'medium' }}>
+                The repository you&apos;re trying to access is invalid or inaccessible.
+              </Typography>
+              <Typography variant="body1" sx={{ mb: 2 }}>
+                This happens when all of the following fail to load:
+              </Typography>
+              <Box component="ul" sx={{ pl: 2, mb: 2, '& li': { mb: 1 } }}>
+                <li><strong>tome.yaml</strong> - Repository metadata file</li>
+                <li><strong>training/</strong> directory - Training data files</li>
+                <li><strong>evaluations/</strong> directory - Evaluation data files</li>
+              </Box>
+              <Typography variant="body1" sx={{ mb: 2 }}>
+                Common causes:
+              </Typography>
+              <Box component="ul" sx={{ pl: 2, mb: 3, '& li': { mb: 1 } }}>
+                <li>The repository doesn&apos;t exist</li>
+                <li>The repository is private (tome.gg can only access public repositories)</li>
+                <li>The repository exists but has no growth journal files</li>
+                <li>Network or connectivity issues</li>
+              </Box>
+            </>
+          ) : (
+            <>
+              <Typography variant="body1" sx={{ mb: 2 }}>
+                We couldn&apos;t find your training data at the specified repository location. This might happen if:
+              </Typography>
+              <Box component="ul" sx={{ pl: 2, mb: 2, '& li': { mb: 1 } }}>
+                <li>The repository is private or doesn&apos;t exist</li>
+                <li>The training or evaluation files are missing</li>
+                <li>The file paths in the URL are incorrect</li>
+              </Box>
+            </>
+          )}
+          
+          <Typography variant="body1" sx={{ mb: 1, fontWeight: 'medium' }}>
+            Repository URL:
           </Typography>
           <Link
             href={repositoryUrl}
@@ -540,24 +593,58 @@ function Calendar({}: CalendarProps) {
             rel="noopener noreferrer"
             sx={{
               wordBreak: 'break-all',
-              fontSize: '0.9rem',
+              fontSize: '0.95rem',
               display: 'block',
-              mb: 2
+              mb: 3,
+              p: 2,
+              bgcolor: 'grey.100',
+              borderRadius: 1,
+              fontFamily: 'monospace'
             }}
           >
             {repositoryUrl}
           </Link>
-          <Typography variant="body2" color="text.secondary">
-            Try checking if your repository exists and contains the required training files, or{' '}
-            <Link
-              href="https://protocol.tome.gg?utm_source=app&utm_medium=error&utm_campaign=tome.gg"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              learn how to create your growth journal
-            </Link>.
+          <Typography variant="body1">
+            {isInvalidRepository ? (
+              <>
+                Make sure the repository exists and is public, or{' '}
+                <Link
+                  href="https://protocol.tome.gg?utm_source=app&utm_medium=error&utm_campaign=tome.gg"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  sx={{ fontWeight: 'bold' }}
+                >
+                  learn how to create your growth journal
+                </Link>.
+              </>
+            ) : (
+              <>
+                Try checking if your repository exists and contains the required training files, or{' '}
+                <Link
+                  href="https://protocol.tome.gg?utm_source=app&utm_medium=error&utm_campaign=tome.gg"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  sx={{ fontWeight: 'bold' }}
+                >
+                  learn how to create your growth journal
+                </Link>.
+              </>
+            )}
           </Typography>
         </Alert>
+        
+        {/* Hide calendar and details when there's an error */}
+        <Paper 
+          elevation={2} 
+          sx={{ 
+            p: 3, 
+            borderRadius: 1,
+            minHeight: '400px',
+            display: 'none' // Hide the calendar completely
+          }}
+        >
+          {/* Calendar content is hidden */}
+        </Paper>
       </Container>
     );
   }

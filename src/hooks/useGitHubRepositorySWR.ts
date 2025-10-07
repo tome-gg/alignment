@@ -15,7 +15,9 @@ import {
  * SWR key generator for repository data
  */
 const getRepositoryKey = (params: RepositoryParams, processData: boolean = true) => {
-  return ['repository', params.source, processData];
+  const key = ['repository', params.source, processData];
+  console.debug('SWR cache key generated:', key);
+  return key;
 };
 
 /**
@@ -73,32 +75,45 @@ export function useGitHubRepositorySWR(
       dedupingInterval,
       // Cache for 5 minutes
       focusThrottleInterval: 5 * 60 * 1000,
-      // Keep data for 10 minutes when no components are using it
-      keepPreviousData: true,
+      // Don't keep previous data when there's an error - show error state immediately
+      keepPreviousData: false,
       // Critical: Ensure stale data is shown during revalidation
       revalidateIfStale: true,
-      // Error retry configuration
-      errorRetryCount: 3,
-      errorRetryInterval: 5000,
+      // Reduce retry count to show errors faster
+      errorRetryCount: 1,
+      errorRetryInterval: 2000,
       // Suspend configuration
       suspense: false,
       // Fallback data configuration
       fallbackData: undefined,
       // Custom error handling
       onError: (error, key) => {
-        console.error('SWR Error for key:', key, error);
+        console.error('SWR Error for key:', key);
+        console.error('Error details:', error);
+        console.error('Error message:', error?.message);
       },
-      // Custom success handling (removed verbose logging)
+      // Custom success handling
+      onSuccess: (data, key) => {
+        console.log('SWR Success for key:', key);
+        console.log('Data loaded successfully');
+      }
     }
   );
 
-  // Removed excessive debug logging to reduce console noise
+  // Debug logging for error state
+  if (error) {
+    console.error('SWR returned error:', error);
+    console.error('Error type:', typeof error);
+    console.error('Error message:', error?.message);
+  }
+
+  const errorMessage = error ? (error?.message || String(error)) : null;
 
   return {
     data: data as ProcessedRepositoryData | GitHubRepositoryData | undefined,
     processedData: processData ? data as ProcessedRepositoryData | undefined : undefined,
     rawData: !processData ? data as GitHubRepositoryData | undefined : undefined,
-    error: error?.message || null,
+    error: errorMessage,
     // Only show loading when there's no data AND we're actually loading (not just revalidating)
     loading: isLoading && !data,
     validating: isValidating,
