@@ -8,6 +8,7 @@ import { SWRProvider } from '../contexts/SWRProvider';
 import Header from '../components/Header';
 import PerformanceMonitor from '../components/PerformanceMonitor';
 import { Suspense } from 'react';
+import { Container, Box, CircularProgress } from '@mui/material';
 // import { SWRDebugger } from '../components/SWRDebugger';
 
 const geistSans = Geist({
@@ -58,7 +59,18 @@ export default function RootLayout({
       <body className={`${geistSans.variable} ${figtree.variable} `}>
         <ThemeRegistry>
           <SWRProvider>
-            <Suspense fallback={<div>Loading...</div>}>
+            <Suspense fallback={
+              <Container maxWidth="lg" sx={{ py: 4 }}>
+                <Box sx={{ 
+                  display: 'flex', 
+                  justifyContent: 'center', 
+                  alignItems: 'center', 
+                  minHeight: '100vh' 
+                }}>
+                  <CircularProgress />
+                </Box>
+              </Container>
+            }>
               <TomeProviderSWR>
                 <Header />
                 {children}
