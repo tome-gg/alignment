@@ -23,6 +23,7 @@
     "@types/js-yaml": "^4.0.9",
     "@types/luxon": "^3.7.1",
     "@types/marked": "^5.0.2",
+    "critters": "^0.0.23",
     "d3": "^7.9.0",
     "js-yaml": "^4.1.0",
     "luxon": "^3.7.2",
