@@ -1,7 +1,13 @@
 'use client';
 
 import { useEffect, useRef, useState, useMemo, useCallback, memo } from 'react';
-import * as d3 from 'd3';
+// Selective D3 imports for better tree-shaking
+import { select } from 'd3-selection';
+import { utcFormat } from 'd3-time-format';
+import { utcMonday, utcYear, utcMonth, utcMonths } from 'd3-time';
+import { quantile, groups, range } from 'd3-array';
+import { scaleSequential } from 'd3-scale';
+import { interpolateBlues } from 'd3-scale-chromatic';
 import {
   Container,
   Typography,
@@ -33,7 +39,7 @@ interface CalendarProps {
 }
 
 // Define formatting functions as constants
-const formatDate = d3.utcFormat("%x");
+const formatDate = utcFormat("%x");
 
 // Helper function to safely extract text content from HTML strings
 const extractTextContent = (htmlString: string): string => {
@@ -204,11 +210,11 @@ function Calendar({}: CalendarProps) {
     if (!svgRef.current) return;
 
     // Clear previous content
-    d3.select(svgRef.current).selectAll('*').remove();
+    select(svgRef.current).selectAll('*').remove();
 
     // If no data is available, show empty calendar or message
     if (transformedData.length === 0) {
-      const svg = d3.select(svgRef.current)
+      const svg = select(svgRef.current)
         .attr("width", 400)
         .attr("height", 100)
         .attr("viewBox", [0, 0, 400, 100])
@@ -231,30 +237,30 @@ function Calendar({}: CalendarProps) {
 
     // Define formatting functions for the axes and tooltips
     const formatDay = (i: number) => "SMTWTFS"[i];
-    const formatMonth = d3.utcFormat("%b");
+    const formatMonth = utcFormat("%b");
 
     // Helpers to compute a day's position in the week
-    const timeWeek = d3.utcMonday;
+    const timeWeek = utcMonday;
     const countDay = (i: number) => (i + 6) % 7;
 
     // Compute the extent of the value, ignore the outliers
     // and define a diverging and symmetric color scale
-    const max = d3.quantile(transformedData, 0.9975, d => Math.abs(d.value)) || 0.05;
-    const color = d3.scaleSequential(d3.interpolateBlues).domain([-max, +max]);
+    const max = quantile(transformedData, 0.9975, d => Math.abs(d.value)) || 0.05;
+    const color = scaleSequential(interpolateBlues).domain([-max, +max]);
 
     // Group data by year, in reverse input order
-    const years = d3.groups(transformedData, d => d.date.getUTCFullYear()).reverse();
+    const years = groups(transformedData, d => d.date.getUTCFullYear()).reverse();
 
     // A function that draws a thin white line to the left of each month
     function pathMonth(t: Date) {
       const d = Math.max(0, Math.min(6, countDay(t.getUTCDay())));
-      const w = timeWeek.count(d3.utcYear(t), t);
+      const w = timeWeek.count(utcYear(t), t);
       return `${d === 0 ? `M${w * cellSize},0`
           : d === 6 ? `M${(w + 1) * cellSize},0`
           : `M${(w + 1) * cellSize},0V${d * cellSize}H${w * cellSize}`}V${6 * cellSize}`;
     }
 
-    const svg = d3.select(svgRef.current)
+    const svg = select(svgRef.current)
         .attr("width", width + 50)
         .attr("height", height * years.length + 30)
         .attr("viewBox", [-10, -10, width + 50, height * years.length + 30])
@@ -281,7 +287,7 @@ function Calendar({}: CalendarProps) {
     year.append("g")
         .attr("text-anchor", "end")
       .selectAll("text")
-      .data(d3.range(0, 7))
+      .data(range(0, 7))
       .join("text")
         .attr("x", -5)
         .attr("y", i => (countDay(i) + 0.5) * cellSize)
@@ -294,7 +300,7 @@ function Calendar({}: CalendarProps) {
       .join("rect")
         .attr("width", cellSize - 1)
         .attr("height", cellSize - 1)
-        .attr("x", d => timeWeek.count(d3.utcYear(d.date), d.date) * cellSize + 0.5)
+        .attr("x", d => timeWeek.count(utcYear(d.date), d.date) * cellSize + 0.5)
         .attr("y", d => countDay(d.date.getUTCDay()) * cellSize + 0.5)
         .attr("fill", d => {
           if (!d.entry) {
@@ -313,14 +319,14 @@ function Calendar({}: CalendarProps) {
           // Only update hover state if no cell is selected
           if (!selectedCell) {
             setHoveredCell(d);
-            d3.select(this).attr("stroke", "#333").attr("stroke-width", 1);
+            select(this).attr("stroke", "#333").attr("stroke-width", 1);
           }
         })
         .on("mouseout", function(_, d) {
           // Only clear hover state if this cell is not selected
           if (!selectedCell || selectedCell !== d) {
             setHoveredCell(null);
-            d3.select(this).attr("stroke", null).attr("stroke-width", null);
+            select(this).attr("stroke", null).attr("stroke-width", null);
           }
         })
         .on("click", function(event, d) {
@@ -330,7 +336,7 @@ function Calendar({}: CalendarProps) {
             // If clicking the same cell, deselect it
             setSelectedCell(null);
             setHoveredCell(null);
-            d3.select(this).attr("stroke", null).attr("stroke-width", null);
+            select(this).attr("stroke", null).attr("stroke-width", null);
           } else {
             // Select the new cell
             setSelectedCell(d);
@@ -342,13 +348,13 @@ function Calendar({}: CalendarProps) {
             // Remove stroke from all other cells
             svg.selectAll("rect").attr("stroke", null).attr("stroke-width", null);
             // Add stroke to selected cell
-            d3.select(this).attr("stroke", "#333").attr("stroke-width", 2);
+            select(this).attr("stroke", "#333").attr("stroke-width", 2);
           }
         });
 
     const month = year.append("g")
       .selectAll("g")
-      .data(([, values]) => d3.utcMonths(d3.utcMonth(values[0].date), values.at(-1)!.date))
+      .data(([, values]) => utcMonths(utcMonth(values[0].date), values.at(-1)!.date))
       .join("g");
 
     month.filter((_, i) => Boolean(i)).append("path")
@@ -358,7 +364,7 @@ function Calendar({}: CalendarProps) {
         .attr("d", pathMonth);
 
     month.append("text")
-        .attr("x", d => timeWeek.count(d3.utcYear(d), timeWeek.ceil(d)) * cellSize + 2)
+        .attr("x", d => timeWeek.count(utcYear(d), timeWeek.ceil(d)) * cellSize + 2)
         .attr("y", -5)
         .text(formatMonth);
 
@@ -570,7 +576,7 @@ function Calendar({}: CalendarProps) {
 							setHoveredCell(null);
 							// Remove stroke from all cells
 							if (svgRef.current) {
-								d3.select(svgRef.current).selectAll("rect").attr("stroke", null).attr("stroke-width", null);
+								select(svgRef.current).selectAll("rect").attr("stroke", null).attr("stroke-width", null);
 							}
 						}}
 						variant="outlined"

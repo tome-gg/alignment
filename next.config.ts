@@ -5,7 +5,16 @@ const nextConfig: NextConfig = {
   experimental: {
     // CSS optimization temporarily disabled due to critters/beasties compatibility issues
     optimizeCss: false,
-    optimizePackageImports: ['@mui/material', '@mui/icons-material', 'd3'],
+    optimizePackageImports: [
+      '@mui/material', 
+      '@mui/icons-material', 
+      'd3-selection',
+      'd3-time-format',
+      'd3-array',
+      'd3-scale',
+      'd3-scale-chromatic',
+      'd3-time'
+    ],
   },
   
   // Enable compression
