@@ -23,16 +23,13 @@ export async function GET(request: NextRequest) {
     const searchParams = request.nextUrl.searchParams;
     
     // Extract repository parameters
-    const params = GitHubRepositoryService.createParamsFromSearchParams(searchParams);
+    let params = GitHubRepositoryService.createParamsFromSearchParams(searchParams);
     
+    // Use default parameters if none provided
     if (!params) {
-      return NextResponse.json(
-        { 
-          error: 'Invalid parameters', 
-          message: 'Please provide source parameter' 
-        },
-        { status: 400 }
-      );
+      params = {
+        source: 'github.com/darrensapalo/founder'
+      };
     }
 
     // Create cache key
