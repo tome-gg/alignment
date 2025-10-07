@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useMemo, useCallback, memo } from 'react';
 import * as d3 from 'd3';
 import {
   Container,
@@ -81,7 +81,7 @@ const formatScoreChange = (scoreChange: number | undefined): string => {
   return rounded > 0 ? `+${rounded}` : `${rounded}`;
 };
 
-export default function Calendar({}: CalendarProps) {
+function Calendar({}: CalendarProps) {
   const svgRef = useRef<SVGSVGElement>(null);
   const [hoveredCell, setHoveredCell] = useState<DataPoint | null>(null);
   const [selectedCell, setSelectedCell] = useState<DataPoint | null>(null);
@@ -90,18 +90,23 @@ export default function Calendar({}: CalendarProps) {
   // Responsive detection
   const isMobile = useMediaQuery('(max-width:720px)');
   
-  // Format date for dropdown display (MM/DD/YYYY)
-  const formatDateForDropdown = (date: Date): string => {
+  // Memoize date formatting function
+  const formatDateForDropdown = useCallback((date: Date): string => {
     const month = (date.getMonth() + 1).toString().padStart(2, '0');
     const day = date.getDate().toString().padStart(2, '0');
     const year = date.getFullYear();
     return `${month}/${day}/${year}`;
-  };
+  }, []);
   
   // Use context data instead of making duplicate SWR calls
   const { repositoryData, repositoryParams, loading, error, validating, getRepositoryUrl } = useTomeSWR();
 
-  useEffect(() => {
+  // Memoize the data transformation to avoid recalculating on every render
+  const transformedData = useMemo(() => {
+    if (!repositoryData?.processedTrainings?.length) {
+      return [];
+    }
+
     // Transform repository data - generate full calendar with entries mapped to dates
     const transformRepositoryData = (): DataPoint[] => {
       // Get the date range to cover
@@ -186,10 +191,12 @@ export default function Calendar({}: CalendarProps) {
       return data;
     };
 
-    const data = transformRepositoryData();
+    return transformRepositoryData();
+  }, [repositoryData]);
 
-    // Store data points for dropdown use
-    setAllDataPoints(data);
+  // Update allDataPoints when transformedData changes
+  useEffect(() => {
+    setAllDataPoints(transformedData);
 
     // Only render SVG on desktop - mobile uses dropdown
     if (isMobile) return;
@@ -200,7 +207,7 @@ export default function Calendar({}: CalendarProps) {
     d3.select(svgRef.current).selectAll('*').remove();
 
     // If no data is available, show empty calendar or message
-    if (data.length === 0) {
+    if (transformedData.length === 0) {
       const svg = d3.select(svgRef.current)
         .attr("width", 400)
         .attr("height", 100)
@@ -232,11 +239,11 @@ export default function Calendar({}: CalendarProps) {
 
     // Compute the extent of the value, ignore the outliers
     // and define a diverging and symmetric color scale
-    const max = d3.quantile(data, 0.9975, d => Math.abs(d.value)) || 0.05;
+    const max = d3.quantile(transformedData, 0.9975, d => Math.abs(d.value)) || 0.05;
     const color = d3.scaleSequential(d3.interpolateBlues).domain([-max, +max]);
 
     // Group data by year, in reverse input order
-    const years = d3.groups(data, d => d.date.getUTCFullYear()).reverse();
+    const years = d3.groups(transformedData, d => d.date.getUTCFullYear()).reverse();
 
     // A function that draws a thin white line to the left of each month
     function pathMonth(t: Date) {
@@ -355,7 +362,7 @@ export default function Calendar({}: CalendarProps) {
         .attr("y", -5)
         .text(formatMonth);
 
-  }, [selectedCell, repositoryData, isMobile, repositoryParams]);
+  }, [transformedData, selectedCell, isMobile, repositoryParams]);
 
 
   // Show loading state only when there's no data at all (not when revalidating with cached data)
@@ -537,7 +544,11 @@ export default function Calendar({}: CalendarProps) {
       <Paper elevation={2} sx={{ 
         p: 3, 
         borderRadius: 1, 
-        minHeight: { xs: 'auto', md: '720px' }
+        minHeight: { xs: '400px', md: '720px' },
+        // Prevent layout shift by reserving space
+        height: { xs: 'auto', md: '720px' },
+        display: 'flex',
+        flexDirection: 'column'
       }}>
         <Box sx={{ overflowX: 'auto' }}>
 			<Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 0 }}>
@@ -636,7 +647,24 @@ export default function Calendar({}: CalendarProps) {
               />
             </Box>
           ) : (
-            <svg ref={svgRef}></svg>
+            <Box sx={{ 
+              width: '100%', 
+              height: '400px', 
+              minHeight: '400px',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'flex-start',
+              overflow: 'auto'
+            }}>
+              <svg 
+                ref={svgRef}
+                style={{ 
+                  maxWidth: '100%', 
+                  height: 'auto',
+                  minHeight: '300px'
+                }}
+              ></svg>
+            </Box>
           )}
 		  <Box sx={{ minHeight: '120px', mb: 3 }}>
 			{selectedCell ? (
@@ -817,3 +845,10 @@ export default function Calendar({}: CalendarProps) {
     </Container>
   );
 }
+
+// Memoize the Calendar component to prevent unnecessary re-renders
+export default memo(Calendar, () => {
+  // Since Calendar has no props, we can use a simple comparison
+  // The component will re-render when context data changes via hooks
+  return true; // Only re-render when hooks trigger updates
+});

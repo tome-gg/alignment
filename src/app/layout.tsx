@@ -6,6 +6,7 @@ import Script from 'next/script';
 import { TomeProviderSWR } from '../contexts/TomeContextSWR';
 import { SWRProvider } from '../contexts/SWRProvider';
 import Header from '../components/Header';
+import PerformanceMonitor from '../components/PerformanceMonitor';
 import { Suspense } from 'react';
 // import { SWRDebugger } from '../components/SWRDebugger';
 
@@ -35,8 +36,22 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+        {/* DNS prefetch for external resources */}
+        <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+        <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
+        <link rel="dns-prefetch" href="https://api.github.com" />
+        <link rel="dns-prefetch" href="https://raw.githubusercontent.com" />
+        
+        {/* Preconnect for critical resources */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+        
+        {/* Preload critical API route */}
+        <link rel="prefetch" href="/api/repository" />
+        
+        {/* Resource hints for better performance */}
+        <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+        <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
         
       </head>
       <body className={`${geistSans.variable} ${figtree.variable} `}>
@@ -46,6 +61,7 @@ export default function RootLayout({
               <TomeProviderSWR>
                 <Header />
                 {children}
+                <PerformanceMonitor />
                 {/* <SWRDebugger /> */}
               </TomeProviderSWR>
             </Suspense>

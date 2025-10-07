@@ -69,7 +69,7 @@ export function TomeProviderSWR({ children, initialParams }: TomeProviderProps) 
     setRepositoryParams(params);
   }, [searchParams, initialParams]);
 
-  // Use SWR hook for data fetching
+  // Use SWR hook for data fetching with optimized settings
   const {
     processedData: repositoryData,
     loading,
@@ -84,7 +84,7 @@ export function TomeProviderSWR({ children, initialParams }: TomeProviderProps) 
     revalidateOnReconnect: true,
     // Cache for longer since repository data doesn't change often
     refreshInterval: 0,
-    dedupingInterval: 2000,
+    dedupingInterval: 5000, // Increased for better performance
   });
 
   const getRepositoryUrl = (): string => {

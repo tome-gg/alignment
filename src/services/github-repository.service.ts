@@ -104,27 +104,38 @@ export class GitHubRepositoryService {
 
   /**
    * Processes training data with evaluations and markdown
+   * Optimized with batch processing and concurrent markdown rendering
    */
   private static async processTrainingData(
     trainingData: TrainingData,
     evaluationData: EvaluationData
   ): Promise<ProcessedTrainingEntry[]> {
-    const processedEntries = await Promise.all(
-      trainingData.content.map(async (entry) => {
+    // Process entries with concurrency control for markdown rendering
+    const processedEntries = await this.processBatches(
+      trainingData.content,
+      async (entry) => {
         // Parse datetime
         const dateTime = entry.datetime ? new Date(entry.datetime) : null;
         const luxonDateTime = dateTime ? DateTime.fromJSDate(dateTime) : null;
+
+        // Process markdown fields in parallel
+        const [doing_today, done_yesterday, blockers] = await Promise.all([
+          this.processMarkdown(entry.doing_today),
+          this.processMarkdown(entry.done_yesterday),
+          this.processMarkdown(entry.blockers)
+        ]);
 
         return {
           ...entry,
           datetimeReadable: dateTime ? dateTime.toISOString().substr(0, 10) : '',
           dateTimeRelative: luxonDateTime ? luxonDateTime.toRelative({ unit: 'days' }) : null,
-          doing_today: await this.processMarkdown(entry.doing_today),
-          done_yesterday: await this.processMarkdown(entry.done_yesterday),
-          blockers: await this.processMarkdown(entry.blockers),
+          doing_today,
+          done_yesterday,
+          blockers,
           eval: this.findEvaluationData(entry.id, evaluationData.evaluations, evaluationData.meta.evaluator),
         };
-      })
+      },
+      5 // Process 5 entries concurrently
     );
 
     return processedEntries.sort((a, b) => {
@@ -235,43 +246,119 @@ export class GitHubRepositoryService {
   }
 
   /**
+   * Request cache for deduplication
+   */
+  private static requestCache = new Map<string, Promise<any>>();
+
+  /**
+   * Fetch with caching and deduplication
+   */
+  private static async fetchWithCache<T>(url: string, fetcher: () => Promise<T>): Promise<T> {
+    if (this.requestCache.has(url)) {
+      return this.requestCache.get(url)!;
+    }
+    
+    const promise = fetcher();
+    this.requestCache.set(url, promise);
+    
+    // Clean up cache after 5 minutes
+    setTimeout(() => this.requestCache.delete(url), 5 * 60 * 1000);
+    
+    return promise;
+  }
+
+  /**
+   * Process array in batches with concurrency limit
+   */
+  private static async processBatches<T, R>(
+    items: T[],
+    processor: (item: T) => Promise<R>,
+    concurrencyLimit: number = 5
+  ): Promise<R[]> {
+    const results: R[] = [];
+    
+    for (let i = 0; i < items.length; i += concurrencyLimit) {
+      const batch = items.slice(i, i + concurrencyLimit);
+      const batchResults = await Promise.allSettled(
+        batch.map(item => processor(item))
+      );
+      
+      // Handle results and errors
+      for (const result of batchResults) {
+        if (result.status === 'fulfilled') {
+          results.push(result.value);
+        } else {
+          console.warn('Batch processing error:', result.reason);
+          // Continue processing other items instead of failing completely
+        }
+      }
+    }
+    
+    return results;
+  }
+
+  /**
    * Fetches all repository data including multiple training and evaluation files
+   * Optimized with parallel fetching, concurrency limits, and error resilience
    */
   static async fetchRepositoryData(params: RepositoryParams): Promise<GitHubRepositoryData> {
     try {
-      // First, discover all training and evaluation files
-      const [trainingFiles, evaluationFiles, repositoryMeta] = await Promise.all([
+      // First, discover all files and repository meta in parallel with better error handling
+      const [trainingFilesResult, evaluationFilesResult, repositoryMetaResult] = await Promise.allSettled([
         this.discoverTrainingFiles(params.source),
         this.discoverEvaluationFiles(params.source),
-        this.fetchYaml<RepositoryMeta>(this.buildRawUrl(params.source, 'tome.yaml'))
+        this.fetchWithCache(
+          this.buildRawUrl(params.source, 'tome.yaml'),
+          () => this.fetchYaml<RepositoryMeta>(this.buildRawUrl(params.source, 'tome.yaml'))
+        )
       ]);
 
-      // Fetch all training data in parallel
-      const trainings: TrainingFile[] = await Promise.all(
-        trainingFiles.map(async (filename) => {
-          const data = await this.fetchYaml<TrainingData>(
-            this.buildRawUrl(params.source, `training/${filename}`)
-          );
+      // Extract results with fallbacks
+      const trainingFiles = trainingFilesResult.status === 'fulfilled' ? trainingFilesResult.value : [];
+      const evaluationFiles = evaluationFilesResult.status === 'fulfilled' ? evaluationFilesResult.value : [];
+      const repositoryMeta = repositoryMetaResult.status === 'fulfilled' 
+        ? repositoryMetaResult.value 
+        : { student: { name: 'Unknown' } } as RepositoryMeta;
+
+      // Log any discovery errors but continue processing
+      if (trainingFilesResult.status === 'rejected') {
+        console.warn('Failed to discover training files:', trainingFilesResult.reason);
+      }
+      if (evaluationFilesResult.status === 'rejected') {
+        console.warn('Failed to discover evaluation files:', evaluationFilesResult.reason);
+      }
+      if (repositoryMetaResult.status === 'rejected') {
+        console.warn('Failed to fetch repository meta:', repositoryMetaResult.reason);
+      }
+
+      // Fetch training data with concurrency control and caching
+      const trainings: TrainingFile[] = await this.processBatches(
+        trainingFiles,
+        async (filename) => {
+          const url = this.buildRawUrl(params.source, `training/${filename}`);
+          const data = await this.fetchWithCache(url, () => this.fetchYaml<TrainingData>(url));
           return {
             filename,
             path: `training/${filename}`,
             data
           };
-        })
+        },
+        3 // Limit concurrent training file fetches
       );
 
-      // Fetch all evaluation data in parallel
-      const evaluations: EvaluationFile[] = await Promise.all(
-        evaluationFiles.map(async (filename) => {
-          const data = await this.fetchYaml<EvaluationData>(
-            this.buildRawUrl(params.source, `evaluations/${filename}`)
-          );
+      // Fetch evaluation data with concurrency control and caching
+      const evaluations: EvaluationFile[] = await this.processBatches(
+        evaluationFiles,
+        async (filename) => {
+          const url = this.buildRawUrl(params.source, `evaluations/${filename}`);
+          const data = await this.fetchWithCache(url, () => this.fetchYaml<EvaluationData>(url));
           return {
             filename,
             path: `evaluations/${filename}`,
             data
           };
-        })
+        },
+        3 // Limit concurrent evaluation file fetches
       );
 
       return {

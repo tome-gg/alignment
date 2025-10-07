@@ -25,10 +25,10 @@ export function SWRProvider({ children }: SWRProviderProps) {
         revalidateIfStale: true, // Revalidate if data is stale
         refreshInterval: 0, // No automatic refresh by default
         
-        // Deduplication and performance
-        dedupingInterval: 2000, // Dedupe identical requests within 2 seconds
-        focusThrottleInterval: 5 * 60 * 1000, // Throttle focus revalidation to 5 minutes
-        loadingTimeout: 3000, // Timeout for loading state
+        // Deduplication and performance - optimized values
+        dedupingInterval: 5000, // Increased from 2000ms - dedupe identical requests within 5 seconds
+        focusThrottleInterval: 10 * 60 * 1000, // Increased to 10 minutes for better performance
+        loadingTimeout: 5000, // Increased timeout for slower connections
         
         // Error handling
         errorRetryCount: 3, // Retry failed requests 3 times
@@ -43,6 +43,21 @@ export function SWRProvider({ children }: SWRProviderProps) {
         
         // Performance optimization
         keepPreviousData: true, // Keep previous data while fetching new data
+        
+        // Optimize for repository data patterns
+        revalidateOnMount: true, // Always check for fresh data on mount
+        compare: (a, b) => {
+          // Custom comparison for repository data to avoid unnecessary re-renders
+          if (a === b) return true;
+          if (!a || !b) return false;
+          
+          // For repository data, compare by source and timestamp if available
+          if (a.repository?.source && b.repository?.source) {
+            return a.repository.source === b.repository.source;
+          }
+          
+          return false;
+        },
         
         // Fallback data and cache persistence
         fallbackData: undefined, // Don't use fallback, rely on cache
@@ -87,6 +102,42 @@ export function SWRProvider({ children }: SWRProviderProps) {
             } catch (e) {
               console.warn('Failed to restore SWR cache from sessionStorage:', e);
             }
+          }
+          
+          // Cleanup old cache entries periodically (every 30 minutes)
+          if (typeof window !== 'undefined') {
+            const cleanupInterval = setInterval(() => {
+              try {
+                const cached = sessionStorage.getItem('swr-cache');
+                if (cached) {
+                  const parsed = JSON.parse(cached);
+                  const now = Date.now();
+                  const maxAge = 30 * 60 * 1000; // 30 minutes
+                  
+                  let cleaned = false;
+                  Object.entries(parsed).forEach(([key, value]) => {
+                    const cacheEntry = value as any;
+                    if (cacheEntry._c && (now - cacheEntry._c) > maxAge) {
+                      delete parsed[key];
+                      cleaned = true;
+                    }
+                  });
+                  
+                  if (cleaned) {
+                    sessionStorage.setItem('swr-cache', JSON.stringify(parsed));
+                    if (process.env.NODE_ENV === 'development') {
+                      console.log('Cleaned up old SWR cache entries');
+                    }
+                  }
+                }
+              } catch (e) {
+                console.warn('Failed to cleanup SWR cache:', e);
+              }
+            }, 30 * 60 * 1000); // Run every 30 minutes
+            
+            // Cleanup on page unload
+            const cleanup = () => clearInterval(cleanupInterval);
+            window.addEventListener('beforeunload', cleanup);
           }
           
           return map;
@@ -137,17 +188,6 @@ export function SWRProvider({ children }: SWRProviderProps) {
             } catch (e) {
               console.warn('Failed to persist SWR cache to sessionStorage:', e);
             }
-          }
-        },
-        
-        // Compare function for data equality
-        compare: (a, b) => {
-          // Use JSON comparison for deep equality
-          // This could be optimized with a faster deep equality function
-          try {
-            return JSON.stringify(a) === JSON.stringify(b);
-          } catch {
-            return a === b;
           }
         },
         

@@ -1,5 +1,6 @@
 'use client';
 
+import React, { memo } from 'react';
 import {
   Box,
   Typography,
@@ -138,7 +139,7 @@ function PeerGroupSection({ group }: { group: PeerGroup }) {
   );
 }
 
-export default function Peers({ peerGroups = defaultPeerGroups }: PeersProps) {
+function Peers({ peerGroups = defaultPeerGroups }: PeersProps) {
   return (
     <Container maxWidth="lg" sx={{ py: 4 }}>
     <Box sx={{ mb: 4 }}>
@@ -149,3 +150,6 @@ export default function Peers({ peerGroups = defaultPeerGroups }: PeersProps) {
     </Container>
   );
 }
+
+// Memoize the Peers component since peer data rarely changes
+export default memo(Peers);

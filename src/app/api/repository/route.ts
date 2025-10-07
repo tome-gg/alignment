@@ -7,7 +7,18 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { GitHubRepositoryService } from '../../../services/github-repository.service';
 
+// Simple in-memory cache for API responses
+const apiCache = new Map<string, { data: any; timestamp: number; etag: string }>();
+const CACHE_TTL = 5 * 60 * 1000; // 5 minutes
+
+// Generate ETag for cache validation
+function generateETag(data: any): string {
+  return Buffer.from(JSON.stringify(data)).toString('base64').slice(0, 16);
+}
+
 export async function GET(request: NextRequest) {
+  const startTime = Date.now();
+  
   try {
     const searchParams = request.nextUrl.searchParams;
     
@@ -24,45 +35,97 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    // Determine if we should return processed data
+    // Create cache key
     const processData = searchParams.get('process') !== 'false';
+    const cacheKey = `${params.source}:${processData}`;
     
-    if (processData) {
-      const data = await GitHubRepositoryService.fetchProcessedRepositoryData(params);
+    // Check cache first
+    const cached = apiCache.get(cacheKey);
+    const now = Date.now();
+    
+    if (cached && (now - cached.timestamp) < CACHE_TTL) {
+      // Check if client has cached version
+      const clientETag = request.headers.get('if-none-match');
+      if (clientETag === cached.etag) {
+        return new NextResponse(null, { status: 304 });
+      }
+      
+      console.log(`Cache hit for ${cacheKey}, served in ${Date.now() - startTime}ms`);
+      
       const response = NextResponse.json({
         success: true,
-        data,
+        data: cached.data,
         sourceUrl: GitHubRepositoryService.getSourceUrl(params.source),
+        cached: true,
+        responseTime: Date.now() - startTime
       });
       
-      // Add caching headers for better performance
-      response.headers.set('Cache-Control', 'public, s-maxage=300, stale-while-revalidate=600');
-      response.headers.set('CDN-Cache-Control', 'max-age=300');
-      response.headers.set('Vary', 'Accept-Encoding');
-      
-      return response;
-    } else {
-      const data = await GitHubRepositoryService.fetchRepositoryData(params);
-      const response = NextResponse.json({
-        success: true,
-        data,
-        sourceUrl: GitHubRepositoryService.getSourceUrl(params.source),
-      });
-      
-      // Add caching headers for better performance
-      response.headers.set('Cache-Control', 'public, s-maxage=300, stale-while-revalidate=600');
-      response.headers.set('CDN-Cache-Control', 'max-age=300');
-      response.headers.set('Vary', 'Accept-Encoding');
+      // Set optimized caching headers
+      response.headers.set('Cache-Control', 'public, max-age=300, stale-while-revalidate=600');
+      response.headers.set('ETag', cached.etag);
+      response.headers.set('X-Cache', 'HIT');
       
       return response;
     }
+    
+    // Fetch fresh data with timeout
+    const fetchPromise = processData 
+      ? GitHubRepositoryService.fetchProcessedRepositoryData(params)
+      : GitHubRepositoryService.fetchRepositoryData(params);
+    
+    // Add timeout to prevent hanging requests
+    const timeoutPromise = new Promise((_, reject) => {
+      setTimeout(() => reject(new Error('Request timeout')), 10000); // 10 second timeout
+    });
+    
+    const data = await Promise.race([fetchPromise, timeoutPromise]);
+    
+    // Generate ETag and cache the result
+    const etag = generateETag(data);
+    apiCache.set(cacheKey, {
+      data,
+      timestamp: now,
+      etag
+    });
+    
+    // Clean up old cache entries (simple cleanup)
+    if (apiCache.size > 100) {
+      const entries = Array.from(apiCache.entries());
+      entries.sort((a, b) => a[1].timestamp - b[1].timestamp);
+      // Remove oldest 20 entries
+      for (let i = 0; i < 20; i++) {
+        apiCache.delete(entries[i][0]);
+      }
+    }
+    
+    const responseTime = Date.now() - startTime;
+    console.log(`Fresh data fetched for ${cacheKey} in ${responseTime}ms`);
+    
+    const response = NextResponse.json({
+      success: true,
+      data,
+      sourceUrl: GitHubRepositoryService.getSourceUrl(params.source),
+      cached: false,
+      responseTime
+    });
+    
+    // Set optimized caching headers
+    response.headers.set('Cache-Control', 'public, max-age=300, stale-while-revalidate=600');
+    response.headers.set('ETag', etag);
+    response.headers.set('X-Cache', 'MISS');
+    response.headers.set('Server-Timing', `total;dur=${responseTime}`);
+    
+    return response;
+    
   } catch (error) {
-    console.error('API Error:', error);
+    const responseTime = Date.now() - startTime;
+    console.error('API Error:', error, `(${responseTime}ms)`);
     
     return NextResponse.json(
       { 
         error: 'Failed to fetch repository data',
-        message: error instanceof Error ? error.message : 'Unknown error'
+        message: error instanceof Error ? error.message : 'Unknown error',
+        responseTime
       },
       { status: 500 }
     );
