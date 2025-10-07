@@ -230,8 +230,8 @@ function Calendar({}: CalendarProps) {
       return;
     }
 
-    // Chart configuration
-    const cellSize = 16; // height of a day
+    // Chart configuration - make responsive
+    const cellSize = isMobile ? 12 : 16; // height of a day
     const height = cellSize * 9; // height of a week (7 days + padding)
     const width = (cellSize + 1.5) * 53; // width of the chart
 
@@ -550,11 +550,12 @@ function Calendar({}: CalendarProps) {
       <Paper elevation={2} sx={{ 
         p: 3, 
         borderRadius: 1, 
-        minHeight: { xs: '400px', md: '720px' },
-        // Prevent layout shift by reserving space
-        height: { xs: 'auto', md: '720px' },
+        // Use min-height to prevent layout shift but allow content to expand
+        minHeight: { xs: '400px', md: '600px' },
         display: 'flex',
-        flexDirection: 'column'
+        flexDirection: 'column',
+        // Allow content to flow naturally while preventing horizontal overflow
+        overflow: 'hidden'
       }}>
         <Box sx={{ overflowX: 'auto' }}>
 			<Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 0 }}>
@@ -655,12 +656,16 @@ function Calendar({}: CalendarProps) {
           ) : (
             <Box sx={{ 
               width: '100%', 
-              height: '400px', 
-              minHeight: '400px',
+              minHeight: '300px',
+              maxHeight: '500px',
               display: 'flex',
               justifyContent: 'center',
               alignItems: 'flex-start',
-              overflow: 'auto'
+              overflow: 'auto',
+              // Reserve space to prevent layout shift during SVG rendering
+              position: 'relative',
+              // Use container queries for better responsiveness
+              containerType: 'inline-size'
             }}>
               <svg 
                 ref={svgRef}
@@ -672,7 +677,13 @@ function Calendar({}: CalendarProps) {
               ></svg>
             </Box>
           )}
-		  <Box sx={{ minHeight: '120px', mb: 3 }}>
+		  <Box sx={{ 
+        minHeight: '120px', 
+        mb: 3,
+        // Allow content to expand naturally while maintaining minimum space
+        flex: '1 1 auto',
+        overflow: 'visible'
+      }}>
 			{selectedCell ? (
 			  <Box>
 				<Typography variant="body1" color="text.primary" sx={{ fontWeight: 'bold', mb: 1 }}>

@@ -13,13 +13,16 @@ import { Suspense } from 'react';
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
+  display: "swap", // Prevent layout shift during font loading
+  preload: true,
 });
-
 
 const figtree = Figtree({
   variable: "--font-figtree",
   subsets: ["latin"],
   weight: ["300", "400", "500", "600", "700", "800", "900"],
+  display: "swap", // Prevent layout shift during font loading
+  preload: true,
 });
 
 
@@ -36,15 +39,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        {/* DNS prefetch for external resources */}
-        <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
-        <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
-        <link rel="dns-prefetch" href="https://api.github.com" />
-        <link rel="dns-prefetch" href="https://raw.githubusercontent.com" />
-        
-        {/* Preconnect for critical resources */}
+        {/* Preconnect for critical resources - only for resources we actually use */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+        
+        {/* DNS prefetch for external resources - only for resources we actually use */}
+        <link rel="dns-prefetch" href="https://api.github.com" />
+        <link rel="dns-prefetch" href="https://raw.githubusercontent.com" />
         
         {/* Preload critical API route */}
         <link rel="prefetch" href="/api/repository" />

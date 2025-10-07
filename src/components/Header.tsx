@@ -49,7 +49,14 @@ export default function Header() {
               href="/" 
               rel="noopener noreferrer"
             > 
-              <Image src="/tome_gg_logo.avif" alt="Tome.gg" width={32} height={32} />
+              <Image 
+                src="/tome_gg_logo.avif" 
+                alt="Tome.gg" 
+                width={32} 
+                height={32}
+                priority
+                style={{ width: '32px', height: '32px' }}
+              />
               <Typography variant="h5" component="h1" sx={{ fontWeight: 'bold' }}>
                 Tome.gg
               </Typography>

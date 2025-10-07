@@ -3,7 +3,7 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   // Performance optimizations
   experimental: {
-    // CSS optimization temporarily disabled due to critters/beasties compatibility issues
+    // CSS optimization temporarily disabled due to build issues with Turbopack
     optimizeCss: false,
     optimizePackageImports: [
       '@mui/material', 
