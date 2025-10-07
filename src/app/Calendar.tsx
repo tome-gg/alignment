@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState, useMemo, useCallback, memo } from 'react';
+import { useEffect, useRef, useState, useMemo, useCallback } from 'react';
 // Selective D3 imports for better tree-shaking
 import { select } from 'd3-selection';
 import { utcFormat } from 'd3-time-format';
@@ -41,6 +41,19 @@ interface CalendarProps {
 
 // Define formatting functions as constants
 const formatDate = utcFormat("%x");
+const formatDay = (i: number) => "SMTWTFS"[i];
+const formatMonth = utcFormat("%b");
+const timeWeek = utcMonday;
+const countDay = (i: number) => (i + 6) % 7;
+
+// Helper function to draw month separators in the calendar
+function pathMonth(t: Date, cellSize: number) {
+  const d = Math.max(0, Math.min(6, countDay(t.getUTCDay())));
+  const w = timeWeek.count(utcYear(t), t);
+  return `${d === 0 ? `M${w * cellSize},0`
+      : d === 6 ? `M${(w + 1) * cellSize},0`
+      : `M${(w + 1) * cellSize},0V${d * cellSize}H${w * cellSize}`}V${6 * cellSize}`;
+}
 
 // Helper function to safely extract text content from HTML strings
 const extractTextContent = (htmlString: string): string => {
@@ -239,14 +252,6 @@ function Calendar({}: CalendarProps) {
     const height = cellSize * 9; // height of a week (7 days + padding)
     const width = (cellSize + 1.5) * 53; // width of the chart
 
-    // Define formatting functions for the axes and tooltips
-    const formatDay = (i: number) => "SMTWTFS"[i];
-    const formatMonth = utcFormat("%b");
-
-    // Helpers to compute a day's position in the week
-    const timeWeek = utcMonday;
-    const countDay = (i: number) => (i + 6) % 7;
-
     // Compute the extent of the value, ignore the outliers
     // and define a diverging and symmetric color scale
     const max = quantile(transformedData, 0.9975, d => Math.abs(d.value)) || 0.05;
@@ -254,15 +259,6 @@ function Calendar({}: CalendarProps) {
 
     // Group data by year, in reverse input order
     const years = groups(transformedData, d => d.date.getUTCFullYear()).reverse();
-
-    // A function that draws a thin white line to the left of each month
-    function pathMonth(t: Date) {
-      const d = Math.max(0, Math.min(6, countDay(t.getUTCDay())));
-      const w = timeWeek.count(utcYear(t), t);
-      return `${d === 0 ? `M${w * cellSize},0`
-          : d === 6 ? `M${(w + 1) * cellSize},0`
-          : `M${(w + 1) * cellSize},0V${d * cellSize}H${w * cellSize}`}V${6 * cellSize}`;
-    }
 
     const svg = select(svgRef.current)
         .attr("width", width + 50)
@@ -365,7 +361,7 @@ function Calendar({}: CalendarProps) {
         .attr("fill", "none")
         .attr("stroke", "#fff")
         .attr("stroke-width", 3)
-        .attr("d", pathMonth);
+        .attr("d", d => pathMonth(d, cellSize));
 
     month.append("text")
         .attr("x", d => timeWeek.count(utcYear(d), timeWeek.ceil(d)) * cellSize + 2)
@@ -941,9 +937,6 @@ function Calendar({}: CalendarProps) {
   );
 }
 
-// Memoize the Calendar component to prevent unnecessary re-renders
-export default memo(Calendar, () => {
-  // Since Calendar has no props, we can use a simple comparison
-  // The component will re-render when context data changes via hooks
-  return true; // Only re-render when hooks trigger updates
-});
+// Export without memo since component has no props
+// Re-renders are controlled by context hooks (useTomeSWR)
+export default Calendar;
