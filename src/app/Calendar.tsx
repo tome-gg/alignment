@@ -112,10 +112,11 @@ export default function Calendar({}: CalendarProps) {
       let endYear = currentYear;
       
       // If we have repository data, extend the range to cover all entry dates
-      if (repositoryData?.processedTraining) {
-        const entryDates = repositoryData.processedTraining
-          .filter(entry => entry.datetimeReadable)
-          .map(entry => new Date(entry.datetimeReadable!));
+      if (repositoryData?.processedTrainings) {
+        const allEntries = repositoryData.processedTrainings.flatMap(training => training.data);
+        const entryDates = allEntries
+          .filter((entry: ProcessedTrainingEntry) => entry.datetimeReadable)
+          .map((entry: ProcessedTrainingEntry) => new Date(entry.datetimeReadable!));
         
         if (entryDates.length > 0) {
           const minDate = new Date(Math.min(...entryDates.map(d => d.getTime())));
@@ -127,14 +128,16 @@ export default function Calendar({}: CalendarProps) {
 
       // Create a map of date strings to training entries for quick lookup
       const entryMap = new Map<string, ProcessedTrainingEntry>();
-      if (repositoryData?.processedTraining) {
-        repositoryData.processedTraining
-          .filter(entry => entry.datetimeReadable)
-          .forEach(entry => {
-            const date = new Date(entry.datetimeReadable!);
-            const dateKey = date.toISOString().split('T')[0]; // YYYY-MM-DD format
-            entryMap.set(dateKey, entry);
-          });
+      if (repositoryData?.processedTrainings) {
+        repositoryData.processedTrainings.forEach(training => {
+          training.data
+            .filter((entry: ProcessedTrainingEntry) => entry.datetimeReadable)
+            .forEach((entry: ProcessedTrainingEntry) => {
+              const date = new Date(entry.datetimeReadable!);
+              const dateKey = date.toISOString().split('T')[0]; // YYYY-MM-DD format
+              entryMap.set(dateKey, entry);
+            });
+        });
       }
 
       const data: DataPoint[] = [];

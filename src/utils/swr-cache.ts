@@ -11,13 +11,11 @@ import { RepositoryParams } from '../types/github-repository';
  */
 export const CacheKeys = {
   repository: (params: RepositoryParams, processData: boolean = true) => 
-    ['repository', params.source, params.training, params.eval, processData],
+    ['repository', params.source, processData],
   
   repositoryAPI: (params: RepositoryParams, processData: boolean = true) => {
     const queryString = new URLSearchParams({
       source: params.source,
-      training: params.training,
-      eval: params.eval,
       process: processData.toString()
     }).toString();
     return `/api/repository?${queryString}`;

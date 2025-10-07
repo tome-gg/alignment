@@ -83,16 +83,30 @@ export interface PlantProgress {
 
 export interface RepositoryParams {
   source: string;
-  training: string;
-  eval: string;
+}
+
+export interface TrainingFile {
+  filename: string;
+  path: string;
+  data: TrainingData;
+}
+
+export interface EvaluationFile {
+  filename: string;
+  path: string;
+  data: EvaluationData;
 }
 
 export interface GitHubRepositoryData {
   repository: RepositoryMeta;
-  training: TrainingData;
-  evaluation: EvaluationData;
+  trainings: TrainingFile[];
+  evaluations: EvaluationFile[];
 }
 
 export interface ProcessedRepositoryData extends GitHubRepositoryData {
-  processedTraining: ProcessedTrainingEntry[];
+  processedTrainings: {
+    filename: string;
+    path: string;
+    data: ProcessedTrainingEntry[];
+  }[];
 }

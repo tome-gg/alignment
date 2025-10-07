@@ -44,9 +44,7 @@ export function TomeProviderSWR({ children, initialParams }: TomeProviderProps) 
     
     // If no valid parameters are found, use defaults
     return params || {
-      source: 'github.com/darrensapalo/founder',
-      training: 'dsu-reports-q3-2025.yaml',
-      eval: 'eval-self.yaml'
+      source: 'github.com/darrensapalo/founder'
     };
   };
 
@@ -64,9 +62,7 @@ export function TomeProviderSWR({ children, initialParams }: TomeProviderProps) 
     // If no valid parameters are found, use defaults
     if (!params) {
       params = {
-        source: 'github.com/darrensapalo/founder',
-        training: 'dsu-reports-q3-2025.yaml',
-        eval: 'eval-self.yaml'
+        source: 'github.com/darrensapalo/founder'
       };
     }
     

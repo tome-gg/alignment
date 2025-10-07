@@ -45,8 +45,8 @@ export function useGitHubRepository(
           data: processedData,
           rawData: {
             repository: processedData.repository,
-            training: processedData.training,
-            evaluation: processedData.evaluation,
+            trainings: processedData.trainings,
+            evaluations: processedData.evaluations,
           },
           loading: false,
           error: null,
@@ -96,7 +96,7 @@ export function useGitHubRepository(
     refetch,
     reset,
     isReady: !state.loading && !state.error && (state.data || state.rawData),
-    sourceUrl: params ? GitHubRepositoryService.getSourceUrl(params.source, params.training) : null,
+    sourceUrl: params ? GitHubRepositoryService.getSourceUrl(params.source) : null,
   };
 }
 
@@ -109,7 +109,7 @@ export function useGitHubRepositoryFromSearchParams(searchParams: URLSearchParam
     const repositoryParams = GitHubRepositoryService.createParamsFromSearchParams(searchParams);
     
     if (!repositoryParams) {
-      setValidationError('Invalid repository parameters. Please provide source, training, and eval parameters.');
+      setValidationError('Invalid repository parameters. Please provide source parameter.');
       setParams(null);
     } else {
       setValidationError(null);
@@ -123,6 +123,6 @@ export function useGitHubRepositoryFromSearchParams(searchParams: URLSearchParam
     ...repositoryState,
     params,
     validationError,
-    sourceUrl: params ? GitHubRepositoryService.getSourceUrl(params.source, params.training) : null,
+    sourceUrl: params ? GitHubRepositoryService.getSourceUrl(params.source) : null,
   };
 }

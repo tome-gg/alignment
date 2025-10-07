@@ -1,6 +1,7 @@
 /**
  * API route for fetching GitHub repository data
- * Example usage: /api/repository?source=github.com/username/repo&training=file.yaml&eval=eval.yaml
+ * Example usage: /api/repository?source=github.com/username/repo
+ * Automatically crawls all training and evaluation files in the repository
  */
 
 import { NextRequest, NextResponse } from 'next/server';
@@ -10,14 +11,14 @@ export async function GET(request: NextRequest) {
   try {
     const searchParams = request.nextUrl.searchParams;
     
-    // Extract parameters from search params
+    // Extract repository parameters
     const params = GitHubRepositoryService.createParamsFromSearchParams(searchParams);
     
     if (!params) {
       return NextResponse.json(
         { 
           error: 'Invalid parameters', 
-          message: 'Please provide source, training, and eval parameters' 
+          message: 'Please provide source parameter' 
         },
         { status: 400 }
       );
@@ -31,7 +32,7 @@ export async function GET(request: NextRequest) {
       const response = NextResponse.json({
         success: true,
         data,
-        sourceUrl: GitHubRepositoryService.getSourceUrl(params.source, params.training),
+        sourceUrl: GitHubRepositoryService.getSourceUrl(params.source),
       });
       
       // Add caching headers for better performance
@@ -45,7 +46,7 @@ export async function GET(request: NextRequest) {
       const response = NextResponse.json({
         success: true,
         data,
-        sourceUrl: GitHubRepositoryService.getSourceUrl(params.source, params.training),
+        sourceUrl: GitHubRepositoryService.getSourceUrl(params.source),
       });
       
       // Add caching headers for better performance
@@ -72,11 +73,12 @@ export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
     
+    // Validate repository parameters
     if (!GitHubRepositoryService.validateParams(body)) {
       return NextResponse.json(
         { 
           error: 'Invalid parameters', 
-          message: 'Please provide source, training, and eval parameters' 
+          message: 'Please provide source parameter' 
         },
         { status: 400 }
       );
@@ -89,7 +91,7 @@ export async function POST(request: NextRequest) {
       const response = NextResponse.json({
         success: true,
         data,
-        sourceUrl: GitHubRepositoryService.getSourceUrl(body.source, body.training),
+        sourceUrl: GitHubRepositoryService.getSourceUrl(body.source),
       });
       
       // Add caching headers for better performance
@@ -103,7 +105,7 @@ export async function POST(request: NextRequest) {
       const response = NextResponse.json({
         success: true,
         data,
-        sourceUrl: GitHubRepositoryService.getSourceUrl(body.source, body.training),
+        sourceUrl: GitHubRepositoryService.getSourceUrl(body.source),
       });
       
       // Add caching headers for better performance

@@ -14,7 +14,9 @@ import {
   EvaluationData,
   RepositoryMeta,
   ProcessedTrainingEntry,
-  EvaluationEntry
+  EvaluationEntry,
+  TrainingFile,
+  EvaluationFile
 } from '../types/github-repository';
 
 // Configure marked options
@@ -57,18 +59,6 @@ export class GitHubRepositoryService {
     }
   }
 
-  /**
-   * Generates URLs for different data types
-   */
-  private static generateUrls(params: RepositoryParams) {
-    const { source, training, eval: evalFile } = params;
-    
-    return {
-      training: this.buildRawUrl(source, `training/${training}`),
-      evaluation: this.buildRawUrl(source, `evaluations/${evalFile}`),
-      repository: this.buildRawUrl(source, 'tome.yaml')
-    };
-  }
 
   /**
    * Processes markdown content safely
@@ -135,57 +125,19 @@ export class GitHubRepositoryService {
   }
 
   /**
-   * Fetches all repository data from GitHub
+   * Gets the source URL for a repository
    */
-  static async fetchRepositoryData(params: RepositoryParams): Promise<GitHubRepositoryData> {
-    const urls = this.generateUrls(params);
-
-    try {
-      // Fetch all data in parallel
-      const [trainingData, evaluationData, repositoryData] = await Promise.all([
-        this.fetchYaml<TrainingData>(urls.training),
-        this.fetchYaml<EvaluationData>(urls.evaluation),
-        this.fetchYaml<RepositoryMeta>(urls.repository),
-      ]);
-
-      return {
-        repository: repositoryData,
-        training: trainingData,
-        evaluation: evaluationData,
-      };
-    } catch (error) {
-      throw new Error(`Failed to fetch repository data: ${error instanceof Error ? error.message : 'Unknown error'}`);
-    }
-  }
-
-  /**
-   * Fetches and processes repository data
-   */
-  static async fetchProcessedRepositoryData(params: RepositoryParams): Promise<ProcessedRepositoryData> {
-    const data = await this.fetchRepositoryData(params);
-    
-    const processedTraining = await this.processTrainingData(data.training, data.evaluation);
-
-    return {
-      ...data,
-      processedTraining,
-    };
-  }
-
-  /**
-   * Gets the source URL for a training file
-   */
-  static getSourceUrl(repository: string, trainingFile: string): string {
-    return `https://${repository}/blob/main/training/${trainingFile}`;
+  static getSourceUrl(repository: string): string {
+    return `https://${repository}`;
   }
 
   /**
    * Validates repository parameters
    */
   static validateParams(params: Partial<RepositoryParams>): params is RepositoryParams {
-    const { source, training, eval: evalFile } = params;
+    const { source } = params;
     
-    if (!source || !training || !evalFile) {
+    if (!source) {
       return false;
     }
 
@@ -202,24 +154,169 @@ export class GitHubRepositoryService {
    */
   static createParamsFromSearchParams(searchParams: URLSearchParams): RepositoryParams | null {
     const source = searchParams.get('source');
-    const training = searchParams.get('training');
-    const evalFile = searchParams.get('eval');
 
-    if (!source || !training || !evalFile) {
+    if (!source) {
       return null;
     }
 
-    const params = {
-      source,
-      training,
-      eval: evalFile,
-    };
+    const params = { source };
 
     if (!this.validateParams(params)) {
       return null;
     }
 
     return params;
+  }
+
+  /**
+   * Fetches directory contents from GitHub API
+   */
+  private static async fetchGitHubDirectoryContents(repository: string, path: string = ''): Promise<any[]> {
+    try {
+      // Convert github.com URL to API URL
+      const repoPath = repository.replace('github.com/', '');
+      const apiUrl = `https://api.github.com/repos/${repoPath}/contents/${path}`;
+      
+      const response = await fetch(apiUrl);
+      
+      if (!response.ok) {
+        throw new Error(`GitHub API error! status: ${response.status} for URL: ${apiUrl}`);
+      }
+      
+      const contents = await response.json();
+      return Array.isArray(contents) ? contents : [contents];
+    } catch (error) {
+      console.error('Failed to fetch GitHub directory contents:', error);
+      throw new Error(`Failed to fetch directory contents from ${repository}/${path}: ${error instanceof Error ? error.message : 'Unknown error'}`);
+    }
+  }
+
+  /**
+   * Discovers all training files in the repository
+   */
+  static async discoverTrainingFiles(repository: string): Promise<string[]> {
+    try {
+      const contents = await this.fetchGitHubDirectoryContents(repository, 'training');
+      
+      return contents
+        .filter(item => item.type === 'file' && (item.name.endsWith('.yaml') || item.name.endsWith('.yml')))
+        .map(item => item.name);
+    } catch (error) {
+      console.warn('No training directory found or error accessing it:', error);
+      return [];
+    }
+  }
+
+  /**
+   * Discovers all evaluation files in the repository
+   */
+  static async discoverEvaluationFiles(repository: string): Promise<string[]> {
+    try {
+      const contents = await this.fetchGitHubDirectoryContents(repository, 'evaluations');
+      
+      return contents
+        .filter(item => item.type === 'file' && (item.name.endsWith('.yaml') || item.name.endsWith('.yml')))
+        .map(item => item.name);
+    } catch (error) {
+      console.warn('No evaluations directory found or error accessing it:', error);
+      return [];
+    }
+  }
+
+  /**
+   * Fetches all repository data including multiple training and evaluation files
+   */
+  static async fetchRepositoryData(params: RepositoryParams): Promise<GitHubRepositoryData> {
+    try {
+      // First, discover all training and evaluation files
+      const [trainingFiles, evaluationFiles, repositoryMeta] = await Promise.all([
+        this.discoverTrainingFiles(params.source),
+        this.discoverEvaluationFiles(params.source),
+        this.fetchYaml<RepositoryMeta>(this.buildRawUrl(params.source, 'tome.yaml'))
+      ]);
+
+      // Fetch all training data in parallel
+      const trainings: TrainingFile[] = await Promise.all(
+        trainingFiles.map(async (filename) => {
+          const data = await this.fetchYaml<TrainingData>(
+            this.buildRawUrl(params.source, `training/${filename}`)
+          );
+          return {
+            filename,
+            path: `training/${filename}`,
+            data
+          };
+        })
+      );
+
+      // Fetch all evaluation data in parallel
+      const evaluations: EvaluationFile[] = await Promise.all(
+        evaluationFiles.map(async (filename) => {
+          const data = await this.fetchYaml<EvaluationData>(
+            this.buildRawUrl(params.source, `evaluations/${filename}`)
+          );
+          return {
+            filename,
+            path: `evaluations/${filename}`,
+            data
+          };
+        })
+      );
+
+      return {
+        repository: repositoryMeta,
+        trainings,
+        evaluations
+      };
+    } catch (error) {
+      throw new Error(`Failed to fetch repository data: ${error instanceof Error ? error.message : 'Unknown error'}`);
+    }
+  }
+
+  /**
+   * Fetches and processes repository data
+   */
+  static async fetchProcessedRepositoryData(params: RepositoryParams): Promise<ProcessedRepositoryData> {
+    const data = await this.fetchRepositoryData(params);
+    
+    // Process each training file with its corresponding evaluations
+    const processedTrainings = await Promise.all(
+      data.trainings.map(async (training) => {
+        // Find matching evaluation file (by similar naming or first available)
+        const matchingEval = data.evaluations.find(ev => 
+          ev.filename.includes(training.filename.replace('.yaml', '').replace('.yml', '')) ||
+          ev.filename.includes('eval')
+        ) || data.evaluations[0]; // Fallback to first evaluation if no match
+
+        if (!matchingEval) {
+          // Create empty evaluation data if none found
+          const emptyEval: EvaluationData = {
+            meta: { evaluator: 'unknown', dimensions: {} },
+            evaluations: []
+          };
+          const processedData = await this.processTrainingData(training.data, emptyEval);
+          
+          return {
+            filename: training.filename,
+            path: training.path,
+            data: processedData
+          };
+        }
+
+        const processedData = await this.processTrainingData(training.data, matchingEval.data);
+        
+        return {
+          filename: training.filename,
+          path: training.path,
+          data: processedData
+        };
+      })
+    );
+
+    return {
+      ...data,
+      processedTrainings
+    };
   }
 }
 

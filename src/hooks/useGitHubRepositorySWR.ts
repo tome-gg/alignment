@@ -15,22 +15,22 @@ import {
  * SWR key generator for repository data
  */
 const getRepositoryKey = (params: RepositoryParams, processData: boolean = true) => {
-  return ['repository', params.source, params.training, params.eval, processData];
+  return ['repository', params.source, processData];
 };
 
 /**
  * Fetcher function for processed repository data
  */
-const fetchProcessedRepositoryData = async ([, source, training, evalParam]: [string, string, string, string, boolean]) => {
-  const params: RepositoryParams = { source, training, eval: evalParam };
+const fetchProcessedRepositoryData = async ([, source]: [string, string, boolean]) => {
+  const params: RepositoryParams = { source };
   return await GitHubRepositoryService.fetchProcessedRepositoryData(params);
 };
 
 /**
  * Fetcher function for raw repository data
  */
-const fetchRawRepositoryData = async ([, source, training, evalParam]: [string, string, string, string, boolean]) => {
-  const params: RepositoryParams = { source, training, eval: evalParam };
+const fetchRawRepositoryData = async ([, source]: [string, string, boolean]) => {
+  const params: RepositoryParams = { source };
   return await GitHubRepositoryService.fetchRepositoryData(params);
 };
 
@@ -104,7 +104,7 @@ export function useGitHubRepositorySWR(
     validating: isValidating,
     isReady: !isLoading && !error && !!data,
     refetch: () => mutate(),
-    sourceUrl: GitHubRepositoryService.getSourceUrl(params.source, params.training),
+    sourceUrl: GitHubRepositoryService.getSourceUrl(params.source),
   };
 }
 
@@ -117,9 +117,7 @@ export function useGitHubRepositoryFromSearchParamsSWR(
 ) {
   // Create params from search params, use defaults if none found
   const params = GitHubRepositoryService.createParamsFromSearchParams(searchParams) || {
-    source: 'github.com/darrensapalo/founder',
-    training: 'dsu-reports-q3-2025.yaml',
-    eval: 'eval-self.yaml'
+    source: 'github.com/darrensapalo/founder'
   };
   const validationError = GitHubRepositoryService.createParamsFromSearchParams(searchParams) ? null : 'Using default repository parameters.';
 
@@ -146,8 +144,6 @@ export function useRepositoryAPI(
   
   const queryString = new URLSearchParams({
     source: params.source,
-    training: params.training,
-    eval: params.eval,
     process: processData.toString()
   }).toString();
 
@@ -190,6 +186,7 @@ export function useRepositoryAPI(
     validating: isValidating,
     isReady: !isLoading && !error && !!data,
     refetch: () => mutate(),
-    sourceUrl: GitHubRepositoryService.getSourceUrl(params.source, params.training),
+    sourceUrl: GitHubRepositoryService.getSourceUrl(params.source),
   };
 }
+

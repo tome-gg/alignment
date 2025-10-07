@@ -17,9 +17,7 @@ export default function Header() {
       baseUrl = "http://localhost:3000";
     }
     const params = new URLSearchParams({
-      source: repositoryParams.source,
-      training: repositoryParams.training,
-      eval: repositoryParams.eval
+      source: repositoryParams.source
     });
     return `${baseUrl}?${params.toString()}`;
   };
