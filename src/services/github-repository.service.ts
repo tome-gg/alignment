@@ -14,7 +14,9 @@ import {
   EvaluationData,
   RepositoryMeta,
   ProcessedTrainingEntry,
+  ProcessedEvaluationData,
   EvaluationEntry,
+  EvaluatorInfo,
   TrainingFile,
   EvaluationFile
 } from '../types/github-repository';
@@ -77,17 +79,26 @@ export class GitHubRepositoryService {
   /**
    * Finds evaluation data for a training entry
    */
-  private static findEvaluationData(entryId: string, evaluations: EvaluationEntry[], evaluator?: string): { score: number; notes?: string; evaluator?: string } {
+  private static findEvaluationData(entryId: string, evaluations: EvaluationEntry[], evaluator?: string | EvaluatorInfo): ProcessedEvaluationData {
     const evaluation = evaluations.find((d) => d.id === entryId);
     if (!evaluation || !evaluation.measurements || evaluation.measurements.length === 0) {
       return { score: 0 };
     }
 
-    const measurement = evaluation.measurements[0];
+    // Calculate average score across all measurements for backward compatibility
+    const averageScore = evaluation.measurements.reduce((sum, m) => sum + (m.score || 0), 0) / evaluation.measurements.length;
+    
+    // Combine notes from all measurements
+    const allNotes = evaluation.measurements
+      .map(m => m.notes || m.comment || m.remarks)
+      .filter(Boolean)
+      .join(' | ');
+
     return {
-      score: measurement?.score || 0,
-      notes: measurement?.notes || measurement?.comment || measurement?.remarks,
-      evaluator
+      score: Math.round(averageScore * 100) / 100, // Round to 2 decimal places
+      notes: allNotes || undefined,
+      evaluator,
+      measurements: evaluation.measurements
     };
   }
 
@@ -291,7 +302,7 @@ export class GitHubRepositoryService {
         if (!matchingEval) {
           // Create empty evaluation data if none found
           const emptyEval: EvaluationData = {
-            meta: { evaluator: 'unknown', dimensions: {} },
+            meta: { evaluator: 'unknown', dimensions: [] },
             evaluations: []
           };
           const processedData = await this.processTrainingData(training.data, emptyEval);

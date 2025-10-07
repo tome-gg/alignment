@@ -17,7 +17,7 @@ import {
 } from '@mui/material';
 import { trackCalendarCellSelection } from './analytics';
 import { useTomeSWR } from '../contexts/TomeContextSWR';
-import { ProcessedTrainingEntry } from '../types/github-repository';
+import { ProcessedTrainingEntry, getDimensionDisplayName } from '../types/github-repository';
 
 interface DataPoint {
   date: Date;
@@ -683,20 +683,35 @@ export default function Calendar({}: CalendarProps) {
 					{selectedCell.entry.eval.score && selectedCell.entry.eval.score > 0 && (
 					  <Box sx={{ mt: 2, pt: 1, borderTop: '1px solid', borderColor: 'divider' }}>
 						<Typography variant="body2" sx={{ fontWeight: 'medium', mb: 1 }}>
-						  Evaluation Score: {selectedCell.entry.eval.score}/5
+						  Average Evaluation Score: {selectedCell.entry.eval.score}/5
 						</Typography>
 						{selectedCell.entry.eval.evaluator && (
 						  <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
 							<strong>Evaluator:</strong> {getEvaluatorDisplayName(selectedCell.entry.eval.evaluator)}
 						  </Typography>
 						)}
-						{selectedCell.entry.eval.notes && (
-						  <Typography variant="body2" color="text.secondary">
-							<strong>Evaluation Notes:</strong>{' '}
-							{extractTextContent(selectedCell.entry.eval.notes)}
-						  </Typography>
+						
+						{/* Display individual dimension scores */}
+						{selectedCell.entry.eval.measurements && selectedCell.entry.eval.measurements.length > 0 && (
+						  <Box sx={{ mb: 1 }}>
+							<Typography variant="body2" sx={{ fontWeight: 'medium', mb: 0.5 }}>
+							  Dimension Scores:
+							</Typography>
+							{selectedCell.entry.eval.measurements.map((measurement, idx) => (
+							  <Box key={idx} sx={{ ml: 1, mb: 1, p: 1, bgcolor: 'grey.50', borderRadius: 1 }}>
+								<Typography variant="body2">
+								  <strong>{getDimensionDisplayName(measurement.dimension)}:</strong> {measurement.score}/5
+								</Typography>
+								{(measurement.remarks || measurement.notes || measurement.comment) && (
+								  <Typography variant="body2" color="text.secondary" sx={{ mt: 0.5 }}>
+									{extractTextContent(measurement.remarks || measurement.notes || measurement.comment || '')}
+								  </Typography>
+								)}
+							  </Box>
+							))}
+						  </Box>
 						)}
-					  </Box>
+						</Box>
 					)}
 				  </Box>
 				) : (
@@ -750,18 +765,33 @@ export default function Calendar({}: CalendarProps) {
 					{hoveredCell.entry.eval.score && hoveredCell.entry.eval.score > 0 && (
 					  <Box sx={{ mt: 2, pt: 1, borderTop: '1px solid', borderColor: 'divider' }}>
 						<Typography variant="body2" sx={{ fontWeight: 'medium', mb: 1 }}>
-						  Evaluation Score: {hoveredCell.entry.eval.score}/5
+						  Average Evaluation Score: {hoveredCell.entry.eval.score}/5
 						</Typography>
 						{hoveredCell.entry.eval.evaluator && (
 						  <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
 							<strong>Evaluator:</strong> {getEvaluatorDisplayName(hoveredCell.entry.eval.evaluator)}
 						  </Typography>
 						)}
-						{hoveredCell.entry.eval.notes && (
-						  <Typography variant="body2" color="text.secondary">
-							<strong>Evaluation Notes:</strong>{' '}
-							{extractTextContent(hoveredCell.entry.eval.notes)}
-						  </Typography>
+						
+						{/* Display individual dimension scores */}
+						{hoveredCell.entry.eval.measurements && hoveredCell.entry.eval.measurements.length > 0 && (
+						  <Box sx={{ mb: 1 }}>
+							<Typography variant="body2" sx={{ fontWeight: 'medium', mb: 0.5 }}>
+							  Dimension Scores:
+							</Typography>
+							{hoveredCell.entry.eval.measurements.map((measurement, idx) => (
+							  <Box key={idx} sx={{ ml: 1, mb: 0.5 }}>
+								<Typography variant="body2" color="text.secondary">
+								  <strong>{getDimensionDisplayName(measurement.dimension)}:</strong> {measurement.score}/5
+								</Typography>
+								{(measurement.remarks || measurement.notes || measurement.comment) && (
+								  <Typography variant="caption" color="text.secondary" sx={{ display: 'block', ml: 1 }}>
+									{extractTextContent(measurement.remarks || measurement.notes || measurement.comment || '')}
+								  </Typography>
+								)}
+							  </Box>
+							))}
+						  </Box>
 						)}
 					  </Box>
 					)}

@@ -6,7 +6,7 @@
 
 import React, { useState } from 'react';
 import { useGitHubRepository } from '../hooks/useGitHubRepository';
-import { RepositoryParams } from '../types/github-repository';
+import { RepositoryParams, getDimensionDisplayName } from '../types/github-repository';
 import { 
   Box, 
   Typography, 
@@ -151,11 +151,78 @@ export default function RepositoryViewer() {
                     {evaluation.filename}
                   </Typography>
                   <Typography variant="body2" color="text.secondary" gutterBottom>
-                    Evaluator: {evaluation.data.meta.evaluator}
+                    Evaluator: {typeof evaluation.data.meta.evaluator === 'string' 
+                      ? evaluation.data.meta.evaluator 
+                      : evaluation.data.meta.evaluator.name}
                   </Typography>
-                  <pre style={{ fontSize: '0.75rem', overflow: 'auto', maxHeight: '200px' }}>
-                    {JSON.stringify(evaluation.data.meta.dimensions, null, 2)}
-                  </pre>
+                  
+                  {/* Display dimensions */}
+                  <Typography variant="body2" sx={{ mb: 1, fontWeight: 'medium' }}>
+                    Available Dimensions:
+                  </Typography>
+                  <Box sx={{ mb: 2 }}>
+                    {Array.isArray(evaluation.data.meta.dimensions) ? (
+                      evaluation.data.meta.dimensions.map((dim: any, dimIdx: number) => (
+                        <Box key={dimIdx} sx={{ mb: 1, p: 1, bgcolor: 'grey.50', borderRadius: 1 }}>
+                          <Typography variant="body2" sx={{ fontWeight: 'medium' }}>
+                            {dim.label || dim.name || dim.alias}
+                          </Typography>
+                          {dim.definition && (
+                            <Typography variant="caption" color="text.secondary">
+                              {dim.definition}
+                            </Typography>
+                          )}
+                        </Box>
+                      ))
+                    ) : (
+                      <pre style={{ fontSize: '0.75rem', overflow: 'auto', maxHeight: '100px' }}>
+                        {JSON.stringify(evaluation.data.meta.dimensions, null, 2)}
+                      </pre>
+                    )}
+                  </Box>
+
+                  {/* Display evaluation entries with multiple dimensions */}
+                  <Typography variant="body2" sx={{ mb: 1, fontWeight: 'medium' }}>
+                    Evaluation Entries ({evaluation.data.evaluations.length} entries):
+                  </Typography>
+                  <Box sx={{ maxHeight: '300px', overflow: 'auto' }}>
+                    {evaluation.data.evaluations.slice(0, 5).map((entry) => (
+                      <Box key={entry.id} sx={{ mb: 2, p: 2, bgcolor: 'grey.50', borderRadius: 1 }}>
+                        <Typography variant="caption" color="text.secondary" sx={{ mb: 1, display: 'block' }}>
+                          Entry ID: {entry.id}
+                        </Typography>
+                        {entry.measurements && entry.measurements.length > 0 ? (
+                          <Box>
+                            <Typography variant="body2" sx={{ fontWeight: 'medium', mb: 1 }}>
+                              Measurements ({entry.measurements.length} dimensions):
+                            </Typography>
+                            {entry.measurements.map((measurement, measurementIdx) => (
+                              <Box key={measurementIdx} sx={{ mb: 1, ml: 2 }}>
+                                <Typography variant="body2">
+                                  <strong>{getDimensionDisplayName(measurement.dimension, evaluation.data.meta.dimensions)}:</strong> {measurement.score}/5
+                                </Typography>
+                                {(measurement.remarks || measurement.notes || measurement.comment) && (
+                                  <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mt: 0.5 }}>
+                                    {measurement.remarks || measurement.notes || measurement.comment}
+                                  </Typography>
+                                )}
+                              </Box>
+                            ))}
+                          </Box>
+                        ) : (
+                          <Typography variant="body2" color="text.secondary">
+                            No measurements available
+                          </Typography>
+                        )}
+                      </Box>
+                    ))}
+                    {evaluation.data.evaluations.length > 5 && (
+                      <Typography variant="caption" color="text.secondary">
+                        ... and {evaluation.data.evaluations.length - 5} more entries
+                      </Typography>
+                    )}
+                  </Box>
+                  
                   {idx < data.evaluations.length - 1 && <Divider sx={{ mt: 2 }} />}
                 </Box>
               ))}
