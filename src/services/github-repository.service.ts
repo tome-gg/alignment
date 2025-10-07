@@ -82,7 +82,7 @@ export class GitHubRepositoryService {
   private static findEvaluationData(entryId: string, evaluations: EvaluationEntry[], evaluator?: string | EvaluatorInfo): ProcessedEvaluationData {
     const evaluation = evaluations.find((d) => d.id === entryId);
     if (!evaluation || !evaluation.measurements || evaluation.measurements.length === 0) {
-      return { score: 0 };
+      return { score: undefined };
     }
 
     // Calculate average score across all measurements for backward compatibility

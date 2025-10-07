@@ -33,7 +33,7 @@ export interface TrainingEntry {
 }
 
 export interface ProcessedEvaluationData {
-  score: number; // Average score across all measurements
+  score?: number; // Average score across all measurements (undefined if no evaluation available)
   notes?: string; // Combined notes from all measurements
   evaluator?: string | EvaluatorInfo;
   measurements?: EvaluationMeasurement[];

@@ -77,7 +77,8 @@ const formatScoreChange = (scoreChange: number | undefined): string => {
   if (scoreChange === 0) {
     return '±0';
   }
-  return scoreChange > 0 ? `+${scoreChange}` : `${scoreChange}`;
+  const rounded = Math.round(scoreChange * 10) / 10; // Round to 1 decimal place
+  return rounded > 0 ? `+${rounded}` : `${rounded}`;
 };
 
 export default function Calendar({}: CalendarProps) {
@@ -680,10 +681,12 @@ export default function Calendar({}: CalendarProps) {
 						{extractTextContent(selectedCell.entry.remarks || selectedCell.entry.notes)}
 					  </Typography>
 					)}
-					{selectedCell.entry.eval.score && selectedCell.entry.eval.score > 0 && (
+					{selectedCell.entry && (
 					  <Box sx={{ mt: 2, pt: 1, borderTop: '1px solid', borderColor: 'divider' }}>
 						<Typography variant="body2" sx={{ fontWeight: 'medium', mb: 1 }}>
-						  Average Evaluation Score: {selectedCell.entry.eval.score}/5
+						  {selectedCell.entry.eval.score !== undefined 
+							? `Average Evaluation Score: ${selectedCell.entry.eval.score}/5`
+							: "No evaluations"}
 						</Typography>
 						{selectedCell.entry.eval.evaluator && (
 						  <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
@@ -762,10 +765,12 @@ export default function Calendar({}: CalendarProps) {
 						{extractTextContent(hoveredCell.entry.remarks || hoveredCell.entry.notes)}
 					  </Typography>
 					)}
-					{hoveredCell.entry.eval.score && hoveredCell.entry.eval.score > 0 && (
+					{hoveredCell.entry && (
 					  <Box sx={{ mt: 2, pt: 1, borderTop: '1px solid', borderColor: 'divider' }}>
 						<Typography variant="body2" sx={{ fontWeight: 'medium', mb: 1 }}>
-						  Average Evaluation Score: {hoveredCell.entry.eval.score}/5
+						  {hoveredCell.entry.eval.score !== undefined 
+							? `Average Evaluation Score: ${hoveredCell.entry.eval.score}/5`
+							: "No evaluations"}
 						</Typography>
 						{hoveredCell.entry.eval.evaluator && (
 						  <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
