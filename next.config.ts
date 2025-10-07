@@ -3,7 +3,8 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   // Performance optimizations
   experimental: {
-    optimizeCss: true,
+    // CSS optimization temporarily disabled due to critters/beasties compatibility issues
+    optimizeCss: false,
     optimizePackageImports: ['@mui/material', '@mui/icons-material', 'd3'],
   },
   
