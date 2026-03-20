@@ -1,0 +1,58 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+enum UserMode {
+  software_engineering
+  manufacturing
+}
+
+enum EvaluationStatus {
+  correct
+  incorrect
+  partially_correct
+  unresolved
+}
+
+model User {
+  id        String           @id @default(cuid())
+  name      String
+  email     String           @unique
+  mode      UserMode
+  createdAt DateTime         @default(now())
+  updatedAt DateTime         @updatedAt
+  packets   DecisionPacket[]
+}
+
+model DecisionPacket {
+  id               String             @id @default(cuid())
+  userId           String
+  mode             UserMode
+  situationSummary String
+  actionSummary    String
+  insightText      String
+  confidence       Int
+  surprising       Boolean            @default(false)
+  metadataJson     String
+  evaluationStatus EvaluationStatus?
+  evaluationNote   String?
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
+  user             User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  evidence         DecisionEvidence[]
+}
+
+model DecisionEvidence {
+  id        String         @id @default(cuid())
+  packetId  String
+  kind      String
+  label     String
+  value     String
+  createdAt DateTime       @default(now())
+  packet    DecisionPacket @relation(fields: [packetId], references: [id], onDelete: Cascade)
+}
