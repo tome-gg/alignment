@@ -22,16 +22,29 @@
         "name": "next"
       }
     ],
+    "baseUrl": ".",
     "paths": {
+      "@tome/domain": [
+        "./packages/domain/src/index.ts"
+      ],
       "@/*": [
         "./src/*"
+      ],
+      "@tome/domain/*": [
+        "./packages/domain/src/*"
+      ],
+      "@tome/backend": [
+        "./packages/backend/src/index.ts"
+      ],
+      "@tome/backend/*": [
+        "./packages/backend/src/*"
       ]
     }
   },
   "include": [
-    "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
+    "next-env.d.ts",
     ".next/types/**/*.ts"
   ],
   "exclude": [

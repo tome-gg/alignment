@@ -1,26 +1,9 @@
-'use client';
+import { getSessionUser } from "@/lib/session";
 
-import dynamic from 'next/dynamic';
+import { redirect } from "next/navigation";
 
-// Dynamic import for Calendar component to reduce initial bundle size
-const Calendar = dynamic(() => import('./Calendar'), {
-  loading: () => <CalendarSkeleton />,
-  ssr: false // Calendar uses D3 DOM manipulation, better to render client-side only
-});
-import CalendarSkeleton from '../components/CalendarSkeleton';
-import { Suspense } from 'react';
+export default async function HomePage() {
+  const user = await getSessionUser();
 
-function CalendarWithParams() {
-  // Calendar now uses context data directly, no props needed
-  return (
-    <>
-      <Suspense fallback={<CalendarSkeleton />}>
-        <Calendar />
-      </Suspense>
-    </>
-  );
-}
-
-export default function Home() {
-  return <CalendarWithParams />;
+  redirect(user ? "/packets" : "/login");
 }
