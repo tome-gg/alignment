@@ -235,7 +235,10 @@ const ThreadRoot: FC<{ isEmpty: boolean; autoFocus: boolean }> = ({
             <ThreadScrollToBottom />
             <ThreadFollowupSuggestions />
             <Composer autoFocus={autoFocus} />
-            <AuiIf condition={(s) => isNewChatView(s) && s.composer.isEmpty}>
+            {/* Stay mounted for isNewChatView's full lifecycle (not just
+                while composer.isEmpty) so typing the first character doesn't
+                unmount this row's gap-4 spacing and re-center the column. */}
+            <AuiIf condition={isNewChatView}>
               <ThreadSuggestions />
             </AuiIf>
           </ThreadPrimitive.ViewportFooter>

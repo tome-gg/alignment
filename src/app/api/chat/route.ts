@@ -36,8 +36,8 @@ export async function POST(req: Request) {
     stream: toUIMessageStream({
       stream: result.stream,
       originalMessages: messages,
-      onEnd: ({ messages: finalMessages }) => {
-        void saveThreadMessages(id, finalMessages);
+      onEnd: async ({ messages: finalMessages }) => {
+        await saveThreadMessages(id, finalMessages);
       },
     }),
   });
