@@ -1,15 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Figtree } from "next/font/google";
 import "./globals.css";
-import ThemeRegistry from "./ThemeRegistry";
 import Script from 'next/script';
-import { TomeProviderSWR } from '../contexts/TomeContextSWR';
-import { SWRProvider } from '../contexts/SWRProvider';
-import Header from '../components/Header';
-import PerformanceMonitor from '../components/PerformanceMonitor';
-import { Suspense } from 'react';
-import { Container, Box, CircularProgress } from '@mui/material';
-// import { SWRDebugger } from '../components/SWRDebugger';
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -28,8 +20,8 @@ const figtree = Figtree({
 
 
 export const metadata: Metadata = {
-  title: "Growth Journal | Tome.gg",
-  description: "A calendar visualization showing daily percentage changes over time",
+  title: "Tome.gg",
+  description: "A Socratic thinking partner that questions your assumptions before helping you act.",
 };
 
 export default function RootLayout({
@@ -40,47 +32,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        {/* Preconnect for critical resources - only for resources we actually use */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-        
-        {/* DNS prefetch for external resources - only for resources we actually use */}
-        <link rel="dns-prefetch" href="https://api.github.com" />
-        <link rel="dns-prefetch" href="https://raw.githubusercontent.com" />
-        
-        {/* Preload critical API route */}
-        <link rel="prefetch" href="/api/repository" />
-        
-        {/* Resource hints for better performance */}
         <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-        <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
-        
       </head>
-      <body className={`${geistSans.variable} ${figtree.variable} `}>
-        <ThemeRegistry>
-          <SWRProvider>
-            <Suspense fallback={
-              <Container maxWidth="lg" sx={{ py: 4 }}>
-                <Box sx={{ 
-                  display: 'flex', 
-                  justifyContent: 'center', 
-                  alignItems: 'center', 
-                  minHeight: '100vh' 
-                }}>
-                  <CircularProgress />
-                </Box>
-              </Container>
-            }>
-              <TomeProviderSWR>
-                <Header />
-                {children}
-                <PerformanceMonitor />
-                {/* <SWRDebugger /> */}
-              </TomeProviderSWR>
-            </Suspense>
-          </SWRProvider>
-        </ThemeRegistry>
-        
+      <body className={`${geistSans.variable} ${figtree.variable}`}>
+        {children}
+
         {/* Google Analytics */}
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-9P755HMHC8"

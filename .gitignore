@@ -4,3 +4,8 @@ node_modules
 .env.local
 .env.development
 .next/
+.vercel
+.env*
+.agents/
+.claude/skills/
+skills-lock.json

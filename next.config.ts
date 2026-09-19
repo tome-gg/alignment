@@ -1,22 +1,6 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  // Performance optimizations
-  experimental: {
-    // CSS optimization temporarily disabled due to build issues with Turbopack
-    optimizeCss: false,
-    optimizePackageImports: [
-      '@mui/material', 
-      '@mui/icons-material', 
-      'd3-selection',
-      'd3-time-format',
-      'd3-array',
-      'd3-scale',
-      'd3-scale-chromatic',
-      'd3-time'
-    ],
-  },
-  
   // Enable compression
   compress: true,
   
