@@ -9,7 +9,7 @@ import { SYSTEM_PROMPT } from "@/lib/system-prompt";
 import { saveThreadMessages } from "@/lib/threads";
 import { getChatRatelimit, getClientIp } from "@/lib/ratelimit";
 
-export const maxDuration = 30;
+export const maxDuration = 60;
 
 export async function POST(req: Request) {
   const ip = getClientIp(req);
@@ -27,6 +27,7 @@ export async function POST(req: Request) {
   const result = streamText({
     model: "anthropic/claude-sonnet-5",
     system: SYSTEM_PROMPT,
+    reasoning: "none",
     messages: await convertToModelMessages(messages),
   });
 
